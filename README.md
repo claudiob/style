@@ -6,16 +6,13 @@ app. A rule lives in the widest tier it is true in.
 Write code that is a pleasure to read. Writing something new? Look for similar code
 nearby first.
 
-**[Principles](#principles)** · [Design](#design) · [Words](#words) ·
-[Data](#data) · [Tests](#tests) · [Git](#git)
+**[Principles](#principles)**
 
-**[Ruby](#ruby)** · [Collections](#collections) · [Methods](#methods) ·
-[Objects](#objects) · [Files and comments](#files-and-comments) ·
+**[Ruby](#ruby)** · [Methods](#methods) · [Objects](#objects) · [Files and comments](#files-and-comments) ·
 [Layout](#layout) · [RuboCop](#rubocop) · [Gems](#gems)
 
-**[Rails](#rails)** · [The Rails Way](#the-rails-way) · [Database](#database) ·
-[Models](#models) · [Queries](#queries) · [Views](#views) ·
-[System tests](#system-tests) · [Config](#config)
+**[Rails](#rails)** · [The Rails Way](#the-rails-way) · [Database](#database) · [Models](#models) ·
+[Queries](#queries) · [Views](#views) · [System tests](#system-tests) · [Config](#config)
 
 ---
 
@@ -23,7 +20,11 @@ nearby first.
 
 True whatever the language.
 
-## Design
+### Encrypt personal data
+
+Databases are compromised—don’t store your customers’ phone, email, last name, street in plain text.
+By default, don’t include them in tables that show many records at once.
+When displayed on a screen, mask personal data until asked for.
 
 ### Code optimistically
 
@@ -41,118 +42,51 @@ Between two versions carrying the same meaning, pick the shorter name.
 Your fingers will thank you every time they will type a model, controller, route, test.
 Cut the restatement, don’t explain why a rule is a good idea.
 
-### Respect American English
+### Write good English
 
-- `color`, `gray`, `behavior`, `center`, `license`, `normalize`, `organize`,
-  `recognize` — never the British spelling. Identifiers, comments, commit messages,
-  docs, and the page.
-- Proper nouns are exempt. Centre County keeps its `re`.
-- An acronym is capitals wherever it appears: ZIP code, API, PIN. Tell the language
-  where it can be told, or every generated heading is wrong.
-
-### Don’t titleize sentences
-
-- Sentence case wherever a sentence appears: headings, page titles, buttons, labels,
-  commit subjects, error messages. English is not German.
-- Capitalize the first word and the proper nouns, nothing else. *Don’t titleize
-  sentences*, not *Don’t Titleize Sentences*.
-- A name keeps the capitals it owns: Active Job, PostgreSQL, RuboCop, the Rails Way.
-
-### Write an apostrophe, not an accent
-
-- The apostrophe is `’`, never the vertical `'`. A contraction and a possessive both
-  take it: *don’t*, *a gem’s page*.
-- Everything written: prose, comments, commit messages, docs, and the words on a page.
-- Code is exempt, and the exception is the point: a string literal, an identifier and
-  a snippet keep the characters the parser expects.
-
-### No indefinite article in an interpolated string
-
-- Never write `a %{model}` or `an %{model}`. Sound decides, not spelling — an hour, an
-  honest agent, a user, a European market, a one-off — and acronyms split it again: a
-  ZIP, an SMS, an API.
-- Nothing computes it. `ActiveSupport::Inflector` has no article method; the gems that
-  add one guess from spelling and guess wrong in public.
-- It would not survive translation: an article is per-language and usually per-gender.
-- Write the copy so the question never comes up. `Select…`, not `Select a State…`, since
-  the label already names the field; `without its job`, not `without a job`.
-
-### No code of conduct, no ideology
-
-- Never add a `CODE_OF_CONDUCT.md`, and never link to or mention one — README, gemspec,
-  anywhere. Generators that write one (`bundle gem`) have that output deleted.
-- Keep a codebase free of ethics, religion and politics: comments, docs, error
-  messages, fixtures and sample data alike.
-- A LICENSE is not covered by this. It is a legal notice.
-
-## Data
-
-### Encrypt personal data
-
-- Personal data is encrypted at rest: phone, email, surname, street. Suspect a column
-  is personal? Ask before storing it in the clear.
-- A first name is not personal data and is not encrypted. A surname is. Asked and
-  settled.
-- What a screen may show is a separate question from what the database keeps. A
-  record’s own page draws PII, masked until asked for; a table of many records draws
-  none by default — one screenshot there discloses a page of strangers at once.
-- A host may name one column back, deliberately, where a row is recognized by nothing
-  else.
-
-### Default to Eastern time
-
-- An app is built in Eastern time: that is the zone a form reads and a timestamp
-  renders in, wherever it runs.
-- Storage stays UTC, always. The zone is a display concern and nothing else.
-
-## Tests
+Respect acronyms and inflections: API, PIN, ZIP code, OpenAI.
+Don’t Titleize Sentences and favor curly quotes as apostrophes.
+Prefer color, license, normalize to colour, licence, normalise.
 
 ### Don’t overtest
 
-- Line coverage stays at 100% and the suite fails below it. A test that can be deleted
-  while coverage holds is a test to delete — never add one for lines already covered,
-  even to reach a branch.
-- Never test another library: a framework validation, a unique index raising, a
-  paginator splitting rows are tested by whoever wrote them. Never test data either — a
-  backfill’s row count exercises no code of ours.
-- Test our own wiring and methods, and behavior through public interfaces, never
-  private implementation.
-- Names state the expected outcome. Fixtures are minimal and explicit. Tests are
-  independent and order-agnostic.
-
-## Git
+A test that can be deleted while coverage holds is a test to delete.
+Never test code you don’t own, especially libraries and frameworks that are already tested.
+Probe public interfaces, not private methods, nor the data.
+Fixtures are minimal and explicit. Specs are independent and order-agnostic.
 
 ### Communicate through git
 
-- Small, focused commits. Imperative subject ("Add", not "Added"), the *why* in the
-  body when the change is not self-evident.
-- One prompt, one commit. The subject summarizes the prompt; the body is the full
-  response given for it.
-- On `main`, branch before starting. Short name, lowercase, underscores —
-  `git_conventions`. Already on a branch: stay on it.
-- No trailers naming who wrote it. Git already records an author.
-
-### Never merge, always rebase
-
-- No merge commits, ever. `git log --merges` on any branch is empty and stays that way.
-- "Merge that branch into main" means rebase: `git rebase main` on the branch, then
-  fast-forward main onto it. Never `git merge`, and never `--no-ff`, which exists to
-  force the very commit this forbids.
-- Fix the conflicts a rebase raises. Only a genuinely hard one is worth stopping to ask
-  about — where two changes disagree about what the code should now do, rather than
-  about how to fit two edits into one file.
-- A merge commit that got in is regenerated away: rebase onto the commit before it,
-  check the tree is unchanged either side (`git rev-parse <branch>^{tree}`), re-run the
-  suite. Only safe while the commits are unpushed — check `git log origin/<branch>`
-  first, and rebase every branch and worktree based on what moved.
+Small, focused commits. Imperative subjects ('Add', not 'Added') and *why* in the body.
+Don’t code in main: create a branch with a short name using lowercase and underscores.
+No trailers naming who wrote a commit: git already has an author field for that.
+Keep a linear history. Never `git merge` or `--no-ff`: `git rebase main` and fix the conflicts,
 
 ---
 
 # Ruby
 
-True in any Ruby, a gem included.
+### Prefer many files to long files
 
-## Collections
+No code file over 100 lines, blank and comment lines counted.
+Exempt: prose (`.md`, `.txt`), markup (`.html`, `.erb`), data, migrations, vendored code.
+Enforce with `git ls-files` so a green run before `git add` proves nothing.
+
+### No metaprogramming
+
+Don’t call a method by name at runtime, nor define, fetch or set one that way.
+The one exception is an explicit instruction. Existing uses are not permission to add another.
+
+### No static typing
+
+Never write type signatures, never add a typing tool. Delete `sig/` created by `bundle gem`.
+No RBS, Sorbet, `sig/`, `# typed:` sigils, `srb` nor `tapioca`.
+
+### Publish as little as possible
+
+Public methods are a promise kept for every caller there will ever be.
+Every method that can be made private must be made private.
+Two public methods that a caller must use together can be replaced by one.
 
 ### Collect with map, not into an empty array
 
@@ -214,13 +148,6 @@ True in any Ruby, a gem included.
 - Where naming them all reads badly, the method is telling you it takes too many. Split
   it, or hand over an object that knows what it holds.
 
-### Publish as little as possible
-
-- A public method is a promise kept for every caller there will ever be. One only the
-  class itself calls is private; one that exists so a caller can assemble an answer out
-  of parts should not exist at all.
-- Two public methods a caller has to use together are one method the class is missing.
-  Add that one and take the two away.
 
 ### A name that asks must not answer with a change
 
@@ -290,32 +217,8 @@ True in any Ruby, a gem included.
   That only matters when both define the same method, which two concerns extracted for
   being distinct features should not.
 
-### No metaprogramming
-
-- Never call a method by name at runtime, and never define, fetch or set one that way.
-  Reach the data directly.
-- The one exception is an explicit instruction. Existing uses are not permission to add
-  another — ask.
-
-### No static typing
-
-- Never write type signatures, never add a typing tool. No RBS, no Sorbet, no `sig/`,
-  no `# typed:` sigils, no `srb` or `tapioca`. `bundle gem` creates a `sig/` — delete
-  it.
-- Convey intent through clear names, short methods and tests.
 
 ## Files and comments
-
-### Prefer many files to long files
-
-- No code file over 100 lines, blank and comment lines counted.
-- Over the limit, ask what wants extracting: a model asks for a concern, a controller
-  for a second controller, a helper for a second helper, a test for a second case.
-- Exempt: prose (`.md`, `.txt`), markup whose length is the page’s (`.html`, `.erb`),
-  data and the migrations that carry it, and vendored code, which is not ours to
-  reformat.
-- Enforced by `rake file_length`, which reads `git ls-files` — an untracked file is
-  invisible to it, so a green run before `git add` proves nothing.
 
 ### Comment every public declaration
 
@@ -841,6 +744,17 @@ end
 - The prefix binds to one command: `CI=1 bin/rails db:reset && bin/rake` sets it for the
   reset alone and leaves the tests headed. Export it, or put it in front of the command
   that actually runs them.
+
+### No indefinite article in an interpolated string
+
+- Never write `a %{model}` or `an %{model}`. Sound decides, not spelling — an hour, an
+  honest agent, a user, a European market, a one-off — and acronyms split it again: a
+  ZIP, an SMS, an API.
+- Nothing computes it. `ActiveSupport::Inflector` has no article method; the gems that
+  add one guess from spelling and guess wrong in public.
+- It would not survive translation: an article is per-language and usually per-gender.
+- Write the copy so the question never comes up. `Select…`, not `Select a State…`, since
+  the label already names the field; `without its job`, not `without a job`.
 
 ## Config
 
