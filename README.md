@@ -45,12 +45,12 @@ Cut the restatement, don’t explain why a rule is a good idea.
 
 Respect acronyms and inflections: API, PIN, ZIP code, OpenAI.
 Don’t Titleize Sentences and favor curly quotes as apostrophes.
-Prefer color, license, normalize to colour, licence, normalise.
+Prefer color, license, normalize over colour, licence, normalise.
 
 ### Don’t overtest
 
 A test that can be deleted while coverage holds is a test to delete.
-Never test code you don’t own, especially libraries and frameworks that are already tested.
+Never test code you don’t own: libraries and frameworks are already tested.
 Probe public interfaces, not private methods, nor the data.
 Fixtures are minimal and explicit. Specs are independent and order-agnostic.
 
