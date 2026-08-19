@@ -3,9 +3,6 @@
 Three tiers: what holds in any language, what holds in Ruby, what holds in a Rails
 app. A rule lives in the widest tier it is true in.
 
-Write code that is a pleasure to read. Writing something new? Look for similar code
-nearby first.
-
 **[Principles](#principles)**
 
 **[Ruby](#ruby)** · [Methods](#methods) · [Objects](#objects) · [Files and comments](#files-and-comments) ·
@@ -28,7 +25,9 @@ When displayed on a screen, mask personal data until asked for.
 
 ### Code optimistically
 
-Never leave a method nobody calls. 
+Write code that is a pleasure to read.
+Writing something new? Look for similar code nearby first.
+Never leave a method nobody calls.
 Never rescue an error that has not occurred.
 
 ### Tell, don’t ask through
