@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang='en'>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Coding guidelines: what holds in any language, what holds in Ruby, what holds in a Rails app.">
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Coding guidelines: what holds in any language, what holds in Ruby, what holds in a Rails app.'>
 <title>Coding guidelines</title>
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="icon" href="favicon-96x96.png" type="image/png" sizes="96x96">
-<link rel="icon" href="favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#DFC489">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel='icon' href='icon.svg' type='image/svg+xml'>
+<link rel='icon' href='favicon-96x96.png' type='image/png' sizes='96x96'>
+<link rel='icon' href='favicon.ico' sizes='32x32'>
+<link rel='apple-touch-icon' href='apple-touch-icon.png'>
+<link rel='manifest' href='site.webmanifest'>
+<meta name='theme-color' content='#DFC489'>
+<link rel='preconnect' href='https://fonts.googleapis.com'>
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Special+Elite&amp;family=Courier+Prime:ital,wght@0,400;0,700;1,400&amp;family=Crimson+Pro:ital,wght@0,400;0,600;1,400&amp;display=swap'>
 <style>
 /* ── palette ─────────────────────────────────────────────
    Pulp paper, press-ink black, red and blue copy pencil.
@@ -60,7 +60,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 a { color: var(--red-deep); text-underline-offset: 2px; }
-a:focus-visible, .rule:target { outline: 2px solid var(--red); outline-offset: 5px; }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 5px; }
 .skip {
   position: absolute; left: -9999px; top: 0; z-index: 40;
   background: var(--sheet); color: var(--ink); padding: 10px 16px;
@@ -81,7 +81,7 @@ a:focus-visible, .rule:target { outline: 2px solid var(--red); outline-offset: 5
   transition: transform .24s ease;
 }
 .stickybar.on { transform: translate(-50%, 0); }
-.crumb-home { font-family: var(--elite); font-size: 19px; color: var(--ink); }
+.crumb-home { font-family: var(--elite); font-size: 19px; color: var(--ink); flex: none; white-space: nowrap; }
 .crumb-sep { font-family: var(--mono); font-size: 15px; color: var(--red); }
 .crumb-where {
   font-family: var(--mono); font-size: 14px; letter-spacing: .2em;
@@ -103,13 +103,16 @@ a:focus-visible, .rule:target { outline: 2px solid var(--red); outline-offset: 5
 .staples { display: none; }
 @media (min-width: 1000px) {
   .staples { display: block; position: absolute; top: -9px; left: 30px; }
+  /* the repo stamp stands in the flow above the title now: the sheet
+     hands back the room the absolutely placed one did not need */
+  .copy { padding-top: 22px; }
 }
 
 .dispatch { position: relative; }
 h1 {
   font-family: var(--elite); font-weight: 400;
   font-size: clamp(34px, 6vw, 60px); line-height: 1.06;
-  letter-spacing: -.01em; margin: 14px 0 0;
+  letter-spacing: -.01em; margin: 2px 0 0;
   text-wrap: balance;
 }
 .lede { margin: 0px 0 0; font-size: 21px; max-width: 62ch; }
@@ -171,12 +174,12 @@ h1 {
 /* ── a rule: side head, then justified copy ──────────── */
 .rule { margin: 10px 0 48px; scroll-margin-top: 96px; }
 .rule h4 {
-  font-family: var(--elite); font-weight: 400; font-size: 20px;
+  font-family: var(--elite); font-weight: 400; font-size: 20px; padding-top: 6px;
   margin: 0 0 10px; line-height: 1.24; text-wrap: balance;
 }
 .rule .body > * { max-width: 74ch; }
 .rule p {
-  margin: 0 0 11px; color: var(--ink-soft);
+  margin: 0; color: var(--ink-soft);
   text-align: justify; hyphens: auto;
 }
 .rule p:last-child { margin-bottom: 0; }
@@ -204,7 +207,7 @@ h1 {
   --swipe: #d5d4c3;
 }
 .swipe::before {
-  content: ""; position: absolute; z-index: -1;
+  content: ''; position: absolute; z-index: -1;
   inset: -.16em 0 -.20em;
   background: var(--swipe);
 }
@@ -258,6 +261,13 @@ h1 {
 }
 
 /* h — a ribbon: flat on top, waved along the bottom */
+/* a wash inside a word ('meta' of metaprogramming) keeps the word
+   whole: less room either side, so the letters do not drift apart */
+.swipe-part { padding: 0 .17em; margin: 0 -.13em; }
+/* a wash that runs into punctuation gives the room back on that side,
+   so the comma stays with its word */
+.swipe-tail { padding-right: .13em; margin-right: -.11em; }
+
 .swipe-h::before {
   inset: -.18em 0 -.30em;
   clip-path: polygon(0% 8%, 100% 0%, 100% 76%, 82% 92%, 63% 78%,
@@ -272,9 +282,16 @@ code {
 pre {
   font-family: var(--mono); font-size: 15px; line-height: 1.6;
   background: var(--code-bg); border: 1px dashed var(--rule);
-  padding: 17px 20px; margin: 14px 0 4px; overflow-x: auto;
+  padding: 17px 20px; margin: 4px 0 24px; overflow-x: auto;
   color: var(--ink); max-width: none;
 }
+/* the path a snippet came from, set over it like a filing tab */
+.sample-file {
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: .06em;
+  color: var(--ink-faint); margin: 22px 0 5px;
+}
+.sample-file:first-of-type { margin-top: 0; }
+
 /* a snippet is already a snippet: no inline chip inside one */
 pre code { background: none; padding: 0; font-size: inherit; }
 pre .c  { color: var(--syn-comment); font-style: italic; }
@@ -293,8 +310,14 @@ pre .id { color: var(--ink); }
 .stamp-end { width: 240px; margin: 0 auto; }
 
 @media (max-width: 720px) {
-  body { font-size: 18px; padding-bottom: 60px; }
-  .copy { padding: 30px 20px 48px; margin-top: 18px; }
+  /* no drawer around the sheet on a phone: the paper runs to the edges
+     and the ground never shows. The standing head widens to match, or
+     the rail would no longer line up with the folder's edge. */
+  body { font-size: 18px; padding: 0 0 60px; background: var(--sheet); }
+  /* the drawer runs edge to edge; only the words above it are inset */
+  .copy { padding: 30px 0 48px; margin-top: 0; box-shadow: none; }
+  .dispatch { padding: 0 20px; }
+  .stickybar { width: 100%; }
   .lede { font-size: 19px; }
   .crumb-where { display: none; }
   .crumb-sep { display: none; }
@@ -389,10 +412,6 @@ pre .id { color: var(--ink); }
 }
 .panel[hidden] { display: none; }
 .panel { padding-top: 6px; }
-.panel::after {
-  content: ''; display: block; height: 9px; margin-top: 40px;
-  background: var(--manila); border: 1px solid var(--manila-edge);
-}
 .panel-head {
   display: flex; align-items: flex-start; justify-content: space-between;
   gap: 22px; margin: 26px 0 8px;
@@ -403,11 +422,35 @@ pre .id { color: var(--ink); }
 }
 .panel .group:first-of-type { margin-top: 26px; }
 @media (max-width: 720px) {
-  .folder-tab { font-size: 18px; padding: 10px 16px 9px 14px; gap: 9px; }
+  .folder-tab { font-size: 18px; padding: 10px 26px 9px 24px; gap: 9px; }
   .folder-tab .folder-count { font-size: 11.5px; }
   /* a narrow tab keeps the number and drops the word */
   .folder-tab .rules-word { display: none; }
 }
+
+/* ── a narrow drawer shows the mark, not the word ──────────────
+   Under 520 the three names no longer sit on one line, so each tab
+   falls back to its emblem. The word stays in the accessible name. */
+.folder-glyph { display: none; }
+@media (max-width: 520px) {
+  .folder-glyph { display: inline-block; font-size: 21px; line-height: 1; }
+  /* clipped, not display:none, so the tab is still announced by name */
+  .folder-tab .folder-name {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .folder-tab { padding: 9px 30px 8px 28px; gap: 7px; }
+  /* the standard has no red gem, so the blue one is struck to ruby */
+  .folder-tab[data-part='Ruby'] .folder-glyph {
+    filter: hue-rotate(150deg) saturate(3) contrast(1.2);
+  }
+}
+/* the narrowest drawers give up the last of the tab padding */
+@media (max-width: 380px) {
+  .folder-tab { padding: 8px 27px 7px 25px; gap: 5px; }
+  .folder-glyph { font-size: 19px; }
+}
+
 
 /* ── the mark a reader leaves ────────────────────────── */
 .verdict button .stamped { display: none; }
@@ -458,945 +501,1244 @@ pre .id { color: var(--ink); }
 }
 .stamp-repo .small { font-size: 1em; }
 .stamp-repo .big { font-size: 1.32em; letter-spacing: .06em; }
+/* Both of these must sit after the shorthand above, or its margin wins.
+   On a phone the stamp is filed at the head of the page rather than off
+   to one side; the tilt swells its box, so the margin below is set
+   larger than the gap it should leave. */
+@media (max-width: 720px) {
+  .stamp-repo { margin: 0 auto 20px; transform-origin: center; }
+}
+
+/* ── the rail: one box per rule, hollow until it takes a mark ─────
+   It rides in the standing head, so it is only there once the reader
+   has left the title behind and started answering. */
+.rail {
+  /* held hard right and allowed to shrink, so a narrowing window takes
+     it out of the boxes rather than out of the breadcrumb */
+  display: flex; align-self: center; align-items: center; justify-content: flex-end;
+  min-width: 0; flex: 0 1 auto;
+  padding-left: 16px;
+  /* the bar and the sheet are the same box with different padding, so
+     this much more brings the last box level with the folder's edge */
+  margin-left: auto;
+  margin-right: calc(clamp(24px, 3.4vw, 52px) - clamp(18px, 3.4vw, 46px));
+  --box: clamp(1px, .52vw, 8px);
+  gap: clamp(1px, .5vw, 9px);
+}
+/* under 720 the sheet takes a flat 20px, the bar still its own clamp */
+@media (max-width: 720px) {
+  /* the drawer now runs to the sheet's edge, so the rail does too */
+  .rail { margin-right: calc(-1 * clamp(18px, 3.4vw, 46px)); }
+}
+/* min-width: 0, or a flex item refuses to shrink past its content and
+   the boxes push left over the breadcrumb instead of getting smaller */
+.rail-part { display: flex; gap: clamp(0px, .16vw, 2px); min-width: 0; }
+.rail-box {
+  width: var(--box); height: var(--box);   /* square */
+  flex: 0 1 auto; min-width: 1px;
+  border: 1px solid var(--rule-soft); background: transparent;
+  transition: background-color .35s ease, border-color .35s ease;
+}
+.rail-box.agree { background: var(--blue); border-color: var(--blue); }
+.rail-box.disagree { background: var(--red); border-color: var(--red); }
+.rail-box.just { animation: pop .5s cubic-bezier(.2, 1.6, .4, 1); }
+/* the rule going past the top of the page stands taller than the rest,
+   so the rail says where you are as well as what you have answered */
+.rail-box.here { transform: scaleY(1.8); border-color: var(--ink-faint); }
+.rail-box { transition: background-color .35s ease, border-color .35s ease, transform .25s ease; }
+@keyframes pop {
+  0% { transform: scaleY(1); }
+  30% { transform: scaleY(2.6); }
+  55% { transform: scaleY(.85); }
+  100% { transform: scaleY(1); }
+}
+/* every box is a way back to the rule it stands for */
+.rail-box { cursor: pointer; }
+/* on a narrow bar the breadcrumb gives up type size so seventy boxes
+   still have somewhere to sit */
+@media (max-width: 640px) { .stickybar .crumb-home { font-size: 15px; } }
+@media (max-width: 430px) {
+  .stickybar .crumb-home { font-size: 13px; }
+  .rail { --box: 1px; gap: 2px; padding-left: 10px; }
+  .rail-part { gap: 0; }
+  /* at one pixel a box cannot carry both a border and a fill, so the
+     unanswered ones become a pale tick. The answered keep their colour:
+     .rail-box.agree outranks this rule on its own. */
+  .rail-box { border: 0; background: var(--rule-soft); }
+}
+
+/* ── the broadside: the page once every rule has been answered ──── */
+.broadside {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(28, 26, 19, .62);
+  display: grid; place-items: start center;
+  padding: clamp(14px, 4vh, 46px) 14px 60px; overflow: auto;
+  opacity: 0; transition: opacity .5s ease;
+}
+.broadside.on { opacity: 1; pointer-events: auto; }
+.broadside { pointer-events: none; }
+.broadside[hidden], .night[hidden] { display: none; }
+
+/* the hand that comes down to strike it */
+.hand {
+  position: fixed; left: 50%; top: 8vh; z-index: 62;
+  transform: translate(-50%, -150%); pointer-events: none;
+  filter: drop-shadow(0 24px 30px rgba(0, 0, 0, .45));
+}
+.hand.falling { animation: handfall 2.1s cubic-bezier(.45, 0, .3, 1) forwards; }
+@keyframes handfall {
+  0%   { transform: translate(-50%, -150%) rotate(-7deg); }
+  52%  { transform: translate(-50%, -4%)   rotate(-2deg); }
+  58%  { transform: translate(-50%, 2%)    rotate(-1deg); }
+  66%  { transform: translate(-50%, -12%)  rotate(-2deg); }
+  100% { transform: translate(-50%, -150%) rotate(-7deg); }
+}
+@keyframes jolt {
+  0%, 100% { transform: none; }
+  20% { transform: translate(4px, 6px) rotate(.35deg); }
+  45% { transform: translate(-5px, -3px) rotate(-.3deg); }
+  70% { transform: translate(3px, 2px) rotate(.2deg); }
+}
+.jolted { animation: jolt .5s ease-out; }
+
+/* the sheet it lands on: a broadside, set the way they set them */
+.gazette {
+  position: relative; width: min(900px, 100%);
+  background: var(--sheet); color: var(--ink);
+  border: 2px solid var(--ink); outline: 6px solid var(--sheet); outline-offset: -12px;
+  padding: 26px clamp(18px, 4vw, 46px) 36px;
+  box-shadow: 0 34px 80px rgba(0, 0, 0, .5);
+  opacity: 0; transform: scale(.965) translateY(14px);
+  transition: opacity .5s ease, transform .7s cubic-bezier(.2, 1.2, .4, 1);
+}
+.broadside.paper .gazette { opacity: 1; transform: none; }
+.gz-kicker {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--ink-faint);
+  margin: 0 0 4px; text-align: center;
+}
+.gz-masthead {
+  font-family: 'Rye', var(--elite), serif; font-weight: 400;
+  font-size: clamp(30px, 6.6vw, 62px); line-height: 1.02;
+  margin: 0; text-align: center; letter-spacing: .01em;
+}
+.gz-strap {
+  display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--ink-soft);
+  border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink);
+  margin-top: 10px; padding: 5px 2px;
+}
+.gz-eyebrow {
+  font-family: var(--elite); text-align: center; color: var(--red);
+  letter-spacing: .3em; text-transform: uppercase; font-size: 13px;
+  margin: 18px 0 2px;
+}
+.gz-head {
+  font-family: 'Ultra', var(--elite), serif; font-weight: 400;
+  font-size: clamp(38px, 11vw, 104px); line-height: .92;
+  text-align: center; margin: 4px 0 0; text-transform: uppercase;
+  letter-spacing: -.01em; text-wrap: balance;
+}
+.gz-head #gzPct { color: var(--red-deep); }
+.gz-dek {
+  font-family: var(--body); font-size: clamp(16px, 2.2vw, 21px);
+  text-align: center; color: var(--ink-soft); margin: 12px auto 0; max-width: 54ch;
+  border-bottom: 1px solid var(--rule); padding-bottom: 16px;
+}
+/* a band of its own between the dek and the columns, so the strike
+   can never land on the headline however wide the type sets */
+.gz-mark { position: relative; height: 62px; }
+.gz-stamp {
+  position: absolute; right: 0; top: 6px;
+  font-family: var(--mono); color: var(--red); text-align: center;
+  border: 2px solid var(--red); outline: 1px solid var(--red); outline-offset: 3px;
+  padding: 8px 12px; letter-spacing: .14em;
+  mix-blend-mode: multiply; line-height: 1.3;
+  opacity: 0; transform: rotate(-13deg) scale(1.6);
+}
+.gz-stamp .big { display: block; font-size: 15px; font-weight: 700; letter-spacing: .12em; }
+.gz-stamp .small { display: block; font-size: 10.5px; letter-spacing: .1em; }
+.broadside.struck .gz-stamp { animation: strike .5s cubic-bezier(.2, 1.5, .5, 1) forwards; }
+@keyframes strike {
+  0% { opacity: 0; transform: rotate(-24deg) scale(1.8); }
+  60% { opacity: .95; transform: rotate(-11deg) scale(.94); }
+  100% { opacity: .88; transform: rotate(-13deg) scale(1); }
+}
+.gz-cols { --gut: 26px; display: grid; gap: 18px var(--gut); margin-top: 20px; align-items: stretch; }
+@media (min-width: 620px) {
+  /* the marks are square and stack, so they need next to no width */
+  .gz-cols { grid-template-columns: max-content 1fr; }
+  .gz-col { border-left: 1px solid var(--rule); padding-left: var(--gut); }
+}
+
+/* the marks that carry the news out */
+.gz-share { display: flex; flex-direction: column; gap: 7px; align-items: flex-start; }
+.gz-ico {
+  width: 38px; height: 38px; flex: none;
+  display: grid; place-items: center; text-decoration: none;
+  font-family: var(--mono); font-size: 16px; font-weight: 700; line-height: 1;
+  color: var(--ink-soft); background: transparent;
+  border: 1.5px solid var(--rule);
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+}
+.gz-ico:hover, .gz-ico:focus-visible {
+  background: var(--red); border-color: var(--red); color: var(--sheet);
+}
+.gz-ico[data-net='reddit'] { font-size: 13px; }
+.gz-ico-name {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* the form fills its column, so its button ends where the rule does */
+.gz-col { display: flex; flex-direction: column; }
+#gzForm { display: flex; flex-direction: column; flex: 1; }
+/* the same gutter under the field as beside it */
+.gz-sendrow { display: flex; align-items: flex-end; gap: 14px; margin-top: var(--gut); }
+.gz-footnote {
+  font-family: var(--body); font-size: 15px; color: var(--ink-faint);
+  margin: 18px 0 0; padding-top: 12px; border-top: 1px dashed var(--rule);
+  text-align: center;
+}
+.gz-label {
+  display: block; font-family: var(--mono); font-size: 12.5px;
+  letter-spacing: .1em; color: var(--ink-faint); margin-bottom: 6px;
+}
+#gzText {
+  width: 100%; flex: 1; min-height: 120px;
+  font-family: var(--mono); font-size: 14px; line-height: 1.5;
+  color: var(--ink); background: var(--code-bg);
+  border: 1px solid var(--rule); padding: 10px 12px; resize: vertical;
+}
+#gzText:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.gz-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.gz-send {
+  font-family: var(--mono); font-size: 13.5px; letter-spacing: .16em;
+  padding: 8px 18px; cursor: pointer; font-weight: 700;
+  color: var(--red-deep); background: transparent;
+  border: 2px solid var(--red); outline: 1px solid var(--red); outline-offset: 2px;
+}
+.gz-send:hover:not(:disabled) { background: var(--red); color: var(--sheet); }
+.gz-send:disabled { opacity: .5; cursor: default; }
+.gz-note {
+  font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint);
+  margin: 0 0 6px; min-height: 1.2em; text-align: left;
+}
+
+/* ── the wax that closes it ──────────────────────────────────── */
+.wax {
+  position: fixed; left: 50%; top: 50%; z-index: 80;
+  width: 168px; height: 168px; margin: -84px 0 0 -84px;
+  display: grid; place-items: center; pointer-events: none; opacity: 0;
+  border-radius: 47% 53% 44% 56% / 52% 44% 56% 48%;
+  background: radial-gradient(circle at 34% 30%, #C0392B 0%, #A82A20 42%, #7A1A12 100%);
+  box-shadow: inset 0 -8px 18px rgba(0, 0, 0, .45), inset 0 8px 14px rgba(255, 255, 255, .18),
+              0 18px 34px rgba(0, 0, 0, .45);
+}
+.wax svg { width: 100%; height: 100%; filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .2)); }
+.wax.on { animation: waxdrop 1s cubic-bezier(.2, 1.5, .35, 1) forwards; }
+@keyframes waxdrop {
+  0% { opacity: 0; transform: translateY(-70vh) scale(.35) rotate(-18deg); }
+  55% { opacity: 1; transform: translateY(0) scale(1.3) rotate(4deg); }
+  72% { transform: translateY(0) scale(.9) rotate(-2deg); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* ── and the night it goes out into ──────────────────────────── */
+.night {
+  position: fixed; inset: 0; z-index: 70; overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 108%, #101a2c 0%, #070910 55%, #04050a 100%);
+  opacity: 0; transition: opacity 1.4s ease;
+}
+.night { pointer-events: none; }
+.night.on { opacity: 1; pointer-events: auto; }
+.star {
+  position: absolute; border-radius: 50%; background: #FFF8E7;
+  animation: twinkle var(--t) ease-in-out infinite alternate;
+}
+@keyframes twinkle { from { opacity: .18; } to { opacity: 1; } }
+.night-word {
+  position: relative; z-index: 2; height: 100%;
+  display: grid; place-content: center; text-align: center; gap: 6px;
+  color: #EEEBDD; padding: 20px;
+  opacity: 0; transition: opacity 1.2s ease 1s;
+}
+.night.on .night-word { opacity: 1; }
+.night-sent { font-family: var(--elite); font-size: clamp(26px, 5vw, 44px); margin: 0; }
+.night-sub { font-family: var(--mono); font-size: 13px; letter-spacing: .14em;
+  color: #A9A48F; margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hand, .wax { display: none; }
+  .rail-box, .gazette, .broadside, .night, .night-word { transition-duration: .01ms; }
+  .star { animation: none; opacity: .8; }
+  .broadside.struck .gz-stamp { animation: none; opacity: .88; transform: rotate(-13deg); }
+}
+
+/* ── the keyboard's own way through ──────────────────────────────
+   Hold Alt and each answer shows the letter that casts it. A and R
+   work on their own too, on whichever rule the page is aimed at. */
+.verdict .key { text-underline-offset: 2px; }
+body.altkeys .verdict button:not(:disabled) .key {
+  text-decoration: underline; text-decoration-thickness: 2px;
+}
+/* A pilcrow beside a heading, the way a rendered README offers one:
+   hidden until the heading is hovered, so it is there when wanted and
+   invisible when not. Absolutely placed, so revealing it shifts nothing.
+   A touch screen has no hover, so there it simply stays. */
+.rule-name { position: relative; }
+.pilcrow {
+  position: absolute; right: 100%; top: 0; margin-right: .32em;
+  color: var(--rule); text-decoration: none;
+  opacity: 0; transition: opacity .14s ease;
+}
+.rule h4:hover .pilcrow, .pilcrow:focus-visible { opacity: 1; }
+.pilcrow:hover { color: var(--red); }
+@media (max-width: 720px) { .pilcrow { display: none; } }
+
+/* Where the keyboard is aiming, and where a link has landed, are the
+   same thing to a reader: a red line down the margin, never a box. */
+.rule.aim, .rule:target { position: relative; }
+.rule.aim::before, .rule:target::before {
+  content: ''; position: absolute; left: -17px; top: -7px; bottom: -7px;
+  width: 3px; background: var(--red);
+}
+@media (max-width: 999px) {
+  /* far enough out to land on the border of .folder-inner */
+  .rule.aim::before, .rule:target::before { left: -19px; }
+}
 
 </style>
 </head>
 <body>
-<a class="skip" href="#rules">Skip to the rules</a>
+<a class='skip' href='#rules'>Skip to the rules</a>
 
-<div class="stickybar" id="stickybar">
-  <span class="crumb-home">Coding guidelines</span>
-  <span class="crumb-sep" aria-hidden="true">&rsaquo;</span>
-  <span class="crumb-where" id="crumbWhere"></span>
+<div class='stickybar' id='stickybar'>
+  <span class='crumb-home'>Coding guidelines</span>
+  <span class='crumb-sep' aria-hidden='true'>&rsaquo;</span>
+  <span class='crumb-where' id='crumbWhere'></span>
+  <div class='rail' id='rail' aria-hidden='true' title='One box per rule. Answer them all.'></div>
 </div>
 
-<article class="copy" lang="en">
-  <svg class="staples" width="92" height="30" viewBox="0 0 92 30" aria-hidden="true" focusable="false">
-  <g fill="none" stroke="#8B8674" stroke-width="3.6" stroke-linecap="round">
-    <path d="M10 8 h22 M10 8 v15 M32 8 v15" transform="rotate(-8 21 15)"/>
-    <path d="M60 9 h22 M60 9 v15 M82 9 v15" transform="rotate(7 71 16)"/>
+<article class='copy' lang='en'>
+  <svg class='staples' width='92' height='30' viewBox='0 0 92 30' aria-hidden='true' focusable='false'>
+  <g fill='none' stroke='#8B8674' stroke-width='3.6' stroke-linecap='round'>
+    <path d='M10 8 h22 M10 8 v15 M32 8 v15' transform='rotate(-8 21 15)'/>
+    <path d='M60 9 h22 M60 9 v15 M82 9 v15' transform='rotate(7 71 16)'/>
   </g>
 </svg>
 
-  <header class="dispatch">
-    <a class="stamp stamp-repo" href="https://github.com/claudiob/style">
-      <span class="small">Fork at</span>
-      <span class="big">claudiob/style</span>
-      <span class="small">on GitHub</span>
+  <header class='dispatch'>
+    <a class='stamp stamp-repo' href='https://github.com/claudiob/style'>
+      <span class='small'>Fork at</span>
+      <span class='big'>claudiob/style</span>
+      <span class='small'>on GitHub</span>
     </a>
-    <h1 id="masthead">Coding guidelines</h1>
-    <p class="lede">What holds in any language. What holds in Ruby. What holds in Rails.</p>
+    <h1 id='masthead'>Coding guidelines</h1>
+    <p class='lede'>What holds in any language. What holds in Ruby. What holds in Rails.</p>
   </header>
 
-  <div class="folders" role="tablist" aria-label="The three parts"><button type="button" class="folder-tab" role="tab" id="tab-principles"
-        aria-controls="panel-principles" aria-selected="true" tabindex="0"
-        data-part="Principles">
-  <span class="folder-name">Principles</span>
-  <span class="folder-count">7<span class="rules-word"> rules</span></span>
+  <div class='folders' role='tablist' aria-label='The three parts'><button type='button' class='folder-tab' role='tab' id='tab-principles'
+        aria-controls='panel-principles' aria-selected='true' tabindex='0'
+        data-part='Principles'>
+  <span class='folder-glyph' aria-hidden='true'>🧑‍💻</span>
+  <span class='folder-name'>Principles</span>
+  <span class='folder-count'>10<span class='rules-word'> rules</span></span>
 </button>
-<button type="button" class="folder-tab" role="tab" id="tab-ruby"
-        aria-controls="panel-ruby" aria-selected="false" tabindex="-1"
-        data-part="Ruby">
-  <span class="folder-name">Ruby</span>
-  <span class="folder-count">36<span class="rules-word"> rules</span></span>
+<button type='button' class='folder-tab' role='tab' id='tab-ruby'
+        aria-controls='panel-ruby' aria-selected='false' tabindex='-1'
+        data-part='Ruby'>
+  <span class='folder-glyph' aria-hidden='true'>💎</span>
+  <span class='folder-name'>Ruby</span>
+  <span class='folder-count'>10<span class='rules-word'> rules</span></span>
 </button>
-<button type="button" class="folder-tab" role="tab" id="tab-rails"
-        aria-controls="panel-rails" aria-selected="false" tabindex="-1"
-        data-part="Rails">
-  <span class="folder-name">Rails</span>
-  <span class="folder-count">27<span class="rules-word"> rules</span></span>
+<button type='button' class='folder-tab' role='tab' id='tab-rails'
+        aria-controls='panel-rails' aria-selected='false' tabindex='-1'
+        data-part='Rails'>
+  <span class='folder-glyph' aria-hidden='true'>🛤️</span>
+  <span class='folder-name'>Rails</span>
+  <span class='folder-count'>10<span class='rules-word'> rules</span></span>
 </button>
 </div>
 
 
-  <div class="folder">
-    <div class="folder-inner">
-      <main id="rules">
-        <section class="panel" role="tabpanel" id="panel-principles" aria-labelledby="tab-principles" data-part="Principles">
-  <section class="rule" id="encrypt-personal-data">
-  <h4><span class="swipe swipe-a">Encrypt</span> personal data</h4>
-  <div class="verdict" role="group" data-rule="encrypt-personal-data" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false"
-            data-tally="https://api.counterapi.dev/v2/claudio-baccigalupos-team-5208/first-counter-5208/up">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='folder'>
+    <div class='folder-inner'>
+      <main id='rules'>
+        <section class='panel' role='tabpanel' id='panel-principles' aria-labelledby='tab-principles' data-part='Principles'>
+  <section class='rule' id='encrypt-personal-data'>
+  <h4><span class='swipe swipe-a'>Encrypt</span> personal data</h4>
+  <div class='verdict' role='group' data-rule='encrypt-personal-data' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Don’t store your customers’ phone, email, last name, street in plain text.</p></div>
+  <div class='body'><p>Don’t store your customers’ phone, email, last name, street in plain text.</p></div>
 </section>
-<section class="rule" id="code-optimistically">
-  <h4>Code <span class="swipe swipe-b">optimistically</span></h4>
-  <div class="verdict" role="group" data-rule="code-optimistically" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='code-optimistically'>
+  <h4>Code <span class='swipe swipe-b'>optimistically</span></h4>
+  <div class='verdict' role='group' data-rule='code-optimistically' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Never write a method nobody calls. Never rescue an error nobody has incurred.</p></div>
+  <div class='body'><p>Never write a method nobody calls. Never rescue an error nobody has incurred.</p></div>
 </section>
-<section class="rule" id="tell-dont-ask-through">
-  <h4>Tell, <span class="swipe swipe-c">don’t ask</span> through</h4>
-  <div class="verdict" role="group" data-rule="tell-dont-ask-through" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<!-- <section class='rule' id='tell-dont-ask-through'>
+  <h4>Tell, <span class='swipe swipe-c'>don’t ask</span> through</h4>
+  <div class='verdict' role='group' data-rule='tell-dont-ask-through' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Call methods only on yourself and what you hold, not on what others hand back.</p></div>
+  <div class='body'><p>Call methods only on yourself and what you hold, not on what others hand back.</p></div>
+</section> -->
+<section class='rule' id='unchained-melody'>
+  <h4><span class='swipe swipe-d'>Unchained</span> melody</h4>
+  <div class='verdict' role='group' data-rule='unchained-melody' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'><p>Two calls on the same object in one expression are the tell: the second is unneeded.</p></div>
 </section>
-<section class="rule" id="unchained-melody">
-  <h4><span class="swipe swipe-d">Unchained</span> melody</h4>
-  <div class="verdict" role="group" data-rule="unchained-melody" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false"
-            data-tally="https://api.counterapi.dev/v2/claudio-baccigalupos-team-5208/unchained-melody/up">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='say-it-short'>
+  <h4>Say it <span class='swipe swipe-e'>short</span></h4>
+  <div class='verdict' role='group' data-rule='say-it-short' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Two calls on the same object in one expression are the tell: the second is unneeded.</p></div>
+  <div class='body'><p>Between two versions carrying the same meaning, always pick the shorter name.</p></div>
 </section>
-<section class="rule" id="say-it-short">
-  <h4>Say it <span class="swipe swipe-e">short</span></h4>
-  <div class="verdict" role="group" data-rule="say-it-short" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='no-sleights-of-hand'>
+  <h4>No <span class='swipe swipe-c'>sleights</span> of hand</h4>
+  <div class='verdict' role='group' data-rule='no-sleights-of-hand' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Between two versions carrying the same meaning, always pick the shorter name.</p></div>
+  <div class='body'><p><code>claimed_by</code>, <code>matching</code> — methods named like a query must not have any side effect.</p></div>
 </section>
-<section class="rule" id="write-good-english">
-  <h4>Write good <span class="swipe swipe-f">English</span></h4>
-  <div class="verdict" role="group" data-rule="write-good-english" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='shy-away-from-public'>
+  <h4>Shy away from <span class='swipe swipe-h'>public</span></h4>
+  <div class='verdict' role='group' data-rule='shy-away-from-public' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Don’t Titleize. It’s ZIP not Zip. It’s license not licence. Respect the apostrophes.</p></div>
+  <div class='body'><p>Every method that can be private must be private.</p></div>
 </section>
-<section class="rule" id="dont-overtest">
-  <h4><span class="swipe swipe-g">Sharpen</span> your tests</h4>
-  <div class="verdict" role="group" data-rule="dont-overtest" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='document-whats-public'>
+  <h4><span class='swipe swipe-a'>Document</span> what’s public</h4>
+  <div class='verdict' role='group' data-rule='document-whats-public' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Full coverage and not one line more. Never test code you don’t own.</p></div>
+  <div class='body'><p>Add a single-line comment above each class/constant/method that is not private.</p></div>
 </section>
-<section class="rule" id="communicate-through-git">
-  <h4><span class="swipe swipe-h">Communicate</span> through git</h4>
-  <div class="verdict" role="group" data-rule="communicate-through-git" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='communicate-through-git'>
+  <h4><span class='swipe swipe-h'>Communicate</span> through git</h4>
+  <div class='verdict' role='group' data-rule='communicate-through-git' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Small commits. The why in the body. Linear history.</p></div>
+  <div class='body'><p>Small commits with long descriptions (<em>why</em> the code was shipped) and linear history.</p></div>
+</section>
+<section class='rule' id='sharpen-your-tests'>
+  <h4><span class='swipe swipe-g'>Sharpen</span> your tests</h4>
+  <div class='verdict' role='group' data-rule='sharpen-your-tests' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'><p>Full coverage and not one line more. Never test code you don’t own.</p></div>
+</section>
+<section class='rule' id='write-good-english'>
+  <h4>Write good <span class='swipe swipe-f'>English</span></h4>
+  <div class='verdict' role='group' data-rule='write-good-english' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'><p>Don’t Titleize. It’s ZIP not Zip. It’s license not licence. Respect the apostrophes.</p></div>
 </section>
 
 </section>
-<section class="panel" role="tabpanel" id="panel-ruby" aria-labelledby="tab-ruby"
-         data-part="Ruby" hidden>
-  <section class="rule" id="prefer-many-files-to-long-files">
-  <h4>Prefer many to long files</h4>
-  <div class="verdict" role="group" data-rule="prefer-many-files-to-long-files" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='panel' role='tabpanel' id='panel-ruby' aria-labelledby='tab-ruby' data-part='Ruby' hidden>
+<!-- <section class='rule' id='tame-your-whitespace'>
+  <h4>Tame your whitespace</h4>
+  <div class='verdict' role='group' data-rule='tame-your-whitespace' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>100 lines or less, with 100 characters or less. Prose, markup, data excluded.</p></div>
-</section>
-<section class="rule" id="no-metaprogramming">
-  <h4>No metaprogramming</h4>
-  <div class="verdict" role="group" data-rule="no-metaprogramming" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Don’t interpolate method names at runtime. Don’t send. Don’t break the rules.</p></div>
-</section>
-<section class="rule" id="no-static-typing">
-  <h4>No static typing</h4>
-  <div class="verdict" role="group" data-rule="no-static-typing" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='body'><p>Two spaces, no tabs, no trailing whitespace, newline at EOF.</p></div>
+</section> -->
+
+<section class='rule' id='prefer-many-to-long-files'>
+  <h4>Prefer <span class='swipe swipe-e'>many</span> to long files</h4>
+  <div class='verdict' role='group' data-rule='prefer-many-to-long-files' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>It’s not the Ruby way. Embrace the freedom. Quack. 🦆</p></div>
-</section>
-<section class="rule" id="publish-as-little-as-possible">
-  <h4>Be very private</h4>
-  <div class="verdict" role="group" data-rule="publish-as-little-as-possible" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Every method that can be private must be private.</p></div>
+  <div class='body'><p>At most 100 lines in a file. At most 100 characters in a line. Comments count.</p></div>
 </section>
-<section class="rule" id="collect-with-map-not-into-an-empty-array">
-  <h4>Enumerate, don’t loop</h4>
-  <div class="verdict" role="group" data-rule="collect-with-map-not-into-an-empty-array" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='stay-object-oriented'>
+  <h4>Stay <span class='swipe swipe-tail swipe-d'>object</span>-oriented</h4>
+  <div class='verdict' role='group' data-rule='stay-object-oriented' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Don’t instantiate an empty array to fill in a loop. There’s a <code>map</code> right there to help you.</p></div>
+  <div class='body'><p>You don’t need <code>Service.new.call(params)</code>. Any method <code>call</code> is a code smell.</p></div>
 </section>
-<section class="rule" id="prefer-a-lazy-enumerator">
-  <h4>Don’t worry, be lazy</h4>
-  <div class="verdict" role="group" data-rule="prefer-a-lazy-enumerator" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='resist-metaprogramming'>
+  <h4>Resist <span class='swipe swipe-part swipe-c'>meta</span>programming</h4>
+  <div class='verdict' role='group' data-rule='resist-metaprogramming' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Where a collection can be walked lazily, walk it lazily.</p><p>An <code>Enumerator</code> hands over one item at a time, so a page is fetched when the page before it runs out, and a caller that wants three costs one request rather than all of them.</p><p>Produce lazily too: <code>Enumerator.new { |yielder| ... }</code> rather than filling an array and handing it back.</p><p><code>.to_a</code> gives the whole advantage away, and usually walks the collection twice.</p><p>The catch: lazy work happens where the enumerator is finally walked, not where it was written.</p><p>A lock, a transaction, or credentials to write back with are gone by then, so the walk belongs inside whatever holds them.</p></div>
+  <div class='body'><p>Don’t interpolate method names at runtime. Don’t send. Don’t break the rules.</p></div>
 </section>
-<h3 class="group" id="methods">Methods<span class="fill"></span></h3><section class="rule" id="take-the-smallest-thing-you-use">
-  <h4>Take the smallest thing you use</h4>
-  <div class="verdict" role="group" data-rule="take-the-smallest-thing-you-use" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='no-static-typing'>
+  <h4><span class='swipe swipe-g'>No</span> static <span class='swipe swipe-b'>typing</span></h4>
+  <div class='verdict' role='group' data-rule='no-static-typing' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A method handed an object it only ever reaches one part of should have been handed that part.</p><p><code>contact_of(visit)</code> opening with <code>client = visit.client</code> wanted <code>contact_of(client)</code>, and the caller wanted <code>contact_of visit.client</code>.</p><p>A signature is a claim about what the method depends on.</p><p>Taking the whole object claims it depends on the whole object.</p><p>The tell is a first line that unwraps the argument.</p><p>Reaching for two or three parts is different — that method does want the object.</p></div>
+  <div class='body'><p>Ruby does not care what class an object belongs to. Embrace the freedom. 🦆</p></div>
 </section>
-<section class="rule" id="name-what-you-pass-on">
-  <h4>Name what you pass on</h4>
-  <div class="verdict" role="group" data-rule="name-what-you-pass-on" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<!-- <section class='rule' id='enumerate-dont-loop'>
+  <h4><span class='swipe swipe-tail swipe-a'>Enumerate</span>, don’t loop</h4>
+  <div class='verdict' role='group' data-rule='enumerate-dont-loop' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A method taking <code>**attributes</code> only to hand the bag to the next one tells its reader nothing: which keys are admissible, and which are used, live in a caller somewhere else.</p><p>Name every keyword the method actually takes.</p><p>Splatting a hash you hold into a call that names its keywords is fine — the names are right there.</p><p>It is <em>accepting</em> a bag and forwarding it that hides them, and a bag forwarded twice hides them twice over.</p><p>Where naming them all reads badly, the method is telling you it takes too many.</p><p>Split it, or hand over an object that knows what it holds.</p></div>
-</section>
-<section class="rule" id="a-name-that-asks-must-not-answer-with-a-change">
-  <h4>A name that asks must not answer with a change</h4>
-  <div class="verdict" role="group" data-rule="a-name-that-asks-must-not-answer-with-a-change" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='body'><p>Don’t instantiate an empty array to fill in a loop. There’s a <code>map</code> right there to help you.</p></div>
+</section> -->
+<section class='rule' id='take-it-small'>
+  <h4>Take it <span class='swipe swipe-f'>small</span></h4>
+  <div class='verdict' role='group' data-rule='take-it-small' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p><code>claimed_by</code>, <code>matching</code>, <code>find_for</code> — a name that reads like a query has to stay one.</p><p>A lookup that also writes hides the write behind a word nobody expects it in.</p><p>Where both happen, say both: the branch that finds the record, and beneath it the line that updates it, in the open.</p></div>
-</section>
-<section class="rule" id="dont-wrap-an-instance-variable-in-an-accessor">
-  <h4>Don’t wrap an instance variable in an accessor</h4>
-  <div class="verdict" role="group" data-rule="dont-wrap-an-instance-variable-in-an-accessor" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>An <code>attr_reader</code> for a variable only the class itself reads adds a method to the public surface and buys nothing.</p><p>Read the variable.</p></div>
+  <div class='body'><p><p><code>def foo(bar)</code> opening with <code>baz = bar.baz</code> should have been <code>foo(bar.baz)</code>.</p></div>
 </section>
-<h3 class="group" id="objects">Objects<span class="fill"></span></h3><section class="rule" id="objects-not-services">
-  <h4>Objects, not services</h4>
-  <div class="verdict" role="group" data-rule="objects-not-services" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='dont-splat-everywhere'>
+  <h4><span class='swipe swipe-e'>Don’t splat</span> everywhere</h4>
+  <div class='verdict' role='group' data-rule='dont-splat-everywhere' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Behavior belongs to the object that owns the data, not to a class named after a verb.</p><p><code>Service.new(params).call(options)</code> is two lines of ceremony around a method that wanted to live on a model.</p><p>Never instantiate a class to call its <code>call</code>.</p><p>A <code>call</code> method should not exist: name the method after what it does — <code>provider.import_visits</code>, not <code>VisitImporter.new(provider).call</code>.</p><p>Too much for one class is a concern, or a second object with a name and a life of its own — never a procedure wearing a class as a coat.</p></div>
+  <div class='body'><p>Taking <code>**attributes</code> only to hand them to a method makes params hard to follow.</p></div>
 </section>
-<section class="rule" id="extract-to-an-owner-not-out-of-the-way">
-  <h4>Extract to an owner, not out of the way</h4>
-  <div class="verdict" role="group" data-rule="extract-to-an-owner-not-out-of-the-way" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='dont-over-accessorize'>
+  <h4>Don’t over-<span class='swipe swipe-part swipe-f'>accessor</span>ize</h4>
+  <div class='verdict' role='group' data-rule='dont-over-accessorize' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A file over the length limit is a question about ownership, not a request to move lines somewhere else.</p><p>Cutting behavior into <code>Sync</code>, <code>Importer</code>, <code>Handler</code> gets under the cap and leaves a procedure wearing a class as a coat.</p><p>Ask which object holds the data the behavior decides on, and move it there.</p><p>The test: the new home has a name someone who does not write code would recognize — a visit, a location, a contact.</p><p>Not a visit sync.</p></div>
+  <div class='body'><p>No need for <code>attr_reader :foo</code> if <code>@foo</code> can be used instead.</p></div>
 </section>
-<section class="rule" id="name-a-class-for-the-system-it-speaks-to">
-  <h4>Name a class for the system it speaks to</h4>
-  <div class="verdict" role="group" data-rule="name-a-class-for-the-system-it-speaks-to" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>A class that has to know a third party’s shapes says so in its name: <code>Contact::Jobber</code>, not <code>Contact::Imported</code>.</p><p>The name is what licenses the knowledge, and what tells the next reader which file changes when that third party does.</p><p>Named honestly, it can take the foreign object whole — and the translation layer built to keep those shapes out can go.</p></div>
-</section>
-<section class="rule" id="give-siblings-the-same-shape">
+<!-- <section class='rule' id='give-siblings-the-same-shape'>
   <h4>Give siblings the same shape</h4>
-  <div class="verdict" role="group" data-rule="give-siblings-the-same-shape" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='give-siblings-the-same-shape' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Classes doing the same kind of work — find-or-create across three models, one endpoint per resource — read alike, down to the order of the branches and the name of the private method that assembles the attributes.</p><p>The point is not tidiness.</p><p>Once they match, the one that differs is saying something true about the domain, and it can be seen without reading the others beside it.</p></div>
-</section>
-<section class="rule" id="let-the-structure-hold-the-rule">
-  <h4>Let the structure hold the rule</h4>
-  <div class="verdict" role="group" data-rule="let-the-structure-hold-the-rule" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Prefer an arrangement where a rule cannot be broken over one where every method remembers it.</p><p>A model that refuses its own bad input answers nil, and whatever sits above it finds nothing to attach: nobody checks, so nobody can forget to.</p><p>A rule kept by calling things in the right order, or by a comment saying what has to happen first, is a rule waiting for the next edit.</p></div>
-</section>
-<section class="rule" id="list-concerns-alphabetically-on-one-line">
-  <h4>List concerns alphabetically, on one line</h4>
-  <div class="verdict" role="group" data-rule="list-concerns-alphabetically-on-one-line" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='body'><p>Classes doing the same kind of work — find-or-create across three models, one endpoint per resource — read alike, down to the order of the branches and the name of the private method that assembles the attributes.</p><p>The point is not tidiness.</p><p>Once they match, the one that differs is saying something true about the domain, and it can be seen without reading the others beside it.</p></div>
+</section> -->
+<!-- <section class='rule' id='name-non-trivial-regex'>
+  <h4>Name non-trivial regex</h4>
+  <div class='verdict' role='group' data-rule='name-non-trivial-regex' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p><code>include Emailable, Phonable</code> — one <code>include</code> carries the whole list.</p><p>Give each its own statement only when the single line will not fit, and keep the order when you do.</p><p><code>Style/MixinGrouping</code>, <code>EnforcedStyle: grouped</code>.</p><p>Its default is <code>separated</code>, which demands the opposite, so the setting is not optional.</p><p><code>include A, B</code> inserts them in reverse, so <code>A</code> ends up ahead of <code>B</code> in <code>ancestors</code>.</p><p>That only matters when both define the same method, which two concerns extracted for being distinct features should not.</p></div>
-</section>
-<h3 class="group" id="files-and-comments">Files and comments<span class="fill"></span></h3><section class="rule" id="comment-every-public-declaration">
-  <h4>Comment every public declaration</h4>
-  <div class="verdict" role="group" data-rule="comment-every-public-declaration" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>One line before every public class, module, constant and method saying what it is for.</p><p>What it is for, not what the code shows.</p><p>Never comment a private one — it earns its explanation from its name and its caller.</p><p>Inside a body, comment <em>why</em>, never <em>what</em>.</p><p>One line, not two.</p><p>Where a YARD tag already says it, a prose line above says it twice — keep the tag and drop the prose.</p><p>A comment that keeps growing is paying interest on a design that does not explain itself.</p><p>Shorten the design first; the comment goes with it.</p></div>
-</section>
-<section class="rule" id="the-long-version-goes-in-the-commit-message">
-  <h4>The long version goes in the commit message</h4>
-  <div class="verdict" role="group" data-rule="the-long-version-goes-in-the-commit-message" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='body'><p>A pattern not obvious at a glance gets a named constant on the class that owns the rule, commented with what it accepts and rejects.</p><p>Trivial patterns used once stay inline.</p></div>
+</section> -->
+<section class='rule' id='return-first-or-never'>
+  <h4><span class='swipe swipe-g'>Return first</span> or never</h4>
+  <div class='verdict' role='group' data-rule='return-first-or-never' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>When one line will not hold everything worth saying, the rest belongs in the commit message.</p><p>Keep the line, move the essay.</p><p>The two are read at different times.</p><p>Somebody reading the method wants to know what it is for, right now, in one line.</p><p>Somebody asking why it is like that is already in <code>git log</code>, where the answer keeps its context: what it replaced, what was tried, what was ruled out.</p><p>A comment ages against the code it sits above; a message stays true, because it describes the change it shipped with.</p></div>
-</section>
-<section class="rule" id="name-non-trivial-regular-expressions">
-  <h4>Name non-trivial regular expressions</h4>
-  <div class="verdict" role="group" data-rule="name-non-trivial-regular-expressions" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A pattern not obvious at a glance gets a named constant on the class that owns the rule, commented with what it accepts and rejects.</p><p>Trivial patterns used once stay inline.</p></div>
+  <div class='body'><p>A method can only <code>return</code> in its first line of code before any work starts.</p></div>
 </section>
-<h3 class="group" id="layout">Layout<span class="fill"></span></h3><section class="rule" id="layout">
-  <h4>Layout</h4>
-  <div class="verdict" role="group" data-rule="layout" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='limit-the-parentheses'>
+  <h4>Limit the <span class='swipe swipe-h'>parentheses</span></h4>
+  <div class='verdict' role='group' data-rule='limit-the-parentheses' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Two-space indentation, no tabs.</p><p>No trailing whitespace, newline at EOF.</p><p><code>snake_case</code> for methods and variables, <code>CamelCase</code> for classes, <code>SCREAMING_SNAKE_CASE</code> for constants.</p><p>Predicates end in <code>?</code>, dangerous variants in <code>!</code>.</p><p><code>do...end</code> for multi-line blocks, <code>{...}</code> for single-line.</p><p>Prefer <code>&amp;.</code>, <code>||=</code>, <code>Array()</code>, <code>Hash#fetch</code> with a default, and keyword arguments past two parameters.</p><p>Inline a method body on one line in exactly two cases: an empty body, <code>def show; end</code>, and an endless method, <code>def advice_params = params.expect(advice: [:content])</code>.</p></div>
+  <div class='body'><p>Omit on a call’s arguments; keep the inner ones where parsing needs them.</p></div>
 </section>
-<section class="rule" id="one-return-at-most-and-only-at-the-top">
-  <h4>One return at most, and only at the top</h4>
-  <div class="verdict" role="group" data-rule="one-return-at-most-and-only-at-the-top" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+<section class='rule' id='make-it-readable'>
+  <h4>Make it <span class='swipe swipe-b'>readable</span></h4>
+  <div class='verdict' role='group' data-rule='make-it-readable' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>The one <code>return</code> is the case a method refuses before any work starts.</p><p>Past that line the method runs to its end.</p><p><code>unless</code> for simple negatives, never <code>unless ... else</code>.</p><p>A second <code>return</code> in the middle is branching by another name, and <code>if</code>/<code>elsif</code> says it where a reader sees all the branches at once:</p><pre><code><span class="k">def</span> <span class="id">import_visit</span>(<span class="id">visit</span>)                          <span class="c"># not: return ... if ours</span>
-  <span class="k">if</span> <span class="id">ours</span> = <span class="id">provider</span>.<span class="m">visits</span>.<span class="m">find_by</span>(<span class="sy">jid:</span> <span class="id">visit</span>.<span class="m">id</span>)
-    <span class="id">ours</span>.<span class="m">update</span> <span class="id">schedule_of</span>(<span class="id">visit</span>)
-  <span class="k">elsif</span> <span class="id">location</span> = <span class="id">location_of</span>(<span class="id">visit</span>)
-    <span class="id">provider</span>.<span class="m">visits</span>.<span class="m">create!</span> <span class="id">attributes_of</span>(<span class="id">visit</span>).<span class="m">merge</span>(<span class="sy">location:</span> <span class="id">location</span>)
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-</section>
-<section class="rule" id="lines-at-most-100-characters">
-  <h4>Lines at most 100 characters</h4>
-  <div class="verdict" role="group" data-rule="lines-at-most-100-characters" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
+  <div class='body'>
+    <p>Enhance RuboCop for code that is easy to grep and clean to diff:</p>
+    <ul style='padding: 0; list-style-position: inside'>
+      <li>Single quotes are the rule; double quotes only for interpolation and escape <a target='_blank' href='https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Style/StringLiterals'>[1]</a> <a target='_blank' href='https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Style/StringLiteralsInInterpolation'>[2]</a></li>
+      <li>Trailing comma on the last line of multiline literals (closing brace on its line) <a target='_blank' href='https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Style/TrailingCommaInHashLiteral'>[3]</a> <a target='_blank' href='https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Style/TrailingCommaInArrayLiteral'>[4]</a></li>
+      <li><code>when</code> and <code>else</code> sit one level in from <code>case</code> and <code>end</code> <a target='_blank' href='https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Layout/CaseIndentation'>[5]</a></li>
+      <li><code>private</code> sits with <code>class</code>; private methods are indented like public ones<a target='_blank' href='https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Layout/AccessModifierIndentation'>[6]</a></li>
+    </ul>
   </div>
-  <div class="body"><p>Split long strings across lines rather than running over.</p><p>Markup is exempt: a URL or a long class list does not wrap usefully.</p></div>
 </section>
-<section class="rule" id="single-quotes-by-default">
-  <h4>Single quotes by default</h4>
-  <div class="verdict" role="group" data-rule="single-quotes-by-default" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Double quotes only where the string needs them: interpolation or an escape.</p><p><code>Style/StringLiterals</code> and <code>Style/StringLiteralsInInterpolation</code>, both <code>single_quotes</code>.</p></div>
-</section>
-<section class="rule" id="never-freeze-strings">
-  <h4>Never freeze strings</h4>
-  <div class="verdict" role="group" data-rule="never-freeze-strings" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>No <code># frozen_string_literal: true</code>, in any file, including generated ones.</p><p>Never <code>.freeze</code> a string.</p><p>Array and hash constants are still worth freezing.</p><p>Where a constant only names something, prefer a symbol — immutable already.</p><p><code>Style/FrozenStringLiteralComment</code> is <code>never</code>; <code>Style/MutableConstant</code> is off, since it demands <code>.freeze</code> on string constants and cannot skip them.</p></div>
-</section>
-<section class="rule" id="trailing-comma-on-a-multiline-literal">
+<!-- <section class='rule' id='trailing-comma-on-a-multiline-literal'>
   <h4>Trailing comma on a multiline literal</h4>
-  <div class="verdict" role="group" data-rule="trailing-comma-on-a-multiline-literal" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='trailing-comma-on-a-multiline-literal' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>The last entry ends with a comma, so adding one touches one line.</p><p>The closing brace goes on its own line — <code>, }</code> reads worse than either alternative.</p><p>This is also what decides how to break a literal that spans lines only because it is long: give it the closing line.</p><p><code>Style/TrailingCommaInHashLiteral</code> and <code>...InArrayLiteral</code>, both <code>EnforcedStyleForMultiline: consistent_comma</code>.</p><p>Not <code>comma</code>, which forbids it unless every entry sits on its own line.</p></div>
+  <div class='body'><p>The last entry ends with a comma, so adding one touches one line.</p><p>The closing brace goes on its own line — <code>, }</code> reads worse than either alternative.</p><p>This is also what decides how to break a literal that spans lines only because it is long: give it the closing line.</p><p><code>Style/TrailingCommaInHashLiteral</code> and <code>...InArrayLiteral</code>, both <code>EnforcedStyleForMultiline: consistent_comma</code>.</p><p>Not <code>comma</code>, which forbids it unless every entry sits on its own line.</p></div>
 </section>
-<section class="rule" id="indent-when-inside-a-case">
+<section class='rule' id='indent-when-inside-a-case'>
   <h4>Indent <code>when</code> inside a <code>case</code></h4>
-  <div class="verdict" role="group" data-rule="indent-when-inside-a-case" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='indent-when-inside-a-case' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p><code>when</code> and <code>else</code> sit one level in from <code>case</code> and <code>end</code>:</p><pre><code><span class="k">case</span> <span class="id">params</span>[<span class="sy">:list</span>]
-  <span class="k">when</span> <span class="s">'unread'</span> <span class="k">then</span> <span class="co">Contact</span>.<span class="m">with_unread</span>
-  <span class="k">else</span> <span class="co">Contact</span>.<span class="m">all</span>
-<span class="k">end</span></code></pre><p><code>Layout/CaseIndentation</code> with <code>EnforcedStyle: end</code> <strong>and</strong> <code>IndentOneStep: true</code>.</p><p>Neither alone is enough.</p><p><code>Layout/ElseAlignment</code> then follows.</p></div>
-</section>
-<section class="rule" id="as-few-parentheses-as-possible">
-  <h4>As few parentheses as possible</h4>
-  <div class="verdict" role="group" data-rule="as-few-parentheses-as-possible" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Omit them on a call’s arguments; keep the inner ones, where parsing needs them: <code>Object.const_set class_name, Class.new(Base)</code>.</p><p><code>Style/MethodCallWithArgsParentheses</code>, <code>EnforcedStyle: omit_parentheses</code>.</p><p>The cop is off by default, so it needs <code>Enabled: true</code> too.</p><p>The exception is the call <em>in</em> a condition — after <code>if</code>, whether it opens a block or trails as a modifier.</p><p>Two things happen on that line, so the condition’s call keeps its parentheses and the reader can see where the argument ends and the branch begins:</p><pre><code><span class="k">if</span> <span class="iv">@vertical</span>.<span class="m">update</span>(<span class="id">vertical_params</span>)
-<span class="id">params</span>[<span class="sy">:status</span>] = <span class="sy">:matched</span> <span class="k">if</span> <span class="id">params</span>.<span class="m">delete</span>(<span class="sy">:engaged</span>)</code></pre><p>A call <em>before</em> a modifier <code>if</code> is not part of the condition, so it still omits them:</p><pre><code><span class="id">update_column</span> <span class="sy">:status</span>, <span class="sy">:matched</span> <span class="k">if</span> <span class="id">params</span>.<span class="m">delete</span>(<span class="sy">:engaged</span>)</code></pre><p>Same for the rest of the family — <code>unless</code>, <code>while</code>, <code>until</code>, and a ternary’s condition.</p><p>The cop cannot express this, and inline disables cost more than they buy.</p><p>Decline the cop instead, with the exception as the reason beside it, and hold the rule in review.</p></div>
+  <div class='body'><p><code>when</code> and <code>else</code> sit one level in from <code>case</code> and <code>end</code>:</p><pre><code><span class='k'>case</span> <span class='id'>params</span>[<span class='sy'>:list</span>]
+  <span class='k'>when</span> <span class='s'>'unread'</span> <span class='k'>then</span> <span class='co'>Contact</span>.<span class='m'>with_unread</span>
+  <span class='k'>else</span> <span class='co'>Contact</span>.<span class='m'>all</span>
+<span class='k'>end</span></code></pre><p><code>Layout/CaseIndentation</code> with <code>EnforcedStyle: end</code> <strong>and</strong> <code>IndentOneStep: true</code>.</p><p>Neither alone is enough.</p><p><code>Layout/ElseAlignment</code> then follows.</p></div>
+</section> -->
+
+<section class='rule' style='display: block'>
+  <div><p class='sample-file'>train.rb</p><pre><code><span class='c'># A train the departure board is about to announce.</span>
+<span class='k'>class</span> <span class='co'>Train</span>
+  <span class='c'># Under two minutes the board stays quiet: nobody can act on it.</span>
+  <span class='co'>SILENT_DELAY</span> = <span class='n'>2</span>
+
+  <span class='c'># Past a quarter of an hour the board owes a number, not just a word.</span>
+  <span class='co'>VAGUE_DELAY</span> = <span class='n'>15</span>
+
+  <span class='k'>def</span> <span class='m'>initialize</span>(<span class='sy'>destination</span>:, <span class='sy'>due</span>:, <span class='sy'>delay</span>: <span class='n'>0</span>, <span class='sy'>canceled</span>: <span class='k'>false</span>)
+    <span class='iv'>@destination</span> = <span class='id'>destination</span>
+    <span class='iv'>@due</span> = <span class='id'>due</span>
+    <span class='iv'>@delay</span> = <span class='id'>delay</span>
+    <span class='iv'>@canceled</span> = <span class='id'>canceled</span>
+  <span class='k'>end</span>
+
+  <span class='c'># The row the board shows: a heading over each field.</span>
+  <span class='k'>def</span> <span class='m'>announcement</span>
+    {
+      <span class='s'>'Where this train is going'</span> =&gt; <span class='iv'>@destination</span>,
+      <span class='s'>'When it was meant to leave'</span> =&gt; <span class='iv'>@due</span>.<span class='m'>strftime</span>(<span class='s'>'%H:%M'</span>),
+      <span class='s'>'What the board should say'</span> =&gt; <span class='m'>notice</span>,
+    }
+  <span class='k'>end</span>
+
+<span class='k'>private</span>
+
+  <span class='k'>def</span> <span class='m'>notice</span>
+    <span class='k'>return</span> <span class='s'>'Canceled'</span> <span class='k'>if</span> <span class='iv'>@canceled</span>
+
+    <span class='k'>case</span> <span class='iv'>@delay</span>
+      <span class='k'>when</span> ..<span class='co'>SILENT_DELAY</span> <span class='k'>then</span> <span class='s'>'On time'</span>
+      <span class='k'>when</span> ..<span class='co'>VAGUE_DELAY</span> <span class='k'>then</span> <span class='s'>'Delayed'</span>
+      <span class='k'>else</span> <span class='s'>'Delayed #{@delay} min'</span>
+    <span class='k'>end</span>
+  <span class='k'>end</span>
+<span class='k'>end</span></code></pre></div>
 </section>
-<section class="rule" id="outdent-visibility-modifiers">
+
+
+<!-- <span class='id'>train</span> = <span class='co'>Train</span>.<span class='m'>new</span> <span class='sy'>destination</span>: <span class='s'>'Bath Spa'</span>, <span class='sy'>due</span>: <span class='co'>Time</span>.<span class='m'>new</span>(<span class='n'>2026</span>, <span class='n'>8</span>, <span class='n'>23</span>, <span class='n'>9</span>, <span class='n'>5</span>), <span class='sy'>delay</span>: <span class='n'>40</span>
+<span class='id'>train</span>.<span class='m'>announcement</span>.<span class='m'>values</span>.<span class='m'>join</span> <span class='s'>'  '</span> <span class='c'># =&gt; 'Bath Spa  09:05  Delayed 40 min'</span> -->
+<!-- <section class='rule' id='outdent-visibility-modifiers'>
   <h4>Outdent visibility modifiers</h4>
-  <div class="verdict" role="group" data-rule="outdent-visibility-modifiers" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='outdent-visibility-modifiers' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p><code>private</code> sits at the level of <code>class</code>, and the methods under it keep the normal indent, so it reads as a divider.</p><p><code>Layout/AccessModifierIndentation</code>, <code>EnforcedStyle: outdent</code>.</p></div>
-</section>
-<h3 class="group" id="rubocop">RuboCop<span class="fill"></span></h3><section class="rule" id="keep-rubocop-current">
-  <h4>Keep RuboCop current</h4>
-  <div class="verdict" role="group" data-rule="keep-rubocop-current" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p><code>AllCops: NewCops: enable</code>.</p><p>Fix what a new release surfaces; never pin.</p><p>Enabling every new cop is not accepting every new cop.</p><p>Decline one outright, in <code>.rubocop.yml</code>, with the reason beside it.</p><p><code>SuggestExtensions: false</code>.</p><p>An extension we are declining is off, not merely ignored.</p></div>
-</section>
-<h3 class="group" id="gems">Gems<span class="fill"></span></h3><section class="rule" id="gemfile-and-gemspec">
-  <h4>Gemfile and gemspec</h4>
-  <div class="verdict" role="group" data-rule="gemfile-and-gemspec" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Alphabetical, one block, no blank lines — those read as separate groups.</p><p>Never <code>~&gt;</code>.</p><p>Use <code>&gt;=</code> only where a minimum is genuinely required, otherwise no constraint at all.</p><p>Every gem carries a trailing comment saying what would break without it — not what the gem is.</p><p>Same for <code>add_dependency</code>.</p></div>
-</section>
-<section class="rule" id="what-a-gem-always-ships">
+  <div class='body'><p><code>private</code> sits at the level of <code>class</code>, and the methods under it keep the normal indent, so it reads as a divider.</p><p><code>Layout/AccessModifierIndentation</code>, <code>EnforcedStyle: outdent</code>.</p></div>
+</section> -->
+<!-- <section class='rule' id='what-a-gem-always-ships'>
   <h4>What a gem always ships</h4>
-  <div class="verdict" role="group" data-rule="what-a-gem-always-ships" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='what-a-gem-always-ships' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p><code>bin/console</code> and <code>bin/setup</code>: one to try the library in a REPL, one to get a clone working in a single command.</p><p>A <code>CHANGELOG.md</code>, written before the release is made.</p><p>Every entry says which of three it is — <strong>fix</strong>, <strong>feature</strong>, <strong>breaking change</strong> — because that is what tells a reader whether they can take it, and it is what picks the version: patch, minor, major.</p><p>Numbering first is how a minor release quietly breaks somebody.</p><p>Keep an <code>## [Unreleased]</code> heading, so a release is a rename rather than an act of remembering.</p></div>
-</section>
-<section class="rule" id="a-gems-readme-says-how-to-install-it">
+  <div class='body'><p><code>bin/console</code> and <code>bin/setup</code>: one to try the library in a REPL, one to get a clone working in a single command.</p><p>A <code>CHANGELOG.md</code>, written before the release is made.</p><p>Every entry says which of three it is — <strong>fix</strong>, <strong>feature</strong>, <strong>breaking change</strong> — because that is what tells a reader whether they can take it, and it is what picks the version: patch, minor, major.</p><p>Numbering first is how a minor release quietly breaks somebody.</p><p>Keep an <code>## [Unreleased]</code> heading, so a release is a rename rather than an act of remembering.</p></div>
+</section> -->
+<!-- <section class='rule' id='a-gems-readme-says-how-to-install-it'>
   <h4>A gem’s README says how to install it</h4>
-  <div class="verdict" role="group" data-rule="a-gems-readme-says-how-to-install-it" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='a-gems-readme-says-how-to-install-it' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Every gem we publish follows Semantic Versioning, and its README carries a <code>How to install</code> section: the system install (<code>gem install &lt;name&gt;</code>), then the Gemfile line pinned to the current major (<code>gem '&lt;name&gt;', '~&gt; 2.0'</code>), then the sentence saying why that pin is safe — <code>~&gt; major.minor</code> means <code>bundle update</code> never crosses a breaking change.</p><p>Keep the snippet current: a major release updates the pin in the same commit.</p><p>This does not soften "never use <code>~&gt;</code>".</p><p>That rule binds <em>our</em> Gemfiles and gemspecs naming what we depend on; the README line is advice to hosts pinning <em>us</em>.</p></div>
-</section>
-<section class="rule" id="git-ignores-a-built-gem">
+  <div class='body'><p>Every gem we publish follows Semantic Versioning, and its README carries a <code>How to install</code> section: the system install (<code>gem install &lt;name&gt;</code>), then the Gemfile line pinned to the current major (<code>gem '&lt;name&gt;', '~&gt; 2.0'</code>), then the sentence saying why that pin is safe — <code>~&gt; major.minor</code> means <code>bundle update</code> never crosses a breaking change.</p><p>Keep the snippet current: a major release updates the pin in the same commit.</p><p>This does not soften 'never use <code>~&gt;</code>'.</p><p>That rule binds <em>our</em> Gemfiles and gemspecs naming what we depend on; the README line is advice to hosts pinning <em>us</em>.</p></div>
+</section> -->
+<!-- <section class='rule' id='git-ignores-a-built-gem'>
   <h4>Git ignores a built gem</h4>
-  <div class="verdict" role="group" data-rule="git-ignores-a-built-gem" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='git-ignores-a-built-gem' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p><code>*.gem</code> is gitignored.</p><p><code>rake build</code> puts one under <code>/pkg/</code>, ignored already, but <code>gem build</code> leaves it in the working directory where <code>git add -A</code> sweeps up a megabyte of binary release artifact.</p><p>Nothing is lost: <code>spec.files</code> reads <code>git ls-files</code>, so a build is never packaged inside the next one either way.</p><p>Delete the built <code>.gem</code> once <code>gem push</code> has taken it.</p><p>Left behind, it is a stale build of a version that may since have been amended, waiting to be pushed again.</p></div>
-</section>
-<section class="rule" id="a-gems-page-draws-its-mark-once">
+  <div class='body'><p><code>*.gem</code> is gitignored.</p><p><code>rake build</code> puts one under <code>/pkg/</code>, ignored already, but <code>gem build</code> leaves it in the working directory where <code>git add -A</code> sweeps up a megabyte of binary release artifact.</p><p>Nothing is lost: <code>spec.files</code> reads <code>git ls-files</code>, so a build is never packaged inside the next one either way.</p><p>Delete the built <code>.gem</code> once <code>gem push</code> has taken it.</p><p>Left behind, it is a stale build of a version that may since have been amended, waiting to be pushed again.</p></div>
+</section> -->
+<!-- <section class='rule' id='a-gems-page-draws-its-mark-once'>
   <h4>A gem’s page draws its mark once</h4>
-  <div class="verdict" role="group" data-rule="a-gems-page-draws-its-mark-once" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='a-gems-page-draws-its-mark-once' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>A gem that gets a GitHub Page with colors and artwork of its own gets the whole icon set in the same breath — the browser’s, iOS’, and the avatar GitHub and the social networks show.</p><p>A page whose tab is a blank sheet and whose repository is a gray identicon is half built.</p><p>One drawing answers all of them: an <code>icon.svg</code> beside <code>index.html</code> holding the mark at the scale a tab can carry, and a <code>build-icons.sh</code> that renders the rest from it.</p><p>Run it after editing the SVG and commit what changes.</p><p>Never touch a PNG by hand, or the set drifts apart one file at a time.</p><p>What each service asks for: <code>favicon.ico</code> holding 16, 32 and 48, which a browser reaches for when the page links nothing; <code>favicon-96x96.png</code> for the tab; <code>apple-touch-icon.png</code> at 180 for a home-screen bookmark; <code>web-app-manifest-192x192.png</code> and <code>-512x512.png</code> named in <code>site.webmanifest</code>; and <code>avatar.png</code> at 1024 for GitHub and every social network, since they all crop a square themselves.</p><p>Corners are the one thing that varies: iOS masks a bookmark and every avatar is shown round, so those two render from an SVG whose <code>rx</code> is 0.</p><p>A corner rounded twice reads as a mistake.</p><p>Adapt the drawing, never the rendering.</p><p>What a 16-pixel tab cannot carry — a halo, a sparkle — comes out of the SVG, so every size says the same thing at the fidelity it can hold.</p><p><code>rsvg-convert</code> and <code>magick</code> do the rendering, named in a comment at the top of the script, since a machine without them fails at the first line.</p></div>
-</section>
-<section class="rule" id="a-release-is-not-done-until-the-page-says-so">
-  <h4>A release is not done until the page says so</h4>
-  <div class="verdict" role="group" data-rule="a-release-is-not-done-until-the-page-says-so" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A gem with a GitHub Page has two places that state its API, and a release that updates only one leaves the other lying.</p><p>Push to RubyGems and update <code>gh-pages</code> in the same breath — the version it names, the methods it lists, the examples it shows.</p><p>The page is what somebody reads before they install anything, so a stale one costs more than no page at all: it teaches an API the gem no longer has.</p><p>Checklist, none of it optional: <code>CHANGELOG.md</code>, <code>README.md</code>, the version constant, the tag, RubyGems, <code>gh-pages</code>.</p><p>True in a Rails app.</p></div>
-</section>
+  <div class='body'><p>A gem that gets a GitHub Page with colors and artwork of its own gets the whole icon set in the same breath — the browser’s, iOS’, and the avatar GitHub and the social networks show.</p><p>A page whose tab is a blank sheet and whose repository is a gray identicon is half built.</p><p>One drawing answers all of them: an <code>icon.svg</code> beside <code>index.html</code> holding the mark at the scale a tab can carry, and a <code>build-icons.sh</code> that renders the rest from it.</p><p>Run it after editing the SVG and commit what changes.</p><p>Never touch a PNG by hand, or the set drifts apart one file at a time.</p><p>What each service asks for: <code>favicon.ico</code> holding 16, 32 and 48, which a browser reaches for when the page links nothing; <code>favicon-96x96.png</code> for the tab; <code>apple-touch-icon.png</code> at 180 for a home-screen bookmark; <code>web-app-manifest-192x192.png</code> and <code>-512x512.png</code> named in <code>site.webmanifest</code>; and <code>avatar.png</code> at 1024 for GitHub and every social network, since they all crop a square themselves.</p><p>Corners are the one thing that varies: iOS masks a bookmark and every avatar is shown round, so those two render from an SVG whose <code>rx</code> is 0.</p><p>A corner rounded twice reads as a mistake.</p><p>Adapt the drawing, never the rendering.</p><p>What a 16-pixel tab cannot carry — a halo, a sparkle — comes out of the SVG, so every size says the same thing at the fidelity it can hold.</p><p><code>rsvg-convert</code> and <code>magick</code> do the rendering, named in a comment at the top of the script, since a machine without them fails at the first line.</p></div>
+</section> -->
 
 </section>
-<section class="panel" role="tabpanel" id="panel-rails" aria-labelledby="tab-rails"
-         data-part="Rails" hidden>
-  <div class="panel-head">
-    <p class="panel-sub">Part Three &mdash; true in a rails app</p>
-    <div class="stamp stamp-tier reveal" style="--tilt: -5deg">
-  <span class="small">Style book</span>
-  <span class="big">Part Three</span>
-  <span class="small">Passed for press</span>
-</div>
+<section class='panel' role='tabpanel' id='panel-rails' aria-labelledby='tab-rails'
+         data-part='Rails' hidden>
+  <section class='rule' id='follow-the-rails-way'>
+  <h4>Follow the <span class='swipe swipe-a'>Rails Way</span></h4>
+  <div class='verdict' role='group' data-rule='follow-the-rails-way' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'>
+    <p>Extend with Concern, respect strong params, apply convention over configuration.</p>
+    <p>Embrace REST: endpoints are CRUD on resources. Add custom resources, never actions.</p>
+  </div>
+</section>
+<section class='rule' id='live-on-the-edge'>
+  <h4>Live <span class='swipe swipe-c'>on the edge</span></h4>
+  <div class='verdict' role='group' data-rule='live-on-the-edge' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'>
+    <p>Build off the <code>main</code> branch of <code>rails/rails</code>. Scrap any <code>~&gt;</code> from your Gemfile.</p>
+    <p>Order gems alphabetically and document inline why the app would break without them.</p>
+  </div>
+</section>
+<!-- <section class='rule' id='clean-the-gemfile'>
+  <h4>Clean the Gemfile</h4>
+  <div class='verdict' role='group' data-rule='clean-the-gemfile' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'></div>
+</section> -->
+<!-- <section class='rule' id='embrace-rest'>
+  <h4>Embrace REST</h4>
+  <div class='verdict' role='group' data-rule='embrace-rest' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'><p>Endpoints are CRUD on resources. Add custom resources, never custom actions.</p>
+</section> -->
+<section class='rule' id='cache-from-the-start'>
+  <h4><span class='swipe swipe-d'>Cache</span> from the start</h4>
+  <div class='verdict' role='group' data-rule='cache-from-the-start' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'>
+    <p><code>Rails.cache</code> wherever the same rows would be read or the same markup rendered.</p>
+    <p>Run tests with <code>config.cache_store = :memory_store</code> to verify caching works.</p>
+  </div>
+</section>
+<section class='rule' id='declare-explicit-locals'>
+  <h4>Declare explicit <span class='swipe swipe-e'>locals</span></h4>
+  <div class='verdict' role='group' data-rule='declare-explicit-locals' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'><p>Don’t pass instance variables to partials—use strict <code>&lt;%# locals: ... %&gt;</code> instead.</p></div>
+</section>
+<section class='rule' id='assume-turbo-is-enabled'>
+  <h4>Assume <span class='swipe swipe-f'>Turbo</span> is enabled</h4>
+  <div class='verdict' role='group' data-rule='assume-turbo-is-enabled' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'><p>Redirect out of the app with <code>allow_other_host: true</code>; after a non-GET with <code>status: :see_other</code>; break out of a frame with <code>data: { turbo_frame: '_top' }</code>.</p></div>
+</section>
+<section class='rule' id='trim-database-queries'>
+  <h4><span class='swipe swipe-g'>Trim</span> database <span class='swipe swipe-b'>queries</span></h4>
+  <div class='verdict' role='group' data-rule='trim-database-queries' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'>
+    <p>Eager-load associations. Check if records exist and loop over them in a single query.</p>
+    <p>Avoid the cost of <code>User.all</code> if all you display is <code>User.select(:name, :email)</code>.</p>
+  </div>
+</section>
+<section class='rule' id='migrations-go-both-ways'>
+  <h4><span class='swipe swipe-h'>Migrations</span> go both ways</h4>
+  <div class='verdict' role='group' data-rule='migrations-go-both-ways' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'>
+    <p>Ensure every migration you write is reversible.</p>
+    <p>Use <code>change</code> before <code>up</code>/<code>down</code>. Use <code>up_only</code> before <code>reversible { |dir| dir.up }</code>.</p>
+  </div>
+</section>
 
-  </div>
-  <h3 class="group" id="the-rails-way">The Rails Way<span class="fill"></span></h3><section class="rule" id="the-rails-way">
-  <h4>The Rails Way</h4>
-  <div class="verdict" role="group" data-rule="the-rails-way" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Reach for a framework feature before writing infrastructure.</p><p>Fat model, skinny controller.</p><p>A controller does routing, authorization, params and rendering — nothing else.</p><p>The seven standard actions.</p><p>Nested resources or a new controller over a custom action, and a second-level controller for a nested route rather than a branch in the first.</p><p>Strong parameters; never pass raw <code>params</code> to a model.</p><p>Scopes for reusable queries.</p><p>No query logic in a controller or a view.</p><p>Never put a method in a controller that only a view calls, and never <code>helper_method</code> to expose one.</p><p>A view’s needs belong in a helper or the template.</p><p>Active Job for anything slow or external, declared with <code>performs</code> so the caller reads as a method rather than as a job.</p><p>Secrets in credentials or ENV, never committed.</p></div>
-</section>
-<section class="rule" id="follow-rest">
-  <h4>Follow REST</h4>
-  <div class="verdict" role="group" data-rule="follow-rest" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Endpoints are CRUD on resources.</p><p>Where an action does not map to a verb, add a resource rather than a custom action.</p><pre><code><span class="id">resources</span> <span class="sy">:cards</span> <span class="k">do</span>          <span class="c"># not: post :close, post :reopen</span>
-  <span class="id">resource</span> <span class="sy">:closure</span>
-<span class="k">end</span></code></pre></div>
-</section>
-<section class="rule" id="target-current-rails">
-  <h4>Target current Rails</h4>
-  <div class="verdict" role="group" data-rule="target-current-rails" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Target either the latest release of Rails or the <code>main</code> branch of <code>rails/rails</code>.</p><p>Write against current APIs only.</p><p>Never add a version check, shim or fallback for an older Rails or Ruby.</p></div>
-</section>
-<h3 class="group" id="database">Database<span class="fill"></span></h3><section class="rule" id="postgresql-always">
-  <h4>PostgreSQL, always</h4>
-  <div class="verdict" role="group" data-rule="postgresql-always" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>When a stand-alone app needs a database it is PostgreSQL.</p><p>Never MySQL, never SQLite, even where SQLite would be less setup.</p><p>A dummy app that exists only to test a gem is the exception, and may use SQLite.</p><p>It is a fixture rather than an app: nobody deploys it, a gem serves every adapter anyway, and proving that on a second one — with no server to run — is worth more than the fixture resembling the apps.</p><p>Say in the gem what such a dummy states portably in place of what PostgreSQL alone offers.</p></div>
-</section>
-<section class="rule" id="validations-and-constraints-together">
+<!-- <section class='rule' id='validations-and-constraints-together'>
   <h4>Validations and constraints together</h4>
-  <div class="verdict" role="group" data-rule="validations-and-constraints-together" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='validations-and-constraints-together' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>The database is the last line of defense: null constraints, unique indexes, foreign keys, check constraints.</p><p>A constraint the model does not also state is one the browser cannot show.</p><p>Add the validator too.</p><p>Migrations are reversible, and one that has shipped is never edited.</p></div>
-</section>
-<section class="rule" id="keep-a-tables-columns-in-a-meaningful-order">
-  <h4>Keep a table’s columns in a meaningful order</h4>
-  <div class="verdict" role="group" data-rule="keep-a-tables-columns-in-a-meaningful-order" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Creating a table, or adding a column to one, is a chance to say how the table reads.</p><p>Appending to the end is a decision not to think.</p><p>The order, left to right:</p><ol><li><code>type</code>, where a hierarchy is told apart by one.</li><li>Any non-null enum — a <code>status</code> and its like.</li><li>The other non-null attributes, counter caches aside.</li><li>The non-null foreign keys.</li><li>The counter caches, whatever they are declared as.</li><li>The indexed columns.</li><li>Everything else.</li><li>The dates and times, Rails’ own timestamps last of all.</li></ol><p>What a record is comes before what it points at, and both come before what it counts.</p><p>A screen that draws a table’s columns inherits this order, so getting it right is worth more than the schema’s own tidiness.</p><p>PostgreSQL cannot move a column, so an order settled late costs a rebuild: a second table in the right order, the rows poured across, then every index and foreign key named again.</p><p>Cheap while a table is young, which is the reason to decide early.</p></div>
-</section>
-<section class="rule" id="an-enum-is-a-postgres-type">
-  <h4>An enum is a Postgres type</h4>
-  <div class="verdict" role="group" data-rule="an-enum-is-a-postgres-type" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='body'><p>The database is the last line of defense: null constraints, unique indexes, foreign keys, check constraints.</p><p>A constraint the model does not also state is one the browser cannot show.</p><p>Add the validator too.</p><p>Migrations are reversible, and one that has shipped is never edited.</p></div>
+</section> -->
+<section class='rule' id='use-active-record-types'>
+  <h4>Use Active Record <span class='swipe swipe-c'>types</span></h4>
+  <div class='verdict' role='group' data-rule='use-active-record-types' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Native type, not an integer and not a bare string: <code>create_enum :job_status, Job::STATUSES</code>, then <code>t.enum :status, enum_type: :job_status, default: :draft, null: false</code>.</p><p>The names live in a constant on the model, one per line with a comment saying what that state means, and the migration reads the same constant so the two cannot drift.</p><p>An array column is <code>t.text :urls, array: true, default: [], null: false</code> — always an array, so nothing has to check for nil first.</p></div>
+  <div class='body'>
+    <p>Clarify a <code>decimal</code> column <code>price</code> stores money with <code>attribute :price, :amount</code>.</p>
+    <p>All you need is to register a new type: <code>Amount &lt; ActiveRecord::Type::Decimal</code>.</p></div>
 </section>
-<section class="rule" id="emails-are-citext">
+<section class='rule' id='query-with-encryption'>
+  <h4>Query with <span class='swipe swipe-a'>encryption</span></h4>
+  <div class='verdict' role='group' data-rule='query-with-encryption' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'><p>Invoke <code>encrypt</code> on any sensitive data. Add <code>deterministic: { fixed: false }</code> to columns that must be queried or kept unique such as: <code>User.find_by(email:)</code>.</p></div>
+</section>
+
+<section class='rule' id='harness-postgresql-types'>
+  <h4>Harness <span class='swipe swipe-e'>PostgreSQL</span></h4>
+  <div class='verdict' role='group' data-rule='harness-postgresql-types' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
+    </button>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
+    </button>
+  </div>
+  <div class='body'>
+    <p>PostgreSQL offers native types and extensions that play well with Rails:</p>
+    <ul style='padding: 0; list-style-position: inside'>
+      <li><code>type: :citext</code> to store case-insensitive strings such as emails</li>
+      <li><code>array: true</code> to store an array in a single column</li>
+      <li><code>create_enum</code> to declare enums backed by names, not integers</li>
+    </ul>
+  </div>
+</section>
+<!-- <section class='rule' id='emails-are-citext'>
   <h4>Emails are citext</h4>
-  <div class="verdict" role="group" data-rule="emails-are-citext" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='emails-are-citext' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>A plaintext email column is <code>citext</code>, never <code>string</code>: that is what makes comparison and a unique index agree that <code>Ada@</code> and <code>ada@</code> are one address.</p><p>Run <code>enable_extension 'citext'</code> before the first one.</p><p>Nothing else is then needed — no <code>LOWER(email)</code> index, no downcasing on the way in.</p><p>An <em>encrypted</em> email column is not citext, since it holds ciphertext.</p><p>Normalize in Rails instead, always with both options: <code>encrypts :email, deterministic: true, downcase: true</code>.</p></div>
-</section>
-<section class="rule" id="prefer-uponly-in-migrations">
-  <h4>Prefer <code>up_only</code> in migrations</h4>
-  <div class="verdict" role="group" data-rule="prefer-uponly-in-migrations" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A step that runs only on the way up is <code>up_only { backfill }</code>, never <code>reversible { |direction| direction.up { backfill } }</code>.</p><p>The short form has been Rails’ since 5.2, it says what it means, and it leaves no down branch to read past.</p><p><code>reversible</code> keeps its place where a migration genuinely writes both directions.</p></div>
-</section>
-<h3 class="group" id="models">Models<span class="fill"></span></h3><section class="rule" id="both-sides-of-an-association">
-  <h4>Both sides of an association</h4>
-  <div class="verdict" role="group" data-rule="both-sides-of-an-association" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='body'><p>A plaintext email column is <code>citext</code>, never <code>string</code>: that is what makes comparison and a unique index agree that <code>Ada@</code> and <code>ada@</code> are one address.</p><p>Run <code>enable_extension 'citext'</code> before the first one.</p><p>Nothing else is then needed — no <code>LOWER(email)</code> index, no downcasing on the way in.</p><p>An <em>encrypted</em> email column is not citext, since it holds ciphertext.</p><p>Normalize in Rails instead, always with both options: <code>encrypts :email, deterministic: true, downcase: true</code>.</p></div>
+</section> -->
+<!-- <section class='rule' id='hide-counter-cache'>
+  <h4>Hide counter cache</h4>
+  <div class='verdict' role='group' data-rule='hide-counter-cache' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>A <code>belongs_to</code> gets the matching <code>has_many</code>.</p><p>Reading a foreign key from one side only is half the model.</p><p><code>dependent:</code> follows what the child requires: <code>:destroy</code> where it cannot exist without the parent, <code>:nullify</code> where the association is optional.</p><p><code>:destroy</code>, not <code>:restrict_with_error</code>.</p><p>An admin deleting a record is entitled to the tree under it, and the cascade exists so nobody dismantles it by hand.</p><p><code>has_many</code> takes one name, unlike <code>validates</code>.</p><p><code>has_many :counties, :markets</code> reads <code>:markets</code> as a scope and fails much later with <code>undefined method 'arity'</code>.</p><p>Neither side helps against <code>delete_all</code>, which is raw SQL and skips callbacks.</p></div>
-</section>
-<section class="rule" id="count-through-the-association-not-the-counter-cache">
-  <h4>Count through the association, not the counter cache</h4>
-  <div class="verdict" role="group" data-rule="count-through-the-association-not-the-counter-cache" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p><code>service.bands.size</code>, not <code>service.bands_count</code>.</p><p>A counter cache is an optimization of the SQL, and a view has no business knowing which optimizations the schema happens to carry.</p><p>The association reads as what it means, and it is the same line whether a counter cache exists, is added later, or is taken away.</p><p><code>size</code> is the method that makes this work: it takes the cached column where there is one, counts where there is not, and reads the records where they are already loaded.</p><p>Where the association cannot answer — no association at all, or a <code>has_many :through</code>, where <code>size</code> would issue a query per row — the column stays.</p><p>Say so where it is used.</p></div>
-</section>
-<section class="rule" id="encryption-that-a-query-can-still-find">
-  <h4>Encryption that a query can still find</h4>
-  <div class="verdict" role="group" data-rule="encryption-that-a-query-can-still-find" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>A column that is queried or must stay unique needs <code>deterministic: true</code>.</p><p>Non-deterministic ciphertext differs every write, silently defeating both a unique index and a uniqueness validation — they pass while duplicates pile up.</p><p>It is not conditional on the column being queried <em>today</em>.</p><p>Switching later means re-encrypting every row.</p><p><code>downcase: true</code> is what keeps a unique index honest: without it two spellings encrypt to two values.</p><p>Never constrain the <em>shape</em> of an encrypted value in the database: it holds ciphertext, so only nullability and uniqueness still mean anything.</p><p>Shape belongs to the model.</p></div>
-</section>
-<section class="rule" id="phone-numbers">
-  <h4>Phone numbers</h4>
-  <div class="verdict" role="group" data-rule="phone-numbers" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>A <code>phone</code> column holds exactly ten digits, <code>null: false</code>, unique.</p><p>The database cannot check the shape, since the value is encrypted.</p><p>The shape is the model’s, in a concern that normalizes and validates:</p><pre><code><span class="co">NORTH_AMERICAN_PHONES</span> = <span class="re">/\A[2-9]\d{2}[2-9]\d{6}\z/</span>
-
-<span class="id">normalizes</span> <span class="sy">:phone</span>, <span class="sy">with:</span> -&gt;(<span class="id">phone</span>) { <span class="id">phone</span>.<span class="m">delete</span>(<span class="s">'^0-9'</span>).<span class="m">delete_prefix</span> <span class="s">'1'</span> }
-
-<span class="id">with_options</span> <span class="sy">format:</span> { <span class="sy">with:</span> <span class="co">NORTH_AMERICAN_PHONES</span>, <span class="sy">message:</span> <span class="s">'...'</span> } <span class="k">do</span>
-  <span class="id">validates</span> <span class="sy">:phone</span>, <span class="sy">allow_nil:</span> <span class="k">true</span>
-<span class="k">end</span></code></pre><p>The concern is <code>allow_nil</code>, so whether a phone is <em>required</em> is the including model’s call.</p></div>
-</section>
-<section class="rule" id="ask-the-validators-not-the-schema">
-  <h4>Ask the validators, not the schema</h4>
-  <div class="verdict" role="group" data-rule="ask-the-validators-not-the-schema" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>What a value may be is the model’s business.</p><p>A length validator gives a field its <code>maxlength</code>, a format validator its <code>pattern</code>, a numericality validator its keyboard.</p><p>Never read <code>columns_hash</code> for a limit or a type.</p><p>The two disagree more often than it looks: a <code>limit: 5</code> column with no length validator accepts four characters, and an encrypted column’s limit describes ciphertext.</p><p>Where no validator can answer — <code>date</code> vs <code>time</code> vs <code>datetime</code> — ask <code>type_for_attribute</code>, so an <code>attribute</code> override counts.</p></div>
-</section>
-<section class="rule" id="shared-behavior-becomes-a-concern">
-  <h4>Shared behavior becomes a concern</h4>
-  <div class="verdict" role="group" data-rule="shared-behavior-becomes-a-concern" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Two classes declaring the same behavior word for word: extract a module.</p><p>A second identical declaration is the threshold; anticipating one is not.</p><p>Name it after the feature, not the classes: <code>Emailable</code>, <code>Phonable</code>.</p><p>Only what they genuinely share moves.</p><p>Where one requires what the other allows, the requirement stays behind.</p><p>Include alphabetically, on one line — see <a href="#list-concerns-alphabetically-on-one-line">List concerns alphabetically</a>.</p></div>
-</section>
-<section class="rule" id="a-new-kind-of-value-is-an-active-record-type">
-  <h4>A new kind of value is an Active Record type</h4>
-  <div class="verdict" role="group" data-rule="a-new-kind-of-value-is-an-active-record-type" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>When a page has to tell two columns of the same type apart — money from a share of it, both <code>decimal(10,2)</code> — the answer is a custom Active Record type: <code>Price &lt; ActiveRecord::Type::Decimal</code> reporting <code>def type = :price</code>, registered with <code>ActiveRecord::Type.register</code>, and the model saying <code>attribute :hourly_rate, :price</code>.</p><p>Everything downstream then asks <code>type_for_attribute</code>, so the rule for a price applies exactly where a <code>:price</code> type is what answers — never by guessing from a column’s name.</p><p><code>hourly_rate</code> is money and <code>commission_rate</code> is not.</p><p>Give migrations the same word by extending <code>TableDefinition</code> with a column method that delegates to the type it is a kind of.</p><p>Rails keeps <code>define_column_methods</code> private, so write the method out rather than reaching for it.</p><p>Keep the type’s <code>precision</code> and <code>scale</code> equal to the column’s.</p><p>A type promising five digits over a <code>decimal(4, 2)</code> puts a <code>max</code> in the browser that the database will refuse.</p><p>Register with a block, so a type under <code>app/types/</code> is autoloaded when a model first asks rather than during boot.</p></div>
-</section>
-<h3 class="group" id="queries">Queries<span class="fill"></span></h3><section class="rule" id="treat-an-extra-query-as-a-defect">
-  <h4>Treat an extra query as a defect</h4>
-  <div class="verdict" role="group" data-rule="treat-an-extra-query-as-a-defect" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Rendering a page issues as few queries as it can, and the count does not grow with the page.</p><p>Eager-load every association a page will name.</p><p>Ask whether a relation has records <em>and then loop over it</em> with one query, not two: the check that loads the rows the loop needs is right, the one that adds a probing <code>SELECT</code> is not.</p><p>Assert the count in a test, so a later edit cannot quietly add one back.</p></div>
-</section>
-<section class="rule" id="order-every-paginated-relation">
+  <div class='body'><p>Cache your counters and invoke with <code>blog.posts.size</code>, not <code>blog.posts_count</code>.</p></div>
+</section> -->
+<!-- <section class='rule' id='order-every-paginated-relation'>
   <h4>Order every paginated relation</h4>
-  <div class="verdict" role="group" data-rule="order-every-paginated-relation" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='order-every-paginated-relation' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Paging a relation with no order is not paging.</p><p>Postgres may return rows any way it likes, and an updated row moves to the end of the table, so a page can repeat a row it showed or skip one it did not.</p></div>
-</section>
-<section class="rule" id="select-only-the-columns-a-query-displays">
-  <h4>Select only the columns a query displays</h4>
-  <div class="verdict" role="group" data-rule="select-only-the-columns-a-query-displays" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A query built to display something fetches those columns and no others.</p><p>The count of queries is one cost; the width of each is another.</p><p>Where the columns are not known — a generic view handed a whole record — select everything on purpose.</p></div>
-</section>
-<section class="rule" id="cache-a-query-or-a-fragment-that-repeats">
-  <h4>Cache a query or a fragment that repeats</h4>
-  <div class="verdict" role="group" data-rule="cache-a-query-or-a-fragment-that-repeats" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='body'><p>Paging a relation with no order is not paging.</p><p>Postgres may return rows any way it likes, and an updated row moves to the end of the table, so a page can repeat a row it showed or skip one it did not.</p></div>
+</section> -->
+<!-- <section class='rule' id='select-a-few-columns'>
+  <h4>Select a few columns</h4>
+  <div class='verdict' role='group' data-rule='select-a-few-columns' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Reach for <code>Rails.cache</code> wherever the same rows would be read or the same markup re-rendered.</p><p>Cache the table, not the pagination around it.</p><p>Key a fragment on the <em>relation</em> — <code>cache records do</code> — never a hand-rolled string: Rails digests the SQL and versions it by row count and newest <code>updated_at</code>, so nothing has to expire it.</p><p>That version costs a <code>SELECT COUNT(*), MAX(updated_at)</code>, and it is the price of never serving a stale menu.</p><p>Keying on <code>cache_key</code> alone queries nothing but never notices a new row — only behind an <code>expires_in</code>.</p><p>A list with no relation behind it has no version to check, so key it on a digest of the list itself.</p><p>A fixed string goes stale the moment the list changes, and silently.</p><p>A cache that is off in tests is a cache nobody tests: <code>config.cache_store = :memory_store</code> for test.</p></div>
-</section>
-<h3 class="group" id="views">Views<span class="fill"></span></h3><section class="rule" id="pass-locals-to-partials-explicitly">
-  <h4>Pass locals to partials explicitly</h4>
-  <div class="verdict" role="group" data-rule="pass-locals-to-partials-explicitly" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A partial never reads a controller’s instance variables.</p><p>Declare strict locals on its first line — <code>&lt;%# locals: (resources:, pagy:) %&gt;</code> — and pass them at the call site.</p><p>A partial taking no locals gets no comment at all.</p><p>Never write <code>&lt;%# locals: () %&gt;</code>.</p><p>A template rendered by an action may read instance variables.</p><p>The rule is about partials, which should not depend on who rendered them.</p><p>Rails enforces it: omit a declared local and the render raises rather than quietly drawing a blank.</p><p>Where two branches need different locals, write <code>if</code>/<code>else</code> rather than <code>render cond ? 'a' : 'b'</code> — one call cannot pass the right locals to both.</p></div>
-</section>
-<section class="rule" id="every-endpoint-is-turbo-enabled">
-  <h4>Every endpoint is Turbo-enabled</h4>
-  <div class="verdict" role="group" data-rule="every-endpoint-is-turbo-enabled" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
+  <div class='body'>
+    <p>Avoid the cost of <code>User.all</code> if all you display is <code>User.select(:name, :email)</code>.</p>
   </div>
-  <div class="body"><p>Assume a Turbo visit.</p><p>A redirect out of the app needs <code>allow_other_host: true</code>, a redirect after a non-GET needs <code>status: :see_other</code>, and a link that must break out of a frame needs <code>data: { turbo_frame: '_top' }</code>.</p></div>
-</section>
-<section class="rule" id="match-bootstrap-with-fielderrorproc">
-  <h4>Match Bootstrap with <code>field_error_proc</code></h4>
-  <div class="verdict" role="group" data-rule="match-bootstrap-with-fielderrorproc" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Wherever Bootstrap is the CSS framework, set <code>config.action_view.field_error_proc</code>.</p><p>Rails’ default wraps a rejected field in <code>&lt;div class='field_with_errors'&gt;</code>, which Bootstrap styles not at all: no red border, and the message nowhere on the page.</p><p>The proc adds <code>is-invalid</code> to the control and follows it with a <code>&lt;small class='invalid-feedback'&gt;</code>, which is the pair Bootstrap needs — its <code>.is-invalid ~ .invalid-feedback</code> reveals one only next to the other.</p><p>Guard on the control’s class, not on the tag’s type.</p><p>A label carries <code>form-label</code> and falls straight through, and so does anything without a <code>form-control</code>.</p><p>Guarding on the tag class instead leaves <code>html_tag.index 'form-control'</code> nil for every other kind of tag, and <code>insert nil</code> raises.</p><p>The proc is <code>instance_exec</code>’d on the view, so <code>tag</code> and <code>safe_join</code> are in scope — no need to write markup as a string.</p><p>Which is just as well: <code>insert</code> on a SafeBuffer escapes what it is given, so an attribute spliced in by hand arrives as <code>&amp;#39;</code>.</p></div>
-</section>
-<h3 class="group" id="system-tests">System tests<span class="fill"></span></h3><section class="rule" id="one-system-test-many-assertions">
+</section> -->
+<!-- <section class='rule' id='one-system-test-many-assertions'>
   <h4>One system test, many assertions</h4>
-  <div class="verdict" role="group" data-rule="one-system-test-many-assertions" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='one-system-test-many-assertions' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>A system test pays for a browser before it asserts anything.</p><p>Two files walking the same page to check two features pay it twice; one test that walks it once and asserts both pays it once, and reads as the sitting a user actually has.</p><p>Group by the page somebody is on rather than by the feature somebody is building: open it, do the thing, assert what changed, do the next thing.</p><p>What the sharing exposes is worth the merge on its own.</p><p>A fixture that only worked against an empty database, or a wait that only passed because nothing had happened yet, fails the moment a step runs before it — and it was lying in the split test all along.</p></div>
-</section>
-<section class="rule" id="run-system-tests-headless-where-ci-says-so">
-  <h4>Run system tests headless where CI says so</h4>
-  <div class="verdict" role="group" data-rule="run-system-tests-headless-where-ci-says-so" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A system test runs headless where <code>CI</code> is set in the environment, and opens a browser where it is not: <code>headless: !!ENV['CI']</code>.</p><p>That one variable decides it — never a second one of its own, and never a default the code carries whatever the machine says.</p><p>A machine that should never see a window says so once, by exporting <code>CI=1</code>.</p><p>A window opening mid-run steals focus, and a suite nobody can leave running is a suite nobody runs.</p><p>The prefix binds to one command: <code>CI=1 bin/rails db:reset &amp;&amp; bin/rake</code> sets it for the reset alone and leaves the tests headed.</p><p>Export it, or put it in front of the command that actually runs them.</p></div>
-</section>
-<section class="rule" id="no-indefinite-article-in-an-interpolated-string">
+  <div class='body'><p>A system test pays for a browser before it asserts anything.</p><p>Two files walking the same page to check two features pay it twice; one test that walks it once and asserts both pays it once, and reads as the sitting a user actually has.</p><p>Group by the page somebody is on rather than by the feature somebody is building: open it, do the thing, assert what changed, do the next thing.</p><p>What the sharing exposes is worth the merge on its own.</p><p>A fixture that only worked against an empty database, or a wait that only passed because nothing had happened yet, fails the moment a step runs before it — and it was lying in the split test all along.</p></div>
+</section> -->
+<!-- <section class='rule' id='no-indefinite-article-in-an-interpolated-string'>
   <h4>No indefinite article in an interpolated string</h4>
-  <div class="verdict" role="group" data-rule="no-indefinite-article-in-an-interpolated-string" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
+  <div class='verdict' role='group' data-rule='no-indefinite-article-in-an-interpolated-string' aria-label='Do you keep this rule?'>
+    <button type='button' value='agree' aria-pressed='false'>
+      <span class='label'><span class='key'>A</span>pprove</span><span class='stamped'>Approved</span>
     </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>Never write <code>a %{model}</code> or <code>an %{model}</code>.</p><p>Sound decides, not spelling — an hour, an honest agent, a user, a European market, a one-off — and acronyms split it again: a ZIP, an SMS, an API.</p><p>Nothing computes it.</p><p><code>ActiveSupport::Inflector</code> has no article method; the gems that add one guess from spelling and guess wrong in public.</p><p>It would not survive translation: an article is per-language and usually per-gender.</p><p>Write the copy so the question never comes up.</p><p><code>Select…</code>, not <code>Select a State…</code>, since the label already names the field; <code>without its job</code>, not <code>without a job</code>.</p></div>
-</section>
-<h3 class="group" id="config">Config<span class="fill"></span></h3><section class="rule" id="keep-render-lines-out-of-the-logs">
-  <h4>Keep render lines out of the logs</h4>
-  <div class="verdict" role="group" data-rule="keep-render-lines-out-of-the-logs" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    <button type='button' value='disagree' aria-pressed='false'>
+      <span class='label'><span class='key'>R</span>eject</span><span class='stamped'>Rejected</span>
     </button>
   </div>
-  <div class="body"><p><code>config.action_view.logger = nil</code>.</p><p>One <code>Rendered ...</code> line per partial buries the request that matters.</p><p>Everything else stays: the request, the SQL, and the timing line.</p><p>A rule for apps we write.</p><p>A gem never touches a host’s logging.</p></div>
-</section>
+  <div class='body'><p>Never write <code>a %{model}</code> or <code>an %{model}</code>.</p><p>Sound decides, not spelling — an hour, an honest agent, a user, a European market, a one-off — and acronyms split it again: a ZIP, an SMS, an API.</p><p>Nothing computes it.</p><p><code>ActiveSupport::Inflector</code> has no article method; the gems that add one guess from spelling and guess wrong in public.</p><p>It would not survive translation: an article is per-language and usually per-gender.</p><p>Write the copy so the question never comes up.</p><p><code>Select…</code>, not <code>Select a State…</code>, since the label already names the field; <code>without its job</code>, not <code>without a job</code>.</p></div>
+</section> -->
 
+<section class='rule' style='display: block'>
+  <div>
+  <p class='sample-file'>config/routes.rb</p>
+  <pre><code><span class='co'>Rails</span>.<span class='m'>application</span>.<span class='m'>routes</span>.<span class='m'>draw</span> <span class='k'>do</span>
+  <span class='c'># A train is canceled by filing its cancellation, never by a verb of its own.</span>
+  <span class='id'>resources</span> <span class='sy'>:trains</span> <span class='k'>do</span>
+    <span class='id'>resource</span> <span class='sy'>:cancellation</span>, <span class='sy'>controller</span>: <span class='s'>'trains/cancellations'</span>, <span class='sy'>only</span>: <span class='sy'>%i[ create destroy ]</span>
+  <span class='k'>end</span>
+<span class='k'>end</span></code></pre>
+  <p class='sample-file'>app/models/train.rb</p>
+  <pre><code><span class='c'># A train the departure board is about to announce.</span>
+<span class='k'>class</span> <span class='co'>Train</span> &lt; <span class='co'>ApplicationRecord</span>
+  <span class='c'># What a train can be doing, in the order it does it.</span>
+  <span class='co'>STATUSES</span> = <span class='sy'>%i[ scheduled running arrived ]</span>.<span class='m'>freeze</span>
+
+  <span class='id'>belongs_to</span> <span class='sy'>:route</span>
+  <span class='id'>has_many</span> <span class='sy'>:stops</span>, <span class='sy'>dependent</span>: <span class='sy'>:destroy</span>
+  <span class='id'>has_one</span> <span class='sy'>:cancellation</span>, <span class='sy'>dependent</span>: <span class='sy'>:destroy</span>
+
+  <span class='id'>enum</span> <span class='sy'>:status</span>, <span class='co'>STATUSES</span>.<span class='m'>index_by</span>(&amp;<span class='sy'>:itself</span>), <span class='sy'>default</span>: <span class='co'>STATUSES</span>.<span class='m'>first</span>, <span class='sy'>validate</span>: <span class='k'>true</span>
+
+  <span class='id'>validates</span> <span class='sy'>:platform</span>, <span class='sy'>presence</span>: <span class='k'>true</span>, <span class='sy'>length</span>: { <span class='sy'>maximum</span>: <span class='n'>4</span> }
+  <span class='id'>validates</span> <span class='sy'>:delay</span>, <span class='sy'>numericality</span>: { <span class='sy'>greater_than_or_equal_to</span>: <span class='n'>0</span> }
+<span class='k'>end</span></code></pre>
+  <p class='sample-file'>app/controllers/trains/cancellations_controller.rb</p>
+  <pre><code><span class='c'># A guard takes a train off the board by filing its cancellation.</span>
+<span class='k'>class</span> <span class='co'>Trains</span>:<span class='sy'>:CancellationsController</span> &lt; <span class='co'>ApplicationController</span>
+  <span class='id'>before_action</span> <span class='sy'>:set_train</span>
+
+  <span class='c'># Cancels the train and sends the guard back to the board.</span>
+  <span class='k'>def</span> <span class='m'>create</span>
+    <span class='iv'>@train</span>.<span class='m'>create_cancellation!</span> <span class='m'>cancellation_params</span>
+    <span class='id'>redirect_to</span> <span class='id'>trains_path</span>, <span class='sy'>status</span>: <span class='sy'>:see_other</span>
+  <span class='k'>end</span>
+
+<span class='k'>private</span>
+
+  <span class='k'>def</span> <span class='m'>set_train</span>
+    <span class='iv'>@train</span> = <span class='co'>Train</span>.<span class='m'>find</span> <span class='id'>params</span>.<span class='m'>expect</span>(<span class='sy'>:train_id</span>)
+  <span class='k'>end</span>
+
+  <span class='k'>def</span> <span class='m'>cancellation_params</span>
+    <span class='id'>params</span>.<span class='m'>expect</span> <span class='sy'>cancellation</span>: [ <span class='sy'>:reason</span> ]
+  <span class='k'>end</span>
+<span class='k'>end</span></code></pre>
+  <p class='sample-file'>app/views/trains/index.html.erb</p>
+  <pre><code><span class='sy'>&lt;h1&gt;</span>Departures<span class='sy'>&lt;/h1&gt;</span>
+
+<span class='co'>&lt;%=</span> <span class='id'>cache</span> <span class='iv'>@trains</span> <span class='k'>do</span> <span class='co'>%&gt;</span>
+  <span class='sy'>&lt;table class='table'&gt;</span>
+    <span class='sy'>&lt;tbody&gt;</span>
+      <span class='co'>&lt;%=</span> <span class='id'>render</span> <span class='sy'>partial</span>: <span class='s'>'train'</span>, <span class='sy'>collection</span>: <span class='iv'>@trains</span> <span class='co'>%&gt;</span>
+    <span class='sy'>&lt;/tbody&gt;</span>
+  <span class='sy'>&lt;/table&gt;</span>
+<span class='co'>&lt;%</span> <span class='k'>end</span> <span class='co'>%&gt;</span></code></pre>
+  <p class='sample-file'>app/views/trains/_train.html.erb</p>
+  <pre><code><span class='c'>&lt;%# locals: (train:) -%&gt;</span>
+<span class='sy'>&lt;tr&gt;</span>
+  <span class='sy'>&lt;td&gt;</span><span class='co'>&lt;%=</span> <span class='id'>train</span>.<span class='m'>route</span>.<span class='m'>name</span> <span class='co'>%&gt;</span><span class='sy'>&lt;/td&gt;</span>
+  <span class='sy'>&lt;td&gt;</span><span class='co'>&lt;%=</span> <span class='id'>train</span>.<span class='m'>due</span>.<span class='m'>strftime</span> <span class='s'>'%H:%M'</span> <span class='co'>%&gt;</span><span class='sy'>&lt;/td&gt;</span>
+  <span class='sy'>&lt;td&gt;</span><span class='co'>&lt;%=</span> <span class='id'>train</span>.<span class='m'>stops</span>.<span class='m'>size</span> <span class='co'>%&gt;</span><span class='sy'>&lt;/td&gt;</span>
+  <span class='sy'>&lt;td&gt;</span><span class='co'>&lt;%=</span> <span class='id'>train</span>.<span class='m'>status</span> <span class='co'>%&gt;</span><span class='sy'>&lt;/td&gt;</span>
+<span class='sy'>&lt;/tr&gt;</span></code></pre>
+  <p class='sample-file'>db/migrate/20260823090000_create_trains.rb</p>
+  <pre><code><span class='k'>class</span> <span class='co'>CreateTrains</span> &lt; <span class='co'>ActiveRecord</span>:<span class='sy'>:Migration</span>[<span class='n'>8</span>.<span class='n'>2</span>]
+  <span class='k'>def</span> <span class='m'>change</span>
+    <span class='id'>create_enum</span> <span class='sy'>:train_status</span>, <span class='co'>Train</span>:<span class='sy'>:STATUSES</span>
+
+    <span class='id'>create_table</span> <span class='sy'>:trains</span> <span class='k'>do</span> |<span class='id'>t</span>|
+      <span class='id'>t</span>.<span class='m'>enum</span> <span class='sy'>:status</span>, <span class='sy'>enum_type</span>: <span class='sy'>:train_status</span>, <span class='sy'>default</span>: <span class='co'>Train</span>:<span class='sy'>:STATUSES</span>.<span class='m'>first</span>, <span class='sy'>null</span>: <span class='k'>false</span>
+      <span class='id'>t</span>.<span class='m'>string</span> <span class='sy'>:platform</span>, <span class='sy'>limit</span>: <span class='n'>4</span>, <span class='sy'>null</span>: <span class='k'>false</span>
+      <span class='id'>t</span>.<span class='m'>integer</span> <span class='sy'>:delay</span>, <span class='sy'>default</span>: <span class='n'>0</span>, <span class='sy'>null</span>: <span class='k'>false</span>
+      <span class='id'>t</span>.<span class='m'>references</span> <span class='sy'>:route</span>, <span class='sy'>null</span>: <span class='k'>false</span>, <span class='sy'>foreign_key</span>: <span class='k'>true</span>
+      <span class='id'>t</span>.<span class='m'>text</span> <span class='sy'>:notices</span>, <span class='sy'>array</span>: <span class='k'>true</span>, <span class='sy'>default</span>: [], <span class='sy'>null</span>: <span class='k'>false</span>
+      <span class='id'>t</span>.<span class='m'>datetime</span> <span class='sy'>:due</span>, <span class='sy'>null</span>: <span class='k'>false</span>
+      <span class='id'>t</span>.<span class='m'>timestamps</span>
+
+      <span class='id'>t</span>.<span class='m'>check_constraint</span> <span class='s'>'delay &gt;= 0'</span>, <span class='sy'>name</span>: <span class='s'>'trains_delay_not_negative'</span>
+    <span class='k'>end</span>
+  <span class='k'>end</span>
+<span class='k'>end</span></code></pre>
+  </div>
+</section>
 </section>
 </main>
 
     </div>
   </div>
 </article>
+<div class='broadside' id='broadside' hidden>
+  <svg class='hand' id='hand' viewBox='0 0 240 300' width='290' aria-hidden='true' focusable='false'>
+    <g stroke='#26241B' stroke-width='6' stroke-linejoin='round' stroke-linecap='round' fill='#EEEBDD'>
+      <path d='M62 -20h116v58H62z' fill='#DFC489'/>
+      <rect x='52' y='34' width='136' height='28' rx='7'/>
+      <path d='M40 92a20 20 0 0 0-20 20v18a18 18 0 0 0 18 18h14'/>
+      <path d='M64 60h112a26 26 0 0 1 26 26v46a30 30 0 0 1-30 30H68a30 30 0 0 1-30-30V86a26 26 0 0 1 26-26z'/>
+      <path d='M72 96h96M72 118h96M72 140h96' fill='none' stroke-width='4.5' opacity='.45'/>
+      <rect x='98' y='160' width='44' height='28' rx='7' fill='#A5894B'/>
+      <path d='M56 186h128a11 11 0 0 1 11 11v36a11 11 0 0 1-11 11H56a11 11 0 0 1-11-11v-36a11 11 0 0 1 11-11z' fill='#8E2118'/>
+    </g>
+  </svg>
+
+  <article class='gazette' id='gazette' role='dialog' aria-modal='true' aria-labelledby='gzHead'>
+    <p class='gz-kicker'>Vol. I &middot; No. 1</p>
+    <h2 class='gz-masthead'>The Guideline Gazette</h2>
+    <div class='gz-strap'>
+      <span>Est. 2026</span><span>Price: one opinion</span>
+    </div>
+
+    <p class='gz-eyebrow'>Extra! Extra!</p>
+    <h3 class='gz-head' id='gzHead'><span id='gzPct'>0%</span> agreed</h3>
+    <p class='gz-dek' id='gzDek'></p>
+    <div class='gz-mark'>
+      <div class='gz-stamp' id='gzStamp' aria-hidden='true'>
+        <span class='big'>Read &amp; Marked</span>
+        <span class='small'>every rule answered</span>
+      </div>
+    </div>
+
+    <div class='gz-cols'>
+      <nav class='gz-share' id='gzShare' aria-label='Carry the news'>
+        <a class='gz-ico' data-net='x' href='#' target='_blank' rel='noopener'>
+          <span aria-hidden='true'>&#120143;</span><span class='gz-ico-name'>X</span></a>
+        <a class='gz-ico' data-net='linkedin' href='#' target='_blank' rel='noopener'>
+          <span aria-hidden='true'>in</span><span class='gz-ico-name'>LinkedIn</span></a>
+        <a class='gz-ico' data-net='facebook' href='#' target='_blank' rel='noopener'>
+          <span aria-hidden='true'>f</span><span class='gz-ico-name'>Facebook</span></a>
+        <a class='gz-ico' data-net='reddit' href='#' target='_blank' rel='noopener'>
+          <span aria-hidden='true'>r/</span><span class='gz-ico-name'>Reddit</span></a>
+        <a class='gz-ico' data-net='hn' href='#' target='_blank' rel='noopener'>
+          <span aria-hidden='true'>Y</span><span class='gz-ico-name'>Hacker News</span></a>
+        <a class='gz-ico' data-net='email' href='#'>
+          <svg viewBox='0 0 24 18' aria-hidden='true' width='17' height='13'>
+            <rect x='1' y='1' width='22' height='16' rx='1.5' fill='none' stroke='currentColor' stroke-width='2'/>
+            <path d='M1.6 2 12 10 22.4 2' fill='none' stroke='currentColor' stroke-width='2'/>
+          </svg><span class='gz-ico-name'>Email</span></a>
+      </nav>
+      <div class='gz-col'>
+        <form id='gzForm'>
+          <label class='gz-label' for='gzText'>Now it&rsquo;s your time</label>
+          <textarea id='gzText' name='greeting' rows='5' required
+                    placeholder='Tell me one rule you have&hellip;'></textarea>
+          <input type='text' name='_gotcha' tabindex='-1' autocomplete='off' aria-hidden='true' class='gz-trap'>
+          <div class='gz-sendrow'>
+            <button type='submit' class='gz-send' id='gzSend'>Seal and send</button>
+            <p class='gz-note' id='gzNote' role='status'></p>
+          </div>
+        </form>
+      </div>
+    </div>
+    <p class='gz-footnote'>The gem that tries to hold to all this:
+      <a href='https://github.com/claudiob/recourse' target='_blank' rel='noopener'><b>recourse</b></a></p>
+  </article>
+</div>
+
+<div class='wax' id='wax' aria-hidden='true'>
+  <svg viewBox='0 0 200 200'>
+    <circle cx='100' cy='100' r='80' fill='none' stroke='#7A1A12' stroke-width='2.5' opacity='.4'/>
+    <circle cx='100' cy='100' r='70' fill='none' stroke='#7A1A12' stroke-width='1.5' opacity='.3'/>
+  </svg>
+</div>
+
+<div class='night' id='night' hidden>
+  <div class='night-word'>
+    <p class='night-sent'>Sealed and sent.</p>
+    <p class='night-sub' id='nightSub'></p>
+  </div>
+</div>
+
 <script>
   const bar = document.getElementById('stickybar');
   const where = document.getElementById('crumbWhere');
@@ -1422,13 +1764,25 @@ pre .id { color: var(--ink); }
     bar.classList.add('deep');
     if (focus) tabs[want].focus();
   };
-  tabs.forEach((tab, i) => tab.addEventListener('click', () => openFolder(i)));
+  // The open folder belongs in the address bar, so a reload comes back to
+  // it. replaceState, not location.hash: assigning fires hashchange, which
+  // opens the folder a second time and scrolls. And not pushState, so Back
+  // leaves the page rather than walking the tabs.
+  const nameTheFolder = (i) =>
+    history.replaceState(null, '', `#${tabs[i].dataset.part.toLowerCase()}`);
+
+  tabs.forEach((tab, i) => tab.addEventListener('click', () => {
+    openFolder(i);
+    nameTheFolder(i);
+  }));
   document.querySelector('.folders').addEventListener('keydown', (event) => {
     const here = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
     const step = { ArrowRight: 1, ArrowLeft: -1, Home: -here, End: tabs.length - 1 - here }[event.key];
     if (step === undefined) return;
     event.preventDefault();
-    openFolder((here + step + tabs.length) % tabs.length, true);
+    const want = (here + step + tabs.length) % tabs.length;
+    openFolder(want, true);
+    nameTheFolder(want);
   });
 
   // A link opens the folder it points into: #ruby and #rails name a
@@ -1480,12 +1834,13 @@ pre .id { color: var(--ink); }
       button.disabled = Boolean(mark);
     }
   };
-  // A button naming a counter in data-tally adds one to it, the once.
-  // Fire and forget: a counter that cannot be reached costs the reader nothing.
-  const notch = (button) => {
-    const url = button.dataset.tally;
-    if (!url) return;
-    fetch(url, { cache: 'no-store', keepalive: true }).catch(() => {});
+  // One counter a rule, named after the rule: Approve adds to it, Reject takes
+  // away, so a rule's standing is the one figure. Fire and forget — a counter
+  // that cannot be reached costs the reader nothing.
+  const TALLY = 'https://api.counterapi.dev/v2/style';
+  const notch = (rule, button) => {
+    const step = button.value === 'agree' ? 'up' : 'down';
+    fetch(`${TALLY}/${rule}/${step}`, { cache: 'no-store', keepalive: true }).catch(() => {});
   };
 
   for (const group of groups) {
@@ -1496,9 +1851,274 @@ pre .id { color: var(--ink); }
       const rule = group.dataset.rule;
       if (marks[rule]) return;
       marks[rule] = button.value;
-      paint(group); save(); notch(button);
+      paint(group); save(); notch(rule, button);
+      if (paintRail(rule)) after(600, openBroadside);
     });
   }
+
+  // ── the rail: one box per rule, riding in the standing head ────
+  // Hollow until the rule takes a mark, then filled in the colour of
+  // the answer. Fill them all and the press runs.
+  const rail = document.getElementById('rail');
+  const boxes = {};
+  for (const panel of document.querySelectorAll('.panel')) {
+    const part = document.createElement('span');
+    part.className = 'rail-part';
+    for (const group of panel.querySelectorAll('.verdict')) {
+      const box = document.createElement('span');
+      box.className = 'rail-box';
+      box.dataset.rule = group.dataset.rule;
+      boxes[group.dataset.rule] = box;
+      part.append(box);
+    }
+    rail.append(part);
+  }
+  // Every heading offers its own link, the way a rendered README does.
+  for (const rule of document.querySelectorAll('.rule')) {
+    const head = rule.querySelector('h4');
+    if (!head || !rule.id) continue;
+    const name = document.createElement('span');
+    name.className = 'rule-name';
+    name.append(...head.childNodes);
+    const link = document.createElement('a');
+    link.className = 'pilcrow';
+    link.href = `#${rule.id}`;
+    link.textContent = '\u00b6';
+    link.setAttribute('aria-label', 'Link to this rule');
+    name.append(link);
+    head.append(name);
+
+    // A phone has no hover to reveal the pilcrow, so the heading takes the tap.
+    head.addEventListener('click', (event) => {
+      if (event.target.closest('a')) return;
+      if (!matchMedia('(max-width: 720px)').matches) return;
+      location.hash = rule.id;
+    });
+  }
+
+  const total = Object.keys(boxes).length;
+  const tallyOf = (kind) => Object.values(marks).filter(mark => mark === kind).length;
+  const paintRail = (fresh) => {
+    for (const [rule, box] of Object.entries(boxes)) {
+      box.classList.toggle('agree', marks[rule] === 'agree');
+      box.classList.toggle('disagree', marks[rule] === 'disagree');
+    }
+    if (fresh && boxes[fresh]) {
+      boxes[fresh].classList.add('just');
+      setTimeout(() => boxes[fresh].classList.remove('just'), 420);
+    }
+    const done = Object.keys(boxes).every(rule => marks[rule]);
+    rail.classList.toggle('full', done);
+    return done;
+  };
+
+  // ── the press: what a full rail earns ──────────────────────────
+  const GREETING = 'https://formspree.io/f/xjybzrer';
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const broadside = document.getElementById('broadside');
+  const gazette = document.getElementById('gazette');
+  const hand = document.getElementById('hand');
+  const wax = document.getElementById('wax');
+  const night = document.getElementById('night');
+  const timers = [];
+  const after = (ms, run) => timers.push(setTimeout(run, ms));
+
+  // Rye and Ultra are the broadside's own faces. Nothing pays for them
+  // until a reader has answered every rule.
+  let facesAsked = false;
+  const faces = () => {
+    if (facesAsked) return;
+    facesAsked = true;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Rye&family=Ultra&display=swap';
+    document.head.append(link);
+  };
+
+  const openBroadside = () => {
+    faces();
+    const yes = tallyOf('agree');
+    const no = tallyOf('disagree');
+    const match = Math.round(yes / total * 100);
+    document.getElementById('gzPct').textContent = match + '%';
+    document.getElementById('gzDek').innerHTML =
+      `You kept <span class='swipe swipe-b'>${yes}</span> of the ` +
+      `<span class='swipe swipe-e'>${total}</span> rules filed here ` +
+      `and threw out <span class='swipe swipe-c'>${no}</span>.`;
+    document.getElementById('nightSub').textContent = `${match}% agreed · ${yes} of ${total}`;
+
+    // the marks that carry it out, each with the tally already in hand
+    const page = location.href.split('#')[0];
+    const say = `I agree with ${match}% of these guidelines.`;
+    const where = {
+      x: `https://twitter.com/intent/tweet?text=${encodeURIComponent(say)}&url=${encodeURIComponent(page)}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(page)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(page)}`,
+      reddit: `https://www.reddit.com/submit?url=${encodeURIComponent(page)}&title=${encodeURIComponent(say)}`,
+      hn: `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(page)}&t=${encodeURIComponent(say)}`,
+      email: `mailto:?subject=${encodeURIComponent('Coding guidelines')}&body=${encodeURIComponent(say + ' ' + page)}`
+    };
+    for (const mark of document.querySelectorAll('.gz-ico')) {
+      mark.href = where[mark.dataset.net];
+      mark.title = say;
+    }
+
+    broadside.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    void broadside.offsetHeight;   // the reflow the transition starts from
+    broadside.classList.add('on', 'paper');
+    if (still) { broadside.classList.add('struck'); return; }
+    after(420, () => hand.classList.add('falling'));
+    after(1520, () => {
+      broadside.classList.add('struck');
+      gazette.classList.add('jolted');
+      after(520, () => gazette.classList.remove('jolted'));
+    });
+  };
+
+  // A box is a way back to the rule it stands for — the hash rather than a
+  // scroll, so followHash opens the folder holding it first. Once every rule
+  // has been answered the broadside is what a reader wants back instead.
+  rail.addEventListener('click', (event) => {
+    const box = event.target.closest('.rail-box');
+    if (!box) return;
+    if (rail.classList.contains('full')) openBroadside();
+    else location.hash = box.dataset.rule;
+  });
+
+  // ── the wax, and the night after it ────────────────────────────
+  const starfield = () => {
+    const sky = document.createDocumentFragment();
+    for (let i = 0; i < 140; i++) {
+      const star = document.createElement('span');
+      const size = Math.random() * 2.2 + 0.7;
+      star.className = 'star';
+      star.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;` +
+        `width:${size}px;height:${size}px;--t:${(Math.random() * 2.6 + 1.1).toFixed(2)}s;` +
+        `animation-delay:-${(Math.random() * 3).toFixed(2)}s`;
+      sky.append(star);
+    }
+    night.prepend(sky);
+  };
+
+  document.getElementById('gzForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const text = document.getElementById('gzText').value.trim();
+    if (!text) return;
+    const send = document.getElementById('gzSend');
+    const note = document.getElementById('gzNote');
+    send.disabled = true;
+    note.textContent = 'Setting the seal…';
+
+    // The ceremony runs on its own clock; the wire either carries the
+    // greeting or it does not, and either way the night falls.
+    if (!still) wax.classList.add('on');
+    after(still ? 0 : 900, () => {
+      night.hidden = false;
+      starfield();
+      void night.offsetHeight;
+      night.classList.add('on');
+      after(1400, () => { wax.classList.remove('on'); broadside.classList.remove('on'); });
+    });
+
+    try { localStorage.setItem('coding-guidelines/greeting/v1', text); } catch (error) { /* kept or not */ }
+    fetch(GREETING, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        greeting: text,
+        match: `${Math.round(tallyOf('agree') / total * 100)}%`,
+        approved: tallyOf('agree'),
+        rejected: tallyOf('disagree')
+      })
+    }).then((response) => {
+      note.textContent = response.ok ? 'Carried.' : 'The wire refused it — kept in this browser.';
+    }).catch(() => {
+      note.textContent = 'The wire is down — kept in this browser.';
+    });
+  });
+
+  // ── answering from the keyboard ────────────────────────────────
+  // A approves, R rejects, on whichever rule the page is aimed at.
+  // Hold Alt and each button shows its letter. event.code, not
+  // event.key: with Alt down a Mac reports 'å', not 'a'.
+  // Only a section that can be answered: the sample listings are .rule for
+  // their spacing alone, and one with no verdict would read as unanswered
+  // forever and swallow the jump to the next folder.
+  const rules = [...document.querySelectorAll('.rule')].filter(rule => rule.querySelector('.verdict'));
+  const openPanels = () => panels;
+  const aimAt = (rule) => rules.forEach(one => one.classList.toggle('aim', one === rule));
+  const nextUnvoted = () => {
+    const left = rules.filter(rule => !marks[rule.id]);
+    if (!left.length) return null;
+    const shown = left.filter(rule => !rule.closest('.panel').hidden);
+    return shown.find(rule => rule.getBoundingClientRect().bottom > 110) || shown[0] || left[0];
+  };
+  const goTo = (rule) => {
+    const panel = rule.closest('.panel');
+    const holder = openPanels().indexOf(panel);
+    if (holder >= 0 && panel.hidden) openFolder(holder);
+    aimAt(rule);
+    rule.scrollIntoView({ block: 'start', behavior: still ? 'auto' : 'smooth' });
+  };
+  const answer = (value) => {
+    const rule = nextUnvoted();
+    if (!rule) return;
+    if (rule.closest('.panel').hidden) { goTo(rule); return; }
+    const button = rule.querySelector(`.verdict button[value='${value}']`);
+    if (!button || button.disabled) return;
+    button.click();                       // the one path every vote takes
+    const next = nextUnvoted();
+    if (next) goTo(next); else aimAt(null);
+  };
+
+  let keyboarding = false;
+  const typing = (target) =>
+    /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) || target.isContentEditable;
+
+  addEventListener('keydown', (event) => {
+    if (event.key === 'Alt') {
+      document.body.classList.add('altkeys');
+      if (!keyboarding) { keyboarding = true; const aim = nextUnvoted(); if (aim) aimAt(aim); }
+      return;
+    }
+    if (!broadside.hidden || typing(event.target) || event.metaKey || event.ctrlKey) return;
+    const value = { KeyA: 'agree', KeyR: 'disagree' }[event.code];
+    if (!value) return;
+    event.preventDefault();
+    keyboarding = true;
+    answer(value);
+  });
+  const dropAlt = () => document.body.classList.remove('altkeys');
+  addEventListener('keyup', (event) => { if (event.key === 'Alt') dropAlt(); });
+  addEventListener('blur', dropAlt);
+
+  // ── where the reader is ────────────────────────────────────────
+  // The rule crossing the top of the page lights its own box, so the
+  // rail reads as a position as well as a score.
+  let here = null;
+  const markHere = () => {
+    const shown = rules.filter(rule => !rule.closest('.panel').hidden);
+    let found = shown[0] || null;
+    for (const rule of shown) {
+      if (rule.getBoundingClientRect().top > 150) break;
+      found = rule;
+    }
+    if (found === here) return;
+    if (here && boxes[here.id]) boxes[here.id].classList.remove('here');
+    here = found;
+    if (here && boxes[here.id]) boxes[here.id].classList.add('here');
+  };
+  let waiting = false;
+  addEventListener('scroll', () => {
+    if (waiting) return;
+    waiting = true;
+    requestAnimationFrame(() => { waiting = false; markHere(); });
+  }, { passive: true });
+  document.querySelector('.folders').addEventListener('click', () => setTimeout(markHere, 0));
+  markHere();
+
+  paintRail();
 
   // Stamps land as they come up the page.
   const stamper = new IntersectionObserver((entries) => {

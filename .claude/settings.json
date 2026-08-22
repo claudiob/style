@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "WebFetch(domain:api.counterapi.dev)",
+      "WebFetch(domain:app.counterapi.dev)",
+      "WebFetch(domain:counterapi.dev)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.command // \"\"' | grep -qiE 'counterapi\\.dev' && printf '%s' '{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"deny\", \"permissionDecisionReason\": \"Blocked by project rule: Claude must never hit counterapi.dev from this repo. Those counters are live, user-facing tallies and every request skews them. In browser tests, stub window.fetch before clicking any vote.\"}}' || true",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
