@@ -93,7 +93,6 @@ a:focus-visible, .rule:target { outline: 2px solid var(--red); outline-offset: 5
   padding: 46px clamp(24px, 3.4vw, 52px) 66px;
   box-shadow: 0 1px 0 var(--rule), 0 18px 42px rgba(38, 36, 27, .16);
 }
-.staples { position: absolute; top: -9px; left: 30px; }
 
 .dispatch { position: relative; }
 h1 {
@@ -110,7 +109,7 @@ h1 {
 .stamp {
   font-family: var(--mono); color: var(--red);
   border: 2px solid var(--red); outline: 1px solid var(--red); outline-offset: 3px;
-  padding: 9px 16px; text-align: center; text-transform: uppercase;
+  padding: 9px 16px; text-align: center;
   mix-blend-mode: multiply; opacity: .82; background: transparent;
   line-height: 1.34; letter-spacing: .12em;
 }
@@ -304,7 +303,8 @@ pre .id { color: var(--ink); }
   background: transparent; color: var(--ink-faint);
   border: 1px solid var(--rule); border-radius: 0; margin-bottom: 10px;
 }
-.verdict button:hover { color: var(--ink); border-color: var(--ink-faint); }
+.verdict button:hover:not(:disabled) { color: var(--ink); border-color: var(--ink-faint); }
+.verdict button:disabled { cursor: default; }
 .verdict button:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 .verdict button[value='agree'][aria-pressed='true'] { color: var(--blue); border-color: var(--blue); }
 .verdict button[value='disagree'][aria-pressed='true'] { color: var(--red-deep); border-color: var(--red); }
@@ -332,6 +332,8 @@ pre .id { color: var(--ink); }
 .folders {
   display: flex; align-items: flex-end; flex-wrap: wrap;
   margin: 46px 0 0; padding: 0;
+  /* room for the standing head when #ruby scrolls the tabs up */
+  scroll-margin-top: 90px;
 }
 .folder-tab {
   font-family: var(--elite); font-size: 21px; line-height: 1;
@@ -392,6 +394,8 @@ pre .id { color: var(--ink); }
 @media (max-width: 720px) {
   .folder-tab { font-size: 18px; padding: 10px 16px 9px 14px; gap: 9px; }
   .folder-tab .folder-count { font-size: 11.5px; }
+  /* a narrow tab keeps the number and drops the word */
+  .folder-tab .rules-word { display: none; }
 }
 
 /* ── the mark a reader leaves ────────────────────────── */
@@ -421,14 +425,26 @@ pre .id { color: var(--ink); }
 
 /* the repository, stamped on like a filing mark */
 .stamp-repo {
-  position: absolute; top: 2px; right: 0; transform: rotate(-7deg);
-  width: 210px; text-decoration: none;
+  display: inline-block; transform: rotate(-1.4deg); transform-origin: left center;
+  margin: 0 0 10px; text-decoration: none;
+  transition: background-color .18s ease, color .18s ease, opacity .18s ease;
+  /* one line at any width: the type shrinks with the sheet rather than
+     folding. Everything below is an em of this, padding included, so the
+     whole stamp scales instead of just its letters. */
+  font-size: clamp(7px, 2.4vw, 11.5px); white-space: nowrap;
+  padding: .55em 1.15em;
 }
-.stamp-repo:hover { opacity: 1; border-color: var(--red-deep); }
-.stamp-repo .big { font-size: 15px; letter-spacing: .06em; }
-@media (max-width: 900px) {
-  .stamp-repo { position: static; transform: rotate(-3deg); margin: 0 0 24px; }
+/* the three parts read across, not stacked */
+.stamp-repo .small, .stamp-repo .big { display: inline; }
+/* hover inks the stamp solid: the paper's colour for the letters,
+   the red for the ground. The blend goes off, or multiply would
+   darken the fill into the sheet instead of sitting on it. */
+.stamp-repo:hover, .stamp-repo:focus-visible {
+  background: var(--red); color: var(--sheet);
+  border-color: var(--red); opacity: 1; mix-blend-mode: normal;
 }
+.stamp-repo .small { font-size: 1em; }
+.stamp-repo .big { font-size: 1.32em; letter-spacing: .06em; }
 
 </style>
 </head>
@@ -442,16 +458,9 @@ pre .id { color: var(--ink); }
 </div>
 
 <article class="copy" lang="en">
-  <svg class="staples" width="92" height="30" viewBox="0 0 92 30" aria-hidden="true" focusable="false">
-  <g fill="none" stroke="#8B8674" stroke-width="3.6" stroke-linecap="round">
-    <path d="M10 8 h22 M10 8 v15 M32 8 v15" transform="rotate(-8 21 15)"/>
-    <path d="M60 9 h22 M60 9 v15 M82 9 v15" transform="rotate(7 71 16)"/>
-  </g>
-</svg>
-
   <header class="dispatch">
     <a class="stamp stamp-repo" href="https://github.com/claudiob/style">
-      <span class="small">Filed at</span>
+      <span class="small">Fork at</span>
       <span class="big">claudiob/style</span>
       <span class="small">on GitHub</span>
     </a>
@@ -463,19 +472,19 @@ pre .id { color: var(--ink); }
         aria-controls="panel-principles" aria-selected="true" tabindex="0"
         data-part="Principles">
   <span class="folder-name">Principles</span>
-  <span class="folder-count">7 rules</span>
+  <span class="folder-count">7<span class="rules-word"> rules</span></span>
 </button>
 <button type="button" class="folder-tab" role="tab" id="tab-ruby"
         aria-controls="panel-ruby" aria-selected="false" tabindex="-1"
         data-part="Ruby">
   <span class="folder-name">Ruby</span>
-  <span class="folder-count">36 rules</span>
+  <span class="folder-count">36<span class="rules-word"> rules</span></span>
 </button>
 <button type="button" class="folder-tab" role="tab" id="tab-rails"
         aria-controls="panel-rails" aria-selected="false" tabindex="-1"
         data-part="Rails">
   <span class="folder-name">Rails</span>
-  <span class="folder-count">27 rules</span>
+  <span class="folder-count">27<span class="rules-word"> rules</span></span>
 </button>
 </div>
 
@@ -487,7 +496,8 @@ pre .id { color: var(--ink); }
   <section class="rule" id="encrypt-personal-data">
   <h4><span class="swipe swipe-a">Encrypt</span> personal data</h4>
   <div class="verdict" role="group" data-rule="encrypt-personal-data" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
+    <button type="button" value="agree" aria-pressed="false"
+            data-tally="https://api.counterapi.dev/v2/claudio-baccigalupos-team-5208/first-counter-5208/up">
       <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
@@ -523,7 +533,8 @@ pre .id { color: var(--ink); }
 <section class="rule" id="unchained-melody">
   <h4><span class="swipe swipe-d">Unchained</span> melody</h4>
   <div class="verdict" role="group" data-rule="unchained-melody" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
+    <button type="button" value="agree" aria-pressed="false"
+            data-tally="https://api.counterapi.dev/v2/claudio-baccigalupos-team-5208/unchained-melody/up">
       <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
@@ -584,17 +595,8 @@ pre .id { color: var(--ink); }
 </section>
 <section class="panel" role="tabpanel" id="panel-ruby" aria-labelledby="tab-ruby"
          data-part="Ruby" hidden>
-  <div class="panel-head">
-    <p class="panel-sub">Part Two</p>
-    <div class="stamp stamp-tier reveal" style="--tilt: 6deg">
-  <span class="small">Style book</span>
-  <span class="big">Part Two</span>
-  <span class="small">Passed for press</span>
-</div>
-
-  </div>
   <section class="rule" id="prefer-many-files-to-long-files">
-  <h4>Prefer many files to long files</h4>
+  <h4>Prefer many to long files</h4>
   <div class="verdict" role="group" data-rule="prefer-many-files-to-long-files" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
       <span class="label">Approve</span><span class="stamped">Approved</span>
@@ -603,7 +605,7 @@ pre .id { color: var(--ink); }
       <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>No code file over 100 lines, blank and comment lines counted.</p><p>Exempt: prose (<code>.md</code>, <code>.txt</code>), markup (<code>.html</code>, <code>.erb</code>), data, migrations, vendored code.</p><p>Enforce with <code>git ls-files</code> so a green run before <code>git add</code> proves nothing.</p></div>
+  <div class="body"><p>100 lines or less, with 100 characters or less. Prose, markup, data excluded.</p></div>
 </section>
 <section class="rule" id="no-metaprogramming">
   <h4>No metaprogramming</h4>
@@ -615,7 +617,7 @@ pre .id { color: var(--ink); }
       <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Don’t call a method by name at runtime, nor define, fetch or set one that way.</p><p>The one exception is an explicit instruction.</p><p>Existing uses are not permission to add another.</p></div>
+  <div class="body"><p>Don’t interpolate method names at runtime. Don’t send. Don’t break the rules.</p></div>
 </section>
 <section class="rule" id="no-static-typing">
   <h4>No static typing</h4>
@@ -627,10 +629,10 @@ pre .id { color: var(--ink); }
       <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Never write type signatures, never add a typing tool.</p><p>Delete <code>sig/</code> created by <code>bundle gem</code>.</p><p>No RBS, Sorbet, <code>sig/</code>, <code># typed:</code> sigils, <code>srb</code> nor <code>tapioca</code>.</p></div>
+  <div class="body"><p>It’s not the Ruby way. Embrace the freedom. Quack. 🦆</p></div>
 </section>
 <section class="rule" id="publish-as-little-as-possible">
-  <h4>Publish as little as possible</h4>
+  <h4>Be very private</h4>
   <div class="verdict" role="group" data-rule="publish-as-little-as-possible" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
       <span class="label">Approve</span><span class="stamped">Approved</span>
@@ -639,7 +641,7 @@ pre .id { color: var(--ink); }
       <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Public methods are a promise kept for every caller there will ever be.</p><p>Every method that can be made private must be made private.</p><p>Two public methods that a caller must use together can be replaced by one.</p></div>
+  <div class="body"><p>Every method that can be private must be private.</p></div>
 </section>
 <section class="rule" id="collect-with-map-not-into-an-empty-array">
   <h4>Collect with map, not into an empty array</h4>
@@ -1421,9 +1423,19 @@ pre .id { color: var(--ink); }
     openFolder((here + step + tabs.length) % tabs.length, true);
   });
 
-  // A link to a rule opens the folder that holds it.
+  // A link opens the folder it points into: #ruby and #rails name a
+  // folder outright, any other hash names a rule inside one.
+  const folders = document.querySelector('.folders');
   const followHash = () => {
-    const target = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
+    const here = location.hash.slice(1);
+    if (!here) return false;
+    const part = tabs.findIndex(tab => tab.dataset.part.toLowerCase() === here.toLowerCase());
+    if (part >= 0) {
+      openFolder(part);
+      folders.scrollIntoView({ block: 'start' });
+      return true;
+    }
+    const target = document.getElementById(here);
     if (!target) return false;
     const holder = panels.findIndex(panel => panel.contains(target));
     if (holder < 0) return false;
@@ -1439,10 +1451,9 @@ pre .id { color: var(--ink); }
   addEventListener('hashchange', followHash);
 
   // Every rule takes the reader's own mark, kept in this browser.
+  // A mark is final: neither button answers again once one has.
   const STORE = 'coding-guidelines/verdicts/v1';
   const groups = [...document.querySelectorAll('.verdict')];
-  const count = document.getElementById('tallyCount');
-  const note = document.getElementById('tallyNote');
 
   let marks = {};
   let keeps = true;
@@ -1452,30 +1463,34 @@ pre .id { color: var(--ink); }
   const save = () => {
     if (!keeps) return;
     try { localStorage.setItem(STORE, JSON.stringify(marks)); }
-    catch (error) { keeps = false; note.textContent = 'This browser is not keeping the marks.'; }
+    catch (error) { keeps = false; }
   };
   const paint = (group) => {
     const mark = marks[group.dataset.rule];
-    for (const button of group.children) button.setAttribute('aria-pressed', String(button.value === mark));
+    for (const button of group.children) {
+      button.setAttribute('aria-pressed', String(button.value === mark));
+      button.disabled = Boolean(mark);
+    }
   };
-  const tally = () => { count.textContent = Object.keys(marks).length; };
+  // A button naming a counter in data-tally adds one to it, the once.
+  // Fire and forget: a counter that cannot be reached costs the reader nothing.
+  const notch = (button) => {
+    const url = button.dataset.tally;
+    if (!url) return;
+    fetch(url, { cache: 'no-store', keepalive: true }).catch(() => {});
+  };
 
   for (const group of groups) {
     paint(group);
     group.addEventListener('click', (event) => {
       const button = event.target.closest('button');
-      if (!button) return;
+      if (!button || button.disabled) return;
       const rule = group.dataset.rule;
-      if (marks[rule] === button.value) delete marks[rule];
-      else marks[rule] = button.value;
-      paint(group); save(); tally();
+      if (marks[rule]) return;
+      marks[rule] = button.value;
+      paint(group); save(); notch(button);
     });
   }
-  document.getElementById('clearMarks').addEventListener('click', () => {
-    marks = {}; groups.forEach(paint); save(); tally();
-  });
-  tally();
-  if (!keeps) note.textContent = 'This browser is not keeping the marks.';
 
   // Stamps land as they come up the page.
   const stamper = new IntersectionObserver((entries) => {
