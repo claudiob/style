@@ -99,10 +99,10 @@ a:focus-visible, .rule:target { outline: 2px solid var(--red); outline-offset: 5
 h1 {
   font-family: var(--elite); font-weight: 400;
   font-size: clamp(34px, 6vw, 60px); line-height: 1.06;
-  letter-spacing: -.01em; margin: 14px 0 0; max-width: 15ch;
+  letter-spacing: -.01em; margin: 14px 0 0;
   text-wrap: balance;
 }
-.lede { margin: 22px 0 0; font-size: 21px; max-width: 62ch; }
+.lede { margin: 0px 0 0; font-size: 21px; max-width: 62ch; }
 .lede + .lede { margin-top: 12px; color: var(--ink-soft); }
 .strike { border-top: 2px solid var(--ink); margin-top: 30px; }
 
@@ -159,7 +159,7 @@ h1 {
 .group .fill { flex: 1; border-top: 1px dashed var(--rule-soft); }
 
 /* ── a rule: side head, then justified copy ──────────── */
-.rule { margin: 0 0 32px; scroll-margin-top: 96px; }
+.rule { margin: 10px 0 48px; scroll-margin-top: 96px; }
 .rule h4 {
   font-family: var(--elite); font-weight: 400; font-size: 20px;
   margin: 0 0 10px; line-height: 1.24; text-wrap: balance;
@@ -176,11 +176,83 @@ h1 {
 
 @media (min-width: 1000px) {
   .rule { display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 0 34px; }
-  .rule h4 {
-    margin: 0; text-align: right; border-right: 2px solid var(--red);
-    padding-right: 16px; text-wrap: pretty;
-  }
+  .rule h4 { margin: 0; text-align: right; text-wrap: pretty; }
   .group, .tierhead { max-width: none; }
+}
+
+/* ── a word swiped by hand ───────────────────────────────
+   One pale wash per word, wider than the letters and never a
+   clean rectangle. The span carries its own padding, so the
+   wash lives in space of its own and never rides over the
+   word beside it; the pseudo-element sits behind the glyphs.
+   a lean   b blob   c torn   d brush   e pill   f sticker
+   g wedge  h ribbon */
+.swipe {
+  position: relative; z-index: 0;
+  white-space: nowrap;
+  padding: 0 .38em; margin: 0 -.08em;
+  --swipe: #d5d4c3;
+}
+.swipe::before {
+  content: ""; position: absolute; z-index: -1;
+  inset: -.16em 0 -.20em;
+  background: var(--swipe);
+}
+
+/* a — one lean stroke: a parallelogram tipped ten degrees */
+.swipe-a::before { transform: skewX(-10deg) rotate(-.8deg); }
+
+/* b — a blob: four unequal corners, tipped a degree and a half */
+.swipe-b::before {
+  inset: -.24em 0 -.28em;
+  border-radius: 62% 38% 55% 45% / 48% 58% 42% 52%;
+  transform: rotate(-1.4deg);
+}
+
+/* c — torn at the edges, the way a marker leaves paper */
+.swipe-c::before {
+  inset: -.22em 0 -.24em;
+  clip-path: polygon(3% 22%, 22% 5%, 58% 13%, 88% 2%, 100% 40%,
+                     97% 86%, 66% 97%, 31% 100%, 6% 88%, 0% 47%);
+  transform: rotate(.9deg);
+}
+
+/* d — a brush stroke: thin where the pen lands and lifts,
+       thick through the middle */
+.swipe-d::before {
+  inset: -.22em 0 -.26em;
+  clip-path: polygon(0% 46%, 9% 14%, 52% 2%, 91% 11%, 100% 40%,
+                     100% 62%, 90% 92%, 49% 100%, 8% 88%, 0% 58%);
+  transform: rotate(-1deg);
+}
+
+/* e — a pill: both ends rounded off entirely */
+.swipe-e::before {
+  inset: -.18em 0 -.22em;
+  border-radius: 999px;
+  transform: rotate(-1.8deg);
+}
+
+/* f — a sticker: three corners rounded, one left square */
+.swipe-f::before {
+  inset: -.20em 0 -.24em;
+  border-radius: .7em .08em .6em .12em;
+  transform: rotate(1.6deg);
+}
+
+/* g — a wedge: the mark thickens as the hand runs out of word */
+.swipe-g::before {
+  inset: -.26em 0 -.28em;
+  clip-path: polygon(0% 30%, 100% 4%, 100% 96%, 0% 74%);
+  transform: rotate(-.6deg);
+}
+
+/* h — a ribbon: flat on top, waved along the bottom */
+.swipe-h::before {
+  inset: -.18em 0 -.30em;
+  clip-path: polygon(0% 8%, 100% 0%, 100% 76%, 82% 92%, 63% 78%,
+                     44% 95%, 25% 80%, 8% 96%, 0% 82%);
+  transform: rotate(.7deg);
 }
 
 code {
@@ -227,16 +299,13 @@ pre .id { color: var(--ink); }
 }
 .verdict button {
   font-family: var(--mono); font-size: 13px; letter-spacing: .14em;
+  line-height: 1.2;
   text-transform: uppercase; padding: 5px 11px; cursor: pointer;
   background: transparent; color: var(--ink-faint);
-  border: 1px solid var(--rule); border-radius: 0;
+  border: 1px solid var(--rule); border-radius: 0; margin-bottom: 10px;
 }
 .verdict button:hover { color: var(--ink); border-color: var(--ink-faint); }
 .verdict button:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
-.verdict button[aria-pressed='true'] {
-  border-width: 2px; padding: 4px 10px; font-weight: 700;
-  mix-blend-mode: multiply;
-}
 .verdict button[value='agree'][aria-pressed='true'] { color: var(--blue); border-color: var(--blue); }
 .verdict button[value='disagree'][aria-pressed='true'] { color: var(--red-deep); border-color: var(--red); }
 
@@ -262,17 +331,16 @@ pre .id { color: var(--ink); }
 /* ── the three parts, as folders in a drawer ─────────── */
 .folders {
   display: flex; align-items: flex-end; flex-wrap: wrap;
-  margin: 46px 0 0; padding: 0 0 0 14px;
+  margin: 46px 0 0; padding: 0;
 }
 .folder-tab {
   font-family: var(--elite); font-size: 21px; line-height: 1;
   background: var(--manila-back); color: var(--ink-faint);
   border: 1px solid var(--manila-edge); border-bottom: none;
   border-radius: 3px 20px 0 0;
-  padding: 10px 30px 10px 20px; cursor: pointer;
+  padding: 15px 30px 15px 30px; cursor: pointer;
   position: relative; top: 7px; margin-right: -16px;
   display: flex; align-items: baseline; gap: 13px;
-  box-shadow: inset 0 -14px 16px -12px rgba(38, 36, 27, .55);
 }
 .folder-tab:nth-of-type(1) { z-index: 3; }
 .folder-tab:nth-of-type(2) { z-index: 2; }
@@ -294,11 +362,13 @@ pre .id { color: var(--ink); }
   position: relative; z-index: 5;
   background: var(--manila);
   border: 1px solid var(--manila-edge);
+  border-top: 0px;
   border-radius: 0 6px 4px 4px;
   padding: 15px 15px 26px;
   box-shadow: 0 10px 22px -14px rgba(38, 36, 27, .55);
 }
 .folder-inner {
+  padding-bottom: 0px !important;
   background: var(--sheet);
   border: 1px solid #C9C3AE;
   padding: 26px clamp(18px, 2.6vw, 34px) 34px;
@@ -327,8 +397,10 @@ pre .id { color: var(--ink); }
 /* ── the mark a reader leaves ────────────────────────── */
 .verdict button .stamped { display: none; }
 .verdict button[aria-pressed='true'] {
+  /* 2px border with 4px padding measures the same box as 1px with 5px,
+     so stamping a rule never nudges the page below it. */
   border: 2px solid currentColor; outline: 1px solid currentColor; outline-offset: 2px;
-  background: transparent; padding: 5px 13px; font-weight: 700;
+  background: transparent; padding: 4px 12px; font-weight: 700;
   letter-spacing: .2em; mix-blend-mode: multiply;
   transform: rotate(var(--stamp-tilt, -4deg));
   animation: press .34s cubic-bezier(.2, 1.5, .5, 1);
@@ -384,7 +456,7 @@ pre .id { color: var(--ink); }
       <span class="small">on GitHub</span>
     </a>
     <h1 id="masthead">Coding guidelines</h1>
-    <p class="lede">Three tiers: what holds in any language, what holds in Ruby, what holds in a Rails app. A rule lives in the widest tier it is true in.</p>
+    <p class="lede">What holds in any language. What holds in Ruby. What holds in Rails.</p>
   </header>
 
   <div class="folders" role="tablist" aria-label="The three parts"><button type="button" class="folder-tab" role="tab" id="tab-principles"
@@ -410,106 +482,103 @@ pre .id { color: var(--ink); }
 
   <div class="folder">
     <div class="folder-inner">
-      <p class="marks">
-        <span>Marked <b id="tallyCount">0</b> of 70</span>
-        <button type="button" id="clearMarks">Clear every mark</button>
-        <span id="tallyNote"></span>
-      </p>
-
-      <main id="rules"><section class="panel" role="tabpanel" id="panel-principles" aria-labelledby="tab-principles"
-         data-part="Principles">
-  <div class="panel-head">
-    <p class="panel-sub">Part One &mdash; true whatever the language</p>
-    <div class="stamp stamp-tier reveal" style="--tilt: -8deg">
-  <span class="small">Style book</span>
-  <span class="big">Part One</span>
-  <span class="small">Passed for press</span>
-</div>
-
-  </div>
+      <main id="rules">
+        <section class="panel" role="tabpanel" id="panel-principles" aria-labelledby="tab-principles" data-part="Principles">
   <section class="rule" id="encrypt-personal-data">
-  <h4>Encrypt personal data</h4>
+  <h4><span class="swipe swipe-a">Encrypt</span> personal data</h4>
   <div class="verdict" role="group" data-rule="encrypt-personal-data" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Databases are compromised—don’t store your customers’ phone, email, last name, street in plain text.</p><p>By default, don’t include them in tables that show many records at once.</p><p>When displayed on a screen, mask personal data until asked for.</p></div>
+  <div class="body"><p>Don’t store your customers’ phone, email, last name, street in plain text.</p></div>
 </section>
 <section class="rule" id="code-optimistically">
-  <h4>Code optimistically</h4>
+  <h4>Code <span class="swipe swipe-b">optimistically</span></h4>
   <div class="verdict" role="group" data-rule="code-optimistically" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Write code that is a pleasure to read.</p><p>Writing something new?</p><p>Look for similar code nearby first.</p><p>Never leave a method nobody calls.</p><p>Never rescue an error that has not occurred.</p></div>
+  <div class="body"><p>Never write a method nobody calls. Never rescue an error nobody has incurred.</p></div>
 </section>
 <section class="rule" id="tell-dont-ask-through">
-  <h4>Tell, don’t ask through</h4>
+  <h4>Tell, <span class="swipe swipe-c">don’t ask</span> through</h4>
   <div class="verdict" role="group" data-rule="tell-dont-ask-through" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>The law of Demeter: call methods on yourself and what you hold, not on what those hand back.</p><p>Two calls on the same object in one expression are the tell: the second is nearly always unneeded.</p></div>
+  <div class="body"><p>Call methods only on yourself and what you hold, not on what others hand back.</p></div>
+</section>
+<section class="rule" id="unchained-melody">
+  <h4><span class="swipe swipe-d">Unchained</span> melody</h4>
+  <div class="verdict" role="group" data-rule="unchained-melody" aria-label="Do you keep this rule?">
+    <button type="button" value="agree" aria-pressed="false">
+      <span class="label">Approve</span><span class="stamped">Approved</span>
+    </button>
+    <button type="button" value="disagree" aria-pressed="false">
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
+    </button>
+  </div>
+  <div class="body"><p>Two calls on the same object in one expression are the tell: the second is unneeded.</p></div>
 </section>
 <section class="rule" id="say-it-short">
-  <h4>Say it short</h4>
+  <h4>Say it <span class="swipe swipe-e">short</span></h4>
   <div class="verdict" role="group" data-rule="say-it-short" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Between two versions carrying the same meaning, pick the shorter name.</p><p>Your fingers will thank you every time they will type a model, controller, route, test.</p><p>Cut the restatement, don’t explain why a rule is a good idea.</p></div>
+  <div class="body"><p>Between two versions carrying the same meaning, always pick the shorter name.</p></div>
 </section>
 <section class="rule" id="write-good-english">
-  <h4>Write good English</h4>
+  <h4>Write good <span class="swipe swipe-f">English</span></h4>
   <div class="verdict" role="group" data-rule="write-good-english" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Respect acronyms and inflections: API, PIN, ZIP code, OpenAI.</p><p>Don’t Titleize Sentences and favor curly quotes as apostrophes.</p><p>Prefer color, license, normalize to colour, licence, normalise.</p></div>
+  <div class="body"><p>Don’t Titleize. It’s ZIP not Zip. It’s license not licence. Respect the apostrophes.</p></div>
 </section>
 <section class="rule" id="dont-overtest">
-  <h4>Don’t overtest</h4>
+  <h4><span class="swipe swipe-g">Sharpen</span> your tests</h4>
   <div class="verdict" role="group" data-rule="dont-overtest" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A test that can be deleted while coverage holds is a test to delete.</p><p>Never test code you don’t own, especially libraries and frameworks that are already tested.</p><p>Probe public interfaces, not private methods, nor the data.</p><p>Fixtures are minimal and explicit.</p><p>Specs are independent and order-agnostic.</p></div>
+  <div class="body"><p>Full coverage and not one line more. Never test code you don’t own.</p></div>
 </section>
 <section class="rule" id="communicate-through-git">
-  <h4>Communicate through git</h4>
+  <h4><span class="swipe swipe-h">Communicate</span> through git</h4>
   <div class="verdict" role="group" data-rule="communicate-through-git" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>Small, focused commits.</p><p>Imperative subjects ('Add', not 'Added') and <em>why</em> in the body.</p><p>Don’t code in main: create a branch with a short name using lowercase and underscores.</p><p>No trailers naming who wrote a commit: git already has an author field for that.</p><p>Keep a linear history.</p><p>Never <code>git merge</code> or <code>--no-ff</code>: <code>git rebase main</code> and fix the conflicts,</p></div>
+  <div class="body"><p>Small commits. The why in the body. Linear history.</p></div>
 </section>
 
 </section>
@@ -528,10 +597,10 @@ pre .id { color: var(--ink); }
   <h4>Prefer many files to long files</h4>
   <div class="verdict" role="group" data-rule="prefer-many-files-to-long-files" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>No code file over 100 lines, blank and comment lines counted.</p><p>Exempt: prose (<code>.md</code>, <code>.txt</code>), markup (<code>.html</code>, <code>.erb</code>), data, migrations, vendored code.</p><p>Enforce with <code>git ls-files</code> so a green run before <code>git add</code> proves nothing.</p></div>
@@ -540,10 +609,10 @@ pre .id { color: var(--ink); }
   <h4>No metaprogramming</h4>
   <div class="verdict" role="group" data-rule="no-metaprogramming" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Don’t call a method by name at runtime, nor define, fetch or set one that way.</p><p>The one exception is an explicit instruction.</p><p>Existing uses are not permission to add another.</p></div>
@@ -552,10 +621,10 @@ pre .id { color: var(--ink); }
   <h4>No static typing</h4>
   <div class="verdict" role="group" data-rule="no-static-typing" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Never write type signatures, never add a typing tool.</p><p>Delete <code>sig/</code> created by <code>bundle gem</code>.</p><p>No RBS, Sorbet, <code>sig/</code>, <code># typed:</code> sigils, <code>srb</code> nor <code>tapioca</code>.</p></div>
@@ -564,10 +633,10 @@ pre .id { color: var(--ink); }
   <h4>Publish as little as possible</h4>
   <div class="verdict" role="group" data-rule="publish-as-little-as-possible" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Public methods are a promise kept for every caller there will ever be.</p><p>Every method that can be made private must be made private.</p><p>Two public methods that a caller must use together can be replaced by one.</p></div>
@@ -576,10 +645,10 @@ pre .id { color: var(--ink); }
   <h4>Collect with map, not into an empty array</h4>
   <div class="verdict" role="group" data-rule="collect-with-map-not-into-an-empty-array" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A loop gathering one thing per item is <code>map</code>.</p><p>Naming an empty array, walking with <code>each</code> and pushing into it takes three lines to say what one says, and names the array before anyone knows what goes in it.</p><p>Folding into something that is not one per item — a hash, a grouping, a count — is <code>each_with_object</code>: it hands the accumulator to the block and ignores the block’s answer, so a guard clause or a <code>push</code> cannot quietly break it.</p><p><code>inject</code> is for a fold whose answer is one value: a sum, a minimum, a merge.</p><p>Using it to gather a list means threading the accumulator through every branch and leaning on <code>&lt;&lt;</code> answering the array — true until someone adds a condition.</p><p><code>map</code> doing a little work along the way is fine where the collection is the result somebody asked for.</p><p>Where the work is the point and the list is incidental, say so with <code>each_with_object</code> or a plain <code>each</code>.</p></div>
@@ -588,10 +657,10 @@ pre .id { color: var(--ink); }
   <h4>Hand back the enumerable, not the loop</h4>
   <div class="verdict" role="group" data-rule="hand-back-the-enumerable-not-the-loop" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A method taking a block only to run <code>collection.each(&amp;)</code> has chosen the caller’s loop for it.</p><p>Hand the enumerable back and let whoever asked pick <code>each</code>, <code>map</code>, <code>find</code>, or <code>take(2)</code> — the last of which the block form cannot express at all.</p><p>So <code>def upcoming_visits = fetch_them</code>, and the caller writes <code>upcoming_visits.each { ... }</code>.</p><p>Not <code>def each_upcoming_visit(&amp;)</code>.</p><p><code>each_</code> in a method name is the tell.</p><p>The exception is a producer with no collection to hand over, which yields as it goes.</p></div>
@@ -600,10 +669,10 @@ pre .id { color: var(--ink); }
   <h4>Prefer a lazy enumerator</h4>
   <div class="verdict" role="group" data-rule="prefer-a-lazy-enumerator" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Where a collection can be walked lazily, walk it lazily.</p><p>An <code>Enumerator</code> hands over one item at a time, so a page is fetched when the page before it runs out, and a caller that wants three costs one request rather than all of them.</p><p>Produce lazily too: <code>Enumerator.new { |yielder| ... }</code> rather than filling an array and handing it back.</p><p><code>.to_a</code> gives the whole advantage away, and usually walks the collection twice.</p><p>The catch: lazy work happens where the enumerator is finally walked, not where it was written.</p><p>A lock, a transaction, or credentials to write back with are gone by then, so the walk belongs inside whatever holds them.</p></div>
@@ -612,10 +681,10 @@ pre .id { color: var(--ink); }
   <h4>Take the smallest thing you use</h4>
   <div class="verdict" role="group" data-rule="take-the-smallest-thing-you-use" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A method handed an object it only ever reaches one part of should have been handed that part.</p><p><code>contact_of(visit)</code> opening with <code>client = visit.client</code> wanted <code>contact_of(client)</code>, and the caller wanted <code>contact_of visit.client</code>.</p><p>A signature is a claim about what the method depends on.</p><p>Taking the whole object claims it depends on the whole object.</p><p>The tell is a first line that unwraps the argument.</p><p>Reaching for two or three parts is different — that method does want the object.</p></div>
@@ -624,10 +693,10 @@ pre .id { color: var(--ink); }
   <h4>Name what you pass on</h4>
   <div class="verdict" role="group" data-rule="name-what-you-pass-on" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A method taking <code>**attributes</code> only to hand the bag to the next one tells its reader nothing: which keys are admissible, and which are used, live in a caller somewhere else.</p><p>Name every keyword the method actually takes.</p><p>Splatting a hash you hold into a call that names its keywords is fine — the names are right there.</p><p>It is <em>accepting</em> a bag and forwarding it that hides them, and a bag forwarded twice hides them twice over.</p><p>Where naming them all reads badly, the method is telling you it takes too many.</p><p>Split it, or hand over an object that knows what it holds.</p></div>
@@ -636,10 +705,10 @@ pre .id { color: var(--ink); }
   <h4>A name that asks must not answer with a change</h4>
   <div class="verdict" role="group" data-rule="a-name-that-asks-must-not-answer-with-a-change" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p><code>claimed_by</code>, <code>matching</code>, <code>find_for</code> — a name that reads like a query has to stay one.</p><p>A lookup that also writes hides the write behind a word nobody expects it in.</p><p>Where both happen, say both: the branch that finds the record, and beneath it the line that updates it, in the open.</p></div>
@@ -648,10 +717,10 @@ pre .id { color: var(--ink); }
   <h4>Don’t wrap an instance variable in an accessor</h4>
   <div class="verdict" role="group" data-rule="dont-wrap-an-instance-variable-in-an-accessor" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>An <code>attr_reader</code> for a variable only the class itself reads adds a method to the public surface and buys nothing.</p><p>Read the variable.</p></div>
@@ -660,10 +729,10 @@ pre .id { color: var(--ink); }
   <h4>Objects, not services</h4>
   <div class="verdict" role="group" data-rule="objects-not-services" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Behavior belongs to the object that owns the data, not to a class named after a verb.</p><p><code>Service.new(params).call(options)</code> is two lines of ceremony around a method that wanted to live on a model.</p><p>Never instantiate a class to call its <code>call</code>.</p><p>A <code>call</code> method should not exist: name the method after what it does — <code>provider.import_visits</code>, not <code>VisitImporter.new(provider).call</code>.</p><p>Too much for one class is a concern, or a second object with a name and a life of its own — never a procedure wearing a class as a coat.</p></div>
@@ -672,10 +741,10 @@ pre .id { color: var(--ink); }
   <h4>Extract to an owner, not out of the way</h4>
   <div class="verdict" role="group" data-rule="extract-to-an-owner-not-out-of-the-way" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A file over the length limit is a question about ownership, not a request to move lines somewhere else.</p><p>Cutting behavior into <code>Sync</code>, <code>Importer</code>, <code>Handler</code> gets under the cap and leaves a procedure wearing a class as a coat.</p><p>Ask which object holds the data the behavior decides on, and move it there.</p><p>The test: the new home has a name someone who does not write code would recognize — a visit, a location, a contact.</p><p>Not a visit sync.</p></div>
@@ -684,10 +753,10 @@ pre .id { color: var(--ink); }
   <h4>Name a class for the system it speaks to</h4>
   <div class="verdict" role="group" data-rule="name-a-class-for-the-system-it-speaks-to" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A class that has to know a third party’s shapes says so in its name: <code>Contact::Jobber</code>, not <code>Contact::Imported</code>.</p><p>The name is what licenses the knowledge, and what tells the next reader which file changes when that third party does.</p><p>Named honestly, it can take the foreign object whole — and the translation layer built to keep those shapes out can go.</p></div>
@@ -696,10 +765,10 @@ pre .id { color: var(--ink); }
   <h4>Give siblings the same shape</h4>
   <div class="verdict" role="group" data-rule="give-siblings-the-same-shape" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Classes doing the same kind of work — find-or-create across three models, one endpoint per resource — read alike, down to the order of the branches and the name of the private method that assembles the attributes.</p><p>The point is not tidiness.</p><p>Once they match, the one that differs is saying something true about the domain, and it can be seen without reading the others beside it.</p></div>
@@ -708,10 +777,10 @@ pre .id { color: var(--ink); }
   <h4>Let the structure hold the rule</h4>
   <div class="verdict" role="group" data-rule="let-the-structure-hold-the-rule" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Prefer an arrangement where a rule cannot be broken over one where every method remembers it.</p><p>A model that refuses its own bad input answers nil, and whatever sits above it finds nothing to attach: nobody checks, so nobody can forget to.</p><p>A rule kept by calling things in the right order, or by a comment saying what has to happen first, is a rule waiting for the next edit.</p></div>
@@ -720,10 +789,10 @@ pre .id { color: var(--ink); }
   <h4>List concerns alphabetically, on one line</h4>
   <div class="verdict" role="group" data-rule="list-concerns-alphabetically-on-one-line" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p><code>include Emailable, Phonable</code> — one <code>include</code> carries the whole list.</p><p>Give each its own statement only when the single line will not fit, and keep the order when you do.</p><p><code>Style/MixinGrouping</code>, <code>EnforcedStyle: grouped</code>.</p><p>Its default is <code>separated</code>, which demands the opposite, so the setting is not optional.</p><p><code>include A, B</code> inserts them in reverse, so <code>A</code> ends up ahead of <code>B</code> in <code>ancestors</code>.</p><p>That only matters when both define the same method, which two concerns extracted for being distinct features should not.</p></div>
@@ -732,10 +801,10 @@ pre .id { color: var(--ink); }
   <h4>Comment every public declaration</h4>
   <div class="verdict" role="group" data-rule="comment-every-public-declaration" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>One line before every public class, module, constant and method saying what it is for.</p><p>What it is for, not what the code shows.</p><p>Never comment a private one — it earns its explanation from its name and its caller.</p><p>Inside a body, comment <em>why</em>, never <em>what</em>.</p><p>One line, not two.</p><p>Where a YARD tag already says it, a prose line above says it twice — keep the tag and drop the prose.</p><p>A comment that keeps growing is paying interest on a design that does not explain itself.</p><p>Shorten the design first; the comment goes with it.</p></div>
@@ -744,10 +813,10 @@ pre .id { color: var(--ink); }
   <h4>The long version goes in the commit message</h4>
   <div class="verdict" role="group" data-rule="the-long-version-goes-in-the-commit-message" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>When one line will not hold everything worth saying, the rest belongs in the commit message.</p><p>Keep the line, move the essay.</p><p>The two are read at different times.</p><p>Somebody reading the method wants to know what it is for, right now, in one line.</p><p>Somebody asking why it is like that is already in <code>git log</code>, where the answer keeps its context: what it replaced, what was tried, what was ruled out.</p><p>A comment ages against the code it sits above; a message stays true, because it describes the change it shipped with.</p></div>
@@ -756,10 +825,10 @@ pre .id { color: var(--ink); }
   <h4>Name non-trivial regular expressions</h4>
   <div class="verdict" role="group" data-rule="name-non-trivial-regular-expressions" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A pattern not obvious at a glance gets a named constant on the class that owns the rule, commented with what it accepts and rejects.</p><p>Trivial patterns used once stay inline.</p></div>
@@ -768,10 +837,10 @@ pre .id { color: var(--ink); }
   <h4>Layout</h4>
   <div class="verdict" role="group" data-rule="layout" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Two-space indentation, no tabs.</p><p>No trailing whitespace, newline at EOF.</p><p><code>snake_case</code> for methods and variables, <code>CamelCase</code> for classes, <code>SCREAMING_SNAKE_CASE</code> for constants.</p><p>Predicates end in <code>?</code>, dangerous variants in <code>!</code>.</p><p><code>do...end</code> for multi-line blocks, <code>{...}</code> for single-line.</p><p>Prefer <code>&amp;.</code>, <code>||=</code>, <code>Array()</code>, <code>Hash#fetch</code> with a default, and keyword arguments past two parameters.</p><p>Inline a method body on one line in exactly two cases: an empty body, <code>def show; end</code>, and an endless method, <code>def advice_params = params.expect(advice: [:content])</code>.</p></div>
@@ -780,10 +849,10 @@ pre .id { color: var(--ink); }
   <h4>One return at most, and only at the top</h4>
   <div class="verdict" role="group" data-rule="one-return-at-most-and-only-at-the-top" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>The one <code>return</code> is the case a method refuses before any work starts.</p><p>Past that line the method runs to its end.</p><p><code>unless</code> for simple negatives, never <code>unless ... else</code>.</p><p>A second <code>return</code> in the middle is branching by another name, and <code>if</code>/<code>elsif</code> says it where a reader sees all the branches at once:</p><pre><code><span class="k">def</span> <span class="id">import_visit</span>(<span class="id">visit</span>)                          <span class="c"># not: return ... if ours</span>
@@ -798,10 +867,10 @@ pre .id { color: var(--ink); }
   <h4>Lines at most 100 characters</h4>
   <div class="verdict" role="group" data-rule="lines-at-most-100-characters" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Split long strings across lines rather than running over.</p><p>Markup is exempt: a URL or a long class list does not wrap usefully.</p></div>
@@ -810,10 +879,10 @@ pre .id { color: var(--ink); }
   <h4>Single quotes by default</h4>
   <div class="verdict" role="group" data-rule="single-quotes-by-default" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Double quotes only where the string needs them: interpolation or an escape.</p><p><code>Style/StringLiterals</code> and <code>Style/StringLiteralsInInterpolation</code>, both <code>single_quotes</code>.</p></div>
@@ -822,10 +891,10 @@ pre .id { color: var(--ink); }
   <h4>Never freeze strings</h4>
   <div class="verdict" role="group" data-rule="never-freeze-strings" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>No <code># frozen_string_literal: true</code>, in any file, including generated ones.</p><p>Never <code>.freeze</code> a string.</p><p>Array and hash constants are still worth freezing.</p><p>Where a constant only names something, prefer a symbol — immutable already.</p><p><code>Style/FrozenStringLiteralComment</code> is <code>never</code>; <code>Style/MutableConstant</code> is off, since it demands <code>.freeze</code> on string constants and cannot skip them.</p></div>
@@ -834,10 +903,10 @@ pre .id { color: var(--ink); }
   <h4>Trailing comma on a multiline literal</h4>
   <div class="verdict" role="group" data-rule="trailing-comma-on-a-multiline-literal" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>The last entry ends with a comma, so adding one touches one line.</p><p>The closing brace goes on its own line — <code>, }</code> reads worse than either alternative.</p><p>This is also what decides how to break a literal that spans lines only because it is long: give it the closing line.</p><p><code>Style/TrailingCommaInHashLiteral</code> and <code>...InArrayLiteral</code>, both <code>EnforcedStyleForMultiline: consistent_comma</code>.</p><p>Not <code>comma</code>, which forbids it unless every entry sits on its own line.</p></div>
@@ -846,10 +915,10 @@ pre .id { color: var(--ink); }
   <h4>Indent <code>when</code> inside a <code>case</code></h4>
   <div class="verdict" role="group" data-rule="indent-when-inside-a-case" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p><code>when</code> and <code>else</code> sit one level in from <code>case</code> and <code>end</code>:</p><pre><code><span class="k">case</span> <span class="id">params</span>[<span class="sy">:list</span>]
@@ -861,10 +930,10 @@ pre .id { color: var(--ink); }
   <h4>As few parentheses as possible</h4>
   <div class="verdict" role="group" data-rule="as-few-parentheses-as-possible" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Omit them on a call’s arguments; keep the inner ones, where parsing needs them: <code>Object.const_set class_name, Class.new(Base)</code>.</p><p><code>Style/MethodCallWithArgsParentheses</code>, <code>EnforcedStyle: omit_parentheses</code>.</p><p>The cop is off by default, so it needs <code>Enabled: true</code> too.</p><p>The exception is the call <em>in</em> a condition — after <code>if</code>, whether it opens a block or trails as a modifier.</p><p>Two things happen on that line, so the condition’s call keeps its parentheses and the reader can see where the argument ends and the branch begins:</p><pre><code><span class="k">if</span> <span class="iv">@vertical</span>.<span class="m">update</span>(<span class="id">vertical_params</span>)
@@ -874,10 +943,10 @@ pre .id { color: var(--ink); }
   <h4>Outdent visibility modifiers</h4>
   <div class="verdict" role="group" data-rule="outdent-visibility-modifiers" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p><code>private</code> sits at the level of <code>class</code>, and the methods under it keep the normal indent, so it reads as a divider.</p><p><code>Layout/AccessModifierIndentation</code>, <code>EnforcedStyle: outdent</code>.</p></div>
@@ -886,10 +955,10 @@ pre .id { color: var(--ink); }
   <h4>Keep RuboCop current</h4>
   <div class="verdict" role="group" data-rule="keep-rubocop-current" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p><code>AllCops: NewCops: enable</code>.</p><p>Fix what a new release surfaces; never pin.</p><p>Enabling every new cop is not accepting every new cop.</p><p>Decline one outright, in <code>.rubocop.yml</code>, with the reason beside it.</p><p><code>SuggestExtensions: false</code>.</p><p>An extension we are declining is off, not merely ignored.</p></div>
@@ -898,10 +967,10 @@ pre .id { color: var(--ink); }
   <h4>Gemfile and gemspec</h4>
   <div class="verdict" role="group" data-rule="gemfile-and-gemspec" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Alphabetical, one block, no blank lines — those read as separate groups.</p><p>Never <code>~&gt;</code>.</p><p>Use <code>&gt;=</code> only where a minimum is genuinely required, otherwise no constraint at all.</p><p>Every gem carries a trailing comment saying what would break without it — not what the gem is.</p><p>Same for <code>add_dependency</code>.</p></div>
@@ -910,10 +979,10 @@ pre .id { color: var(--ink); }
   <h4>What a gem always ships</h4>
   <div class="verdict" role="group" data-rule="what-a-gem-always-ships" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p><code>bin/console</code> and <code>bin/setup</code>: one to try the library in a REPL, one to get a clone working in a single command.</p><p>A <code>CHANGELOG.md</code>, written before the release is made.</p><p>Every entry says which of three it is — <strong>fix</strong>, <strong>feature</strong>, <strong>breaking change</strong> — because that is what tells a reader whether they can take it, and it is what picks the version: patch, minor, major.</p><p>Numbering first is how a minor release quietly breaks somebody.</p><p>Keep an <code>## [Unreleased]</code> heading, so a release is a rename rather than an act of remembering.</p></div>
@@ -922,10 +991,10 @@ pre .id { color: var(--ink); }
   <h4>A gem’s README says how to install it</h4>
   <div class="verdict" role="group" data-rule="a-gems-readme-says-how-to-install-it" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Every gem we publish follows Semantic Versioning, and its README carries a <code>How to install</code> section: the system install (<code>gem install &lt;name&gt;</code>), then the Gemfile line pinned to the current major (<code>gem '&lt;name&gt;', '~&gt; 2.0'</code>), then the sentence saying why that pin is safe — <code>~&gt; major.minor</code> means <code>bundle update</code> never crosses a breaking change.</p><p>Keep the snippet current: a major release updates the pin in the same commit.</p><p>This does not soften "never use <code>~&gt;</code>".</p><p>That rule binds <em>our</em> Gemfiles and gemspecs naming what we depend on; the README line is advice to hosts pinning <em>us</em>.</p></div>
@@ -934,10 +1003,10 @@ pre .id { color: var(--ink); }
   <h4>Git ignores a built gem</h4>
   <div class="verdict" role="group" data-rule="git-ignores-a-built-gem" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p><code>*.gem</code> is gitignored.</p><p><code>rake build</code> puts one under <code>/pkg/</code>, ignored already, but <code>gem build</code> leaves it in the working directory where <code>git add -A</code> sweeps up a megabyte of binary release artifact.</p><p>Nothing is lost: <code>spec.files</code> reads <code>git ls-files</code>, so a build is never packaged inside the next one either way.</p><p>Delete the built <code>.gem</code> once <code>gem push</code> has taken it.</p><p>Left behind, it is a stale build of a version that may since have been amended, waiting to be pushed again.</p></div>
@@ -946,10 +1015,10 @@ pre .id { color: var(--ink); }
   <h4>A gem’s page draws its mark once</h4>
   <div class="verdict" role="group" data-rule="a-gems-page-draws-its-mark-once" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A gem that gets a GitHub Page with colors and artwork of its own gets the whole icon set in the same breath — the browser’s, iOS’, and the avatar GitHub and the social networks show.</p><p>A page whose tab is a blank sheet and whose repository is a gray identicon is half built.</p><p>One drawing answers all of them: an <code>icon.svg</code> beside <code>index.html</code> holding the mark at the scale a tab can carry, and a <code>build-icons.sh</code> that renders the rest from it.</p><p>Run it after editing the SVG and commit what changes.</p><p>Never touch a PNG by hand, or the set drifts apart one file at a time.</p><p>What each service asks for: <code>favicon.ico</code> holding 16, 32 and 48, which a browser reaches for when the page links nothing; <code>favicon-96x96.png</code> for the tab; <code>apple-touch-icon.png</code> at 180 for a home-screen bookmark; <code>web-app-manifest-192x192.png</code> and <code>-512x512.png</code> named in <code>site.webmanifest</code>; and <code>avatar.png</code> at 1024 for GitHub and every social network, since they all crop a square themselves.</p><p>Corners are the one thing that varies: iOS masks a bookmark and every avatar is shown round, so those two render from an SVG whose <code>rx</code> is 0.</p><p>A corner rounded twice reads as a mistake.</p><p>Adapt the drawing, never the rendering.</p><p>What a 16-pixel tab cannot carry — a halo, a sparkle — comes out of the SVG, so every size says the same thing at the fidelity it can hold.</p><p><code>rsvg-convert</code> and <code>magick</code> do the rendering, named in a comment at the top of the script, since a machine without them fails at the first line.</p></div>
@@ -958,10 +1027,10 @@ pre .id { color: var(--ink); }
   <h4>A release is not done until the page says so</h4>
   <div class="verdict" role="group" data-rule="a-release-is-not-done-until-the-page-says-so" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A gem with a GitHub Page has two places that state its API, and a release that updates only one leaves the other lying.</p><p>Push to RubyGems and update <code>gh-pages</code> in the same breath — the version it names, the methods it lists, the examples it shows.</p><p>The page is what somebody reads before they install anything, so a stale one costs more than no page at all: it teaches an API the gem no longer has.</p><p>Checklist, none of it optional: <code>CHANGELOG.md</code>, <code>README.md</code>, the version constant, the tag, RubyGems, <code>gh-pages</code>.</p><p>True in a Rails app.</p></div>
@@ -983,10 +1052,10 @@ pre .id { color: var(--ink); }
   <h4>The Rails Way</h4>
   <div class="verdict" role="group" data-rule="the-rails-way" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Reach for a framework feature before writing infrastructure.</p><p>Fat model, skinny controller.</p><p>A controller does routing, authorization, params and rendering — nothing else.</p><p>The seven standard actions.</p><p>Nested resources or a new controller over a custom action, and a second-level controller for a nested route rather than a branch in the first.</p><p>Strong parameters; never pass raw <code>params</code> to a model.</p><p>Scopes for reusable queries.</p><p>No query logic in a controller or a view.</p><p>Never put a method in a controller that only a view calls, and never <code>helper_method</code> to expose one.</p><p>A view’s needs belong in a helper or the template.</p><p>Active Job for anything slow or external, declared with <code>performs</code> so the caller reads as a method rather than as a job.</p><p>Secrets in credentials or ENV, never committed.</p></div>
@@ -995,10 +1064,10 @@ pre .id { color: var(--ink); }
   <h4>Follow REST</h4>
   <div class="verdict" role="group" data-rule="follow-rest" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Endpoints are CRUD on resources.</p><p>Where an action does not map to a verb, add a resource rather than a custom action.</p><pre><code><span class="id">resources</span> <span class="sy">:cards</span> <span class="k">do</span>          <span class="c"># not: post :close, post :reopen</span>
@@ -1009,10 +1078,10 @@ pre .id { color: var(--ink); }
   <h4>Target current Rails</h4>
   <div class="verdict" role="group" data-rule="target-current-rails" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Target either the latest release of Rails or the <code>main</code> branch of <code>rails/rails</code>.</p><p>Write against current APIs only.</p><p>Never add a version check, shim or fallback for an older Rails or Ruby.</p></div>
@@ -1021,10 +1090,10 @@ pre .id { color: var(--ink); }
   <h4>PostgreSQL, always</h4>
   <div class="verdict" role="group" data-rule="postgresql-always" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>When a stand-alone app needs a database it is PostgreSQL.</p><p>Never MySQL, never SQLite, even where SQLite would be less setup.</p><p>A dummy app that exists only to test a gem is the exception, and may use SQLite.</p><p>It is a fixture rather than an app: nobody deploys it, a gem serves every adapter anyway, and proving that on a second one — with no server to run — is worth more than the fixture resembling the apps.</p><p>Say in the gem what such a dummy states portably in place of what PostgreSQL alone offers.</p></div>
@@ -1033,10 +1102,10 @@ pre .id { color: var(--ink); }
   <h4>Validations and constraints together</h4>
   <div class="verdict" role="group" data-rule="validations-and-constraints-together" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>The database is the last line of defense: null constraints, unique indexes, foreign keys, check constraints.</p><p>A constraint the model does not also state is one the browser cannot show.</p><p>Add the validator too.</p><p>Migrations are reversible, and one that has shipped is never edited.</p></div>
@@ -1045,10 +1114,10 @@ pre .id { color: var(--ink); }
   <h4>Keep a table’s columns in a meaningful order</h4>
   <div class="verdict" role="group" data-rule="keep-a-tables-columns-in-a-meaningful-order" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Creating a table, or adding a column to one, is a chance to say how the table reads.</p><p>Appending to the end is a decision not to think.</p><p>The order, left to right:</p><ol><li><code>type</code>, where a hierarchy is told apart by one.</li><li>Any non-null enum — a <code>status</code> and its like.</li><li>The other non-null attributes, counter caches aside.</li><li>The non-null foreign keys.</li><li>The counter caches, whatever they are declared as.</li><li>The indexed columns.</li><li>Everything else.</li><li>The dates and times, Rails’ own timestamps last of all.</li></ol><p>What a record is comes before what it points at, and both come before what it counts.</p><p>A screen that draws a table’s columns inherits this order, so getting it right is worth more than the schema’s own tidiness.</p><p>PostgreSQL cannot move a column, so an order settled late costs a rebuild: a second table in the right order, the rows poured across, then every index and foreign key named again.</p><p>Cheap while a table is young, which is the reason to decide early.</p></div>
@@ -1057,10 +1126,10 @@ pre .id { color: var(--ink); }
   <h4>An enum is a Postgres type</h4>
   <div class="verdict" role="group" data-rule="an-enum-is-a-postgres-type" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Native type, not an integer and not a bare string: <code>create_enum :job_status, Job::STATUSES</code>, then <code>t.enum :status, enum_type: :job_status, default: :draft, null: false</code>.</p><p>The names live in a constant on the model, one per line with a comment saying what that state means, and the migration reads the same constant so the two cannot drift.</p><p>An array column is <code>t.text :urls, array: true, default: [], null: false</code> — always an array, so nothing has to check for nil first.</p></div>
@@ -1069,10 +1138,10 @@ pre .id { color: var(--ink); }
   <h4>Emails are citext</h4>
   <div class="verdict" role="group" data-rule="emails-are-citext" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A plaintext email column is <code>citext</code>, never <code>string</code>: that is what makes comparison and a unique index agree that <code>Ada@</code> and <code>ada@</code> are one address.</p><p>Run <code>enable_extension 'citext'</code> before the first one.</p><p>Nothing else is then needed — no <code>LOWER(email)</code> index, no downcasing on the way in.</p><p>An <em>encrypted</em> email column is not citext, since it holds ciphertext.</p><p>Normalize in Rails instead, always with both options: <code>encrypts :email, deterministic: true, downcase: true</code>.</p></div>
@@ -1081,10 +1150,10 @@ pre .id { color: var(--ink); }
   <h4>Prefer <code>up_only</code> in migrations</h4>
   <div class="verdict" role="group" data-rule="prefer-uponly-in-migrations" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A step that runs only on the way up is <code>up_only { backfill }</code>, never <code>reversible { |direction| direction.up { backfill } }</code>.</p><p>The short form has been Rails’ since 5.2, it says what it means, and it leaves no down branch to read past.</p><p><code>reversible</code> keeps its place where a migration genuinely writes both directions.</p></div>
@@ -1093,10 +1162,10 @@ pre .id { color: var(--ink); }
   <h4>Both sides of an association</h4>
   <div class="verdict" role="group" data-rule="both-sides-of-an-association" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A <code>belongs_to</code> gets the matching <code>has_many</code>.</p><p>Reading a foreign key from one side only is half the model.</p><p><code>dependent:</code> follows what the child requires: <code>:destroy</code> where it cannot exist without the parent, <code>:nullify</code> where the association is optional.</p><p><code>:destroy</code>, not <code>:restrict_with_error</code>.</p><p>An admin deleting a record is entitled to the tree under it, and the cascade exists so nobody dismantles it by hand.</p><p><code>has_many</code> takes one name, unlike <code>validates</code>.</p><p><code>has_many :counties, :markets</code> reads <code>:markets</code> as a scope and fails much later with <code>undefined method 'arity'</code>.</p><p>Neither side helps against <code>delete_all</code>, which is raw SQL and skips callbacks.</p></div>
@@ -1105,10 +1174,10 @@ pre .id { color: var(--ink); }
   <h4>Count through the association, not the counter cache</h4>
   <div class="verdict" role="group" data-rule="count-through-the-association-not-the-counter-cache" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p><code>service.bands.size</code>, not <code>service.bands_count</code>.</p><p>A counter cache is an optimization of the SQL, and a view has no business knowing which optimizations the schema happens to carry.</p><p>The association reads as what it means, and it is the same line whether a counter cache exists, is added later, or is taken away.</p><p><code>size</code> is the method that makes this work: it takes the cached column where there is one, counts where there is not, and reads the records where they are already loaded.</p><p>Where the association cannot answer — no association at all, or a <code>has_many :through</code>, where <code>size</code> would issue a query per row — the column stays.</p><p>Say so where it is used.</p></div>
@@ -1117,10 +1186,10 @@ pre .id { color: var(--ink); }
   <h4>Encryption that a query can still find</h4>
   <div class="verdict" role="group" data-rule="encryption-that-a-query-can-still-find" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A column that is queried or must stay unique needs <code>deterministic: true</code>.</p><p>Non-deterministic ciphertext differs every write, silently defeating both a unique index and a uniqueness validation — they pass while duplicates pile up.</p><p>It is not conditional on the column being queried <em>today</em>.</p><p>Switching later means re-encrypting every row.</p><p><code>downcase: true</code> is what keeps a unique index honest: without it two spellings encrypt to two values.</p><p>Never constrain the <em>shape</em> of an encrypted value in the database: it holds ciphertext, so only nullability and uniqueness still mean anything.</p><p>Shape belongs to the model.</p></div>
@@ -1129,10 +1198,10 @@ pre .id { color: var(--ink); }
   <h4>Phone numbers</h4>
   <div class="verdict" role="group" data-rule="phone-numbers" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A <code>phone</code> column holds exactly ten digits, <code>null: false</code>, unique.</p><p>The database cannot check the shape, since the value is encrypted.</p><p>The shape is the model’s, in a concern that normalizes and validates:</p><pre><code><span class="co">NORTH_AMERICAN_PHONES</span> = <span class="re">/\A[2-9]\d{2}[2-9]\d{6}\z/</span>
@@ -1147,10 +1216,10 @@ pre .id { color: var(--ink); }
   <h4>Ask the validators, not the schema</h4>
   <div class="verdict" role="group" data-rule="ask-the-validators-not-the-schema" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>What a value may be is the model’s business.</p><p>A length validator gives a field its <code>maxlength</code>, a format validator its <code>pattern</code>, a numericality validator its keyboard.</p><p>Never read <code>columns_hash</code> for a limit or a type.</p><p>The two disagree more often than it looks: a <code>limit: 5</code> column with no length validator accepts four characters, and an encrypted column’s limit describes ciphertext.</p><p>Where no validator can answer — <code>date</code> vs <code>time</code> vs <code>datetime</code> — ask <code>type_for_attribute</code>, so an <code>attribute</code> override counts.</p></div>
@@ -1159,10 +1228,10 @@ pre .id { color: var(--ink); }
   <h4>Shared behavior becomes a concern</h4>
   <div class="verdict" role="group" data-rule="shared-behavior-becomes-a-concern" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Two classes declaring the same behavior word for word: extract a module.</p><p>A second identical declaration is the threshold; anticipating one is not.</p><p>Name it after the feature, not the classes: <code>Emailable</code>, <code>Phonable</code>.</p><p>Only what they genuinely share moves.</p><p>Where one requires what the other allows, the requirement stays behind.</p><p>Include alphabetically, on one line — see <a href="#list-concerns-alphabetically-on-one-line">List concerns alphabetically</a>.</p></div>
@@ -1171,10 +1240,10 @@ pre .id { color: var(--ink); }
   <h4>A new kind of value is an Active Record type</h4>
   <div class="verdict" role="group" data-rule="a-new-kind-of-value-is-an-active-record-type" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>When a page has to tell two columns of the same type apart — money from a share of it, both <code>decimal(10,2)</code> — the answer is a custom Active Record type: <code>Price &lt; ActiveRecord::Type::Decimal</code> reporting <code>def type = :price</code>, registered with <code>ActiveRecord::Type.register</code>, and the model saying <code>attribute :hourly_rate, :price</code>.</p><p>Everything downstream then asks <code>type_for_attribute</code>, so the rule for a price applies exactly where a <code>:price</code> type is what answers — never by guessing from a column’s name.</p><p><code>hourly_rate</code> is money and <code>commission_rate</code> is not.</p><p>Give migrations the same word by extending <code>TableDefinition</code> with a column method that delegates to the type it is a kind of.</p><p>Rails keeps <code>define_column_methods</code> private, so write the method out rather than reaching for it.</p><p>Keep the type’s <code>precision</code> and <code>scale</code> equal to the column’s.</p><p>A type promising five digits over a <code>decimal(4, 2)</code> puts a <code>max</code> in the browser that the database will refuse.</p><p>Register with a block, so a type under <code>app/types/</code> is autoloaded when a model first asks rather than during boot.</p></div>
@@ -1183,10 +1252,10 @@ pre .id { color: var(--ink); }
   <h4>Treat an extra query as a defect</h4>
   <div class="verdict" role="group" data-rule="treat-an-extra-query-as-a-defect" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Rendering a page issues as few queries as it can, and the count does not grow with the page.</p><p>Eager-load every association a page will name.</p><p>Ask whether a relation has records <em>and then loop over it</em> with one query, not two: the check that loads the rows the loop needs is right, the one that adds a probing <code>SELECT</code> is not.</p><p>Assert the count in a test, so a later edit cannot quietly add one back.</p></div>
@@ -1195,10 +1264,10 @@ pre .id { color: var(--ink); }
   <h4>Order every paginated relation</h4>
   <div class="verdict" role="group" data-rule="order-every-paginated-relation" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Paging a relation with no order is not paging.</p><p>Postgres may return rows any way it likes, and an updated row moves to the end of the table, so a page can repeat a row it showed or skip one it did not.</p></div>
@@ -1207,10 +1276,10 @@ pre .id { color: var(--ink); }
   <h4>Select only the columns a query displays</h4>
   <div class="verdict" role="group" data-rule="select-only-the-columns-a-query-displays" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A query built to display something fetches those columns and no others.</p><p>The count of queries is one cost; the width of each is another.</p><p>Where the columns are not known — a generic view handed a whole record — select everything on purpose.</p></div>
@@ -1219,10 +1288,10 @@ pre .id { color: var(--ink); }
   <h4>Cache a query or a fragment that repeats</h4>
   <div class="verdict" role="group" data-rule="cache-a-query-or-a-fragment-that-repeats" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Reach for <code>Rails.cache</code> wherever the same rows would be read or the same markup re-rendered.</p><p>Cache the table, not the pagination around it.</p><p>Key a fragment on the <em>relation</em> — <code>cache records do</code> — never a hand-rolled string: Rails digests the SQL and versions it by row count and newest <code>updated_at</code>, so nothing has to expire it.</p><p>That version costs a <code>SELECT COUNT(*), MAX(updated_at)</code>, and it is the price of never serving a stale menu.</p><p>Keying on <code>cache_key</code> alone queries nothing but never notices a new row — only behind an <code>expires_in</code>.</p><p>A list with no relation behind it has no version to check, so key it on a digest of the list itself.</p><p>A fixed string goes stale the moment the list changes, and silently.</p><p>A cache that is off in tests is a cache nobody tests: <code>config.cache_store = :memory_store</code> for test.</p></div>
@@ -1231,10 +1300,10 @@ pre .id { color: var(--ink); }
   <h4>Pass locals to partials explicitly</h4>
   <div class="verdict" role="group" data-rule="pass-locals-to-partials-explicitly" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A partial never reads a controller’s instance variables.</p><p>Declare strict locals on its first line — <code>&lt;%# locals: (resources:, pagy:) %&gt;</code> — and pass them at the call site.</p><p>A partial taking no locals gets no comment at all.</p><p>Never write <code>&lt;%# locals: () %&gt;</code>.</p><p>A template rendered by an action may read instance variables.</p><p>The rule is about partials, which should not depend on who rendered them.</p><p>Rails enforces it: omit a declared local and the render raises rather than quietly drawing a blank.</p><p>Where two branches need different locals, write <code>if</code>/<code>else</code> rather than <code>render cond ? 'a' : 'b'</code> — one call cannot pass the right locals to both.</p></div>
@@ -1243,10 +1312,10 @@ pre .id { color: var(--ink); }
   <h4>Every endpoint is Turbo-enabled</h4>
   <div class="verdict" role="group" data-rule="every-endpoint-is-turbo-enabled" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Assume a Turbo visit.</p><p>A redirect out of the app needs <code>allow_other_host: true</code>, a redirect after a non-GET needs <code>status: :see_other</code>, and a link that must break out of a frame needs <code>data: { turbo_frame: '_top' }</code>.</p></div>
@@ -1255,10 +1324,10 @@ pre .id { color: var(--ink); }
   <h4>Match Bootstrap with <code>field_error_proc</code></h4>
   <div class="verdict" role="group" data-rule="match-bootstrap-with-fielderrorproc" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Wherever Bootstrap is the CSS framework, set <code>config.action_view.field_error_proc</code>.</p><p>Rails’ default wraps a rejected field in <code>&lt;div class='field_with_errors'&gt;</code>, which Bootstrap styles not at all: no red border, and the message nowhere on the page.</p><p>The proc adds <code>is-invalid</code> to the control and follows it with a <code>&lt;small class='invalid-feedback'&gt;</code>, which is the pair Bootstrap needs — its <code>.is-invalid ~ .invalid-feedback</code> reveals one only next to the other.</p><p>Guard on the control’s class, not on the tag’s type.</p><p>A label carries <code>form-label</code> and falls straight through, and so does anything without a <code>form-control</code>.</p><p>Guarding on the tag class instead leaves <code>html_tag.index 'form-control'</code> nil for every other kind of tag, and <code>insert nil</code> raises.</p><p>The proc is <code>instance_exec</code>’d on the view, so <code>tag</code> and <code>safe_join</code> are in scope — no need to write markup as a string.</p><p>Which is just as well: <code>insert</code> on a SafeBuffer escapes what it is given, so an attribute spliced in by hand arrives as <code>&amp;#39;</code>.</p></div>
@@ -1267,10 +1336,10 @@ pre .id { color: var(--ink); }
   <h4>One system test, many assertions</h4>
   <div class="verdict" role="group" data-rule="one-system-test-many-assertions" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A system test pays for a browser before it asserts anything.</p><p>Two files walking the same page to check two features pay it twice; one test that walks it once and asserts both pays it once, and reads as the sitting a user actually has.</p><p>Group by the page somebody is on rather than by the feature somebody is building: open it, do the thing, assert what changed, do the next thing.</p><p>What the sharing exposes is worth the merge on its own.</p><p>A fixture that only worked against an empty database, or a wait that only passed because nothing had happened yet, fails the moment a step runs before it — and it was lying in the split test all along.</p></div>
@@ -1279,10 +1348,10 @@ pre .id { color: var(--ink); }
   <h4>Run system tests headless where CI says so</h4>
   <div class="verdict" role="group" data-rule="run-system-tests-headless-where-ci-says-so" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>A system test runs headless where <code>CI</code> is set in the environment, and opens a browser where it is not: <code>headless: !!ENV['CI']</code>.</p><p>That one variable decides it — never a second one of its own, and never a default the code carries whatever the machine says.</p><p>A machine that should never see a window says so once, by exporting <code>CI=1</code>.</p><p>A window opening mid-run steals focus, and a suite nobody can leave running is a suite nobody runs.</p><p>The prefix binds to one command: <code>CI=1 bin/rails db:reset &amp;&amp; bin/rake</code> sets it for the reset alone and leaves the tests headed.</p><p>Export it, or put it in front of the command that actually runs them.</p></div>
@@ -1291,10 +1360,10 @@ pre .id { color: var(--ink); }
   <h4>No indefinite article in an interpolated string</h4>
   <div class="verdict" role="group" data-rule="no-indefinite-article-in-an-interpolated-string" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p>Never write <code>a %{model}</code> or <code>an %{model}</code>.</p><p>Sound decides, not spelling — an hour, an honest agent, a user, a European market, a one-off — and acronyms split it again: a ZIP, an SMS, an API.</p><p>Nothing computes it.</p><p><code>ActiveSupport::Inflector</code> has no article method; the gems that add one guess from spelling and guess wrong in public.</p><p>It would not survive translation: an article is per-language and usually per-gender.</p><p>Write the copy so the question never comes up.</p><p><code>Select…</code>, not <code>Select a State…</code>, since the label already names the field; <code>without its job</code>, not <code>without a job</code>.</p></div>
@@ -1303,10 +1372,10 @@ pre .id { color: var(--ink); }
   <h4>Keep render lines out of the logs</h4>
   <div class="verdict" role="group" data-rule="keep-render-lines-out-of-the-logs" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Agree</span><span class="stamped">Approved</span>
+      <span class="label">Approve</span><span class="stamped">Approved</span>
     </button>
     <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Disagree</span><span class="stamped">Rejected</span>
+      <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
   <div class="body"><p><code>config.action_view.logger = nil</code>.</p><p>One <code>Rendered ...</code> line per partial buries the request that matters.</p><p>Everything else stays: the request, the SQL, and the timing line.</p><p>A rule for apps we write.</p><p>A gem never touches a host’s logging.</p></div>
@@ -1315,15 +1384,6 @@ pre .id { color: var(--ink); }
 </section>
 </main>
 
-      <div class="closing">
-        <div class="stamp stamp-end reveal" style="--tilt: 4deg">
-  <span class="small">Style book</span>
-  <span class="big">Approved for press</span>
-  <span class="small">Set 18 Aug 2026</span>
-</div>
-
-        <p class="endmark">&mdash; 30 &mdash;</p>
-      </div>
     </div>
   </div>
 </article>
