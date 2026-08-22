@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Coding guidelines: what holds in any language, what holds in Ruby, what holds in a Rails app.">
 <title>Coding guidelines</title>
-<link rel="icon" href="icon.svg">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-96x96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#DFC489">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap">
@@ -92,6 +97,12 @@ a:focus-visible, .rule:target { outline: 2px solid var(--red); outline-offset: 5
   background: var(--sheet);
   padding: 46px clamp(24px, 3.4vw, 52px) 66px;
   box-shadow: 0 1px 0 var(--rule), 0 18px 42px rgba(38, 36, 27, .16);
+}
+
+/* the staples: only a wide sheet has the margin to carry them */
+.staples { display: none; }
+@media (min-width: 1000px) {
+  .staples { display: block; position: absolute; top: -9px; left: 30px; }
 }
 
 .dispatch { position: relative; }
@@ -425,8 +436,10 @@ pre .id { color: var(--ink); }
 
 /* the repository, stamped on like a filing mark */
 .stamp-repo {
-  display: inline-block; transform: rotate(-1.4deg); transform-origin: left center;
-  margin: 0 0 10px; text-decoration: none;
+  /* held to the right edge of the sheet, on its own line above the title */
+  display: block; width: max-content; margin: 0 0 10px auto;
+  transform: rotate(-1.4deg); transform-origin: right center;
+  text-decoration: none;
   transition: background-color .18s ease, color .18s ease, opacity .18s ease;
   /* one line at any width: the type shrinks with the sheet rather than
      folding. Everything below is an em of this, padding included, so the
@@ -458,6 +471,13 @@ pre .id { color: var(--ink); }
 </div>
 
 <article class="copy" lang="en">
+  <svg class="staples" width="92" height="30" viewBox="0 0 92 30" aria-hidden="true" focusable="false">
+  <g fill="none" stroke="#8B8674" stroke-width="3.6" stroke-linecap="round">
+    <path d="M10 8 h22 M10 8 v15 M32 8 v15" transform="rotate(-8 21 15)"/>
+    <path d="M60 9 h22 M60 9 v15 M82 9 v15" transform="rotate(7 71 16)"/>
+  </g>
+</svg>
+
   <header class="dispatch">
     <a class="stamp stamp-repo" href="https://github.com/claudiob/style">
       <span class="small">Fork at</span>
@@ -644,7 +664,7 @@ pre .id { color: var(--ink); }
   <div class="body"><p>Every method that can be private must be private.</p></div>
 </section>
 <section class="rule" id="collect-with-map-not-into-an-empty-array">
-  <h4>Collect with map, not into an empty array</h4>
+  <h4>Enumerate, don’t loop</h4>
   <div class="verdict" role="group" data-rule="collect-with-map-not-into-an-empty-array" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
       <span class="label">Approve</span><span class="stamped">Approved</span>
@@ -653,22 +673,10 @@ pre .id { color: var(--ink); }
       <span class="label">Reject</span><span class="stamped">Rejected</span>
     </button>
   </div>
-  <div class="body"><p>A loop gathering one thing per item is <code>map</code>.</p><p>Naming an empty array, walking with <code>each</code> and pushing into it takes three lines to say what one says, and names the array before anyone knows what goes in it.</p><p>Folding into something that is not one per item — a hash, a grouping, a count — is <code>each_with_object</code>: it hands the accumulator to the block and ignores the block’s answer, so a guard clause or a <code>push</code> cannot quietly break it.</p><p><code>inject</code> is for a fold whose answer is one value: a sum, a minimum, a merge.</p><p>Using it to gather a list means threading the accumulator through every branch and leaning on <code>&lt;&lt;</code> answering the array — true until someone adds a condition.</p><p><code>map</code> doing a little work along the way is fine where the collection is the result somebody asked for.</p><p>Where the work is the point and the list is incidental, say so with <code>each_with_object</code> or a plain <code>each</code>.</p></div>
-</section>
-<section class="rule" id="hand-back-the-enumerable-not-the-loop">
-  <h4>Hand back the enumerable, not the loop</h4>
-  <div class="verdict" role="group" data-rule="hand-back-the-enumerable-not-the-loop" aria-label="Do you keep this rule?">
-    <button type="button" value="agree" aria-pressed="false">
-      <span class="label">Approve</span><span class="stamped">Approved</span>
-    </button>
-    <button type="button" value="disagree" aria-pressed="false">
-      <span class="label">Reject</span><span class="stamped">Rejected</span>
-    </button>
-  </div>
-  <div class="body"><p>A method taking a block only to run <code>collection.each(&amp;)</code> has chosen the caller’s loop for it.</p><p>Hand the enumerable back and let whoever asked pick <code>each</code>, <code>map</code>, <code>find</code>, or <code>take(2)</code> — the last of which the block form cannot express at all.</p><p>So <code>def upcoming_visits = fetch_them</code>, and the caller writes <code>upcoming_visits.each { ... }</code>.</p><p>Not <code>def each_upcoming_visit(&amp;)</code>.</p><p><code>each_</code> in a method name is the tell.</p><p>The exception is a producer with no collection to hand over, which yields as it goes.</p></div>
+  <div class="body"><p>Don’t instantiate an empty array to fill in a loop. There’s a <code>map</code> right there to help you.</p></div>
 </section>
 <section class="rule" id="prefer-a-lazy-enumerator">
-  <h4>Prefer a lazy enumerator</h4>
+  <h4>Don’t worry, be lazy</h4>
   <div class="verdict" role="group" data-rule="prefer-a-lazy-enumerator" aria-label="Do you keep this rule?">
     <button type="button" value="agree" aria-pressed="false">
       <span class="label">Approve</span><span class="stamped">Approved</span>
