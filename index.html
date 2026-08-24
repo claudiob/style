@@ -672,8 +672,16 @@ pre .id { color: var(--ink); }
   .gz-col { border-left: 1px solid var(--rule); padding-left: var(--gut); }
 }
 
-/* the marks that carry the news out */
+/* the marks that carry the news out: a column beside the field where
+   there is room for one, a row above it on a phone. */
 .gz-share { display: flex; flex-direction: column; gap: 7px; align-items: flex-start; }
+/* .gz-label sets display too and is declared later, so these have to
+   outrank it rather than merely follow it */
+.gz-carry .gz-share-label { display: none; }
+@media (max-width: 619px) {
+  .gz-share { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+  .gz-carry .gz-share-label { display: block; margin-bottom: 8px; }
+}
 .gz-ico {
   width: 38px; height: 38px; flex: none;
   display: grid; place-items: center; text-decoration: none;
@@ -1690,6 +1698,8 @@ body.altkeys .verdict button:not(:disabled) .key {
     </div>
 
     <div class='gz-cols'>
+      <div class='gz-carry'>
+      <p class='gz-label gz-share-label'>Share with your friends</p>
       <nav class='gz-share' id='gzShare' aria-label='Carry the news'>
         <a class='gz-ico' data-net='x' href='#' target='_blank' rel='noopener'>
           <span aria-hidden='true'>&#120143;</span><span class='gz-ico-name'>X</span></a>
@@ -1707,6 +1717,7 @@ body.altkeys .verdict button:not(:disabled) .key {
             <path d='M1.6 2 12 10 22.4 2' fill='none' stroke='currentColor' stroke-width='2'/>
           </svg><span class='gz-ico-name'>Email</span></a>
       </nav>
+      </div>
       <div class='gz-col'>
         <form id='gzForm'>
           <label class='gz-label' for='gzText'>Now it&rsquo;s your time</label>
@@ -1943,8 +1954,7 @@ body.altkeys .verdict button:not(:disabled) .key {
     document.getElementById('gzPct').textContent = match + '%';
     document.getElementById('gzDek').innerHTML =
       `You kept <span class='swipe swipe-b'>${yes}</span> of the ` +
-      `<span class='swipe swipe-e'>${total}</span> rules filed here ` +
-      `and threw out <span class='swipe swipe-c'>${no}</span>.`;
+      `<span class='swipe swipe-e'>${total}</span> rules.`;
     document.getElementById('nightSub').textContent = `${match}% agreed · ${yes} of ${total}`;
 
     // the marks that carry it out, each with the tally already in hand
